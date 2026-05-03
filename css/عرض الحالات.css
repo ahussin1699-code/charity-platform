@@ -229,6 +229,7 @@ header h1 {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    flex: 1;
 }
 
 .case-card {
@@ -441,7 +442,7 @@ footer {
     color: #fff;
     padding: 30px 20px;
     font-size: 0.9rem;
-    margin-top: auto;
+    margin-top: 0;
 }
 
 .footer-content {
@@ -620,44 +621,44 @@ footer {
 
     .cases-container {
         grid-template-columns: repeat(3, 1fr);
-        padding: 10px;
-        gap: 10px;
+        padding: 8px;
+        gap: 8px;
     }
 
     .case-card {
         min-height: unset;
-        border-radius: 12px;
+        border-radius: 10px;
     }
 
     .case-card img {
-        height: 130px;
+        height: 90px;
     }
 
     .case-content {
-        padding: 8px;
+        padding: 6px;
     }
 
-    .case-title { font-size: 0.82rem; }
-    .case-desc  { font-size: 0.72rem; height: 36px; margin-bottom: 6px; }
+    .case-title { font-size: 0.72rem; }
+    .case-desc  { font-size: 0.65rem; height: 30px; margin-bottom: 4px; }
 
     .case-amounts {
         flex-direction: column;
-        gap: 2px;
-        font-size: 0.7rem;
+        gap: 1px;
+        font-size: 0.62rem;
     }
 
     .amount-required, .amount-remaining {
-        font-size: 0.7rem;
+        font-size: 0.62rem;
     }
 
     .btn-details {
-        padding: 8px 6px;
-        font-size: 0.72rem;
+        padding: 6px 4px;
+        font-size: 0.65rem;
         height: auto;
     }
 
-    .case-details { font-size: 0.72rem; }
-    .progress-label { font-size: 0.65rem; }
+    .case-details { font-size: 0.65rem; }
+    .progress-label { font-size: 0.6rem; }
 }
 
 @media (max-width: 480px) {

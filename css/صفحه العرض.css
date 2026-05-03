@@ -450,16 +450,52 @@ footer {
 
     .cases-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 8px;
     }
 
     .cases-grid .case-card img {
-        height: 100px;
+        height: 90px;
     }
 
     .cases-grid .case-card .case-content {
-        padding: 8px;
-        font-size: 0.78rem;
+        padding: 6px;
+        font-size: 0.72rem;
+    }
+
+    /* كروت أحدث الحالات في صفحه العرض */
+    #recentCasesContainer {
+        gap: 8px !important;
+    }
+
+    #recentCasesContainer .grid-card {
+        border-radius: 10px !important;
+        padding: 0 !important;
+    }
+
+    #recentCasesContainer .grid-card img,
+    #recentCasesSection .cases-grid .case-card img {
+        height: 90px !important;
+    }
+
+    #recentCasesContainer .grid-card > div {
+        padding: 6px !important;
+    }
+
+    #recentCasesContainer .grid-card h3 {
+        font-size: 0.72rem !important;
+        margin-bottom: 4px !important;
+    }
+
+    #recentCasesContainer .grid-card p {
+        font-size: 0.65rem !important;
+        height: 2.5em !important;
+        margin-bottom: 6px !important;
+    }
+
+    #recentCasesContainer .grid-card a {
+        font-size: 0.65rem !important;
+        padding: 6px 8px !important;
+        max-width: 100% !important;
     }
 
     .grid-container {

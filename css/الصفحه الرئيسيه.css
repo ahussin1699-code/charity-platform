@@ -553,10 +553,11 @@ footer .container {
         padding: 10px 20px;
     }
 
-    /* الكروت عمود واحد */
+    /* الكروت 3 في صف */
     .cards {
-        grid-template-columns: 1fr;
-        padding: 0 15px;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0 8px;
+        gap: 8px;
     }
 
     .section-title {
@@ -875,17 +876,20 @@ footer .container {
 }
 
 @media (max-width: 480px) {
-    /* كيف تتبرع — عمود واحد */
+    /* كيف تتبرع — 3 في صف */
     .steps-grid {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 8px;
     }
     .step-card {
-        width: 100%;
-        max-width: 300px;
+        width: calc(33% - 6px);
+        min-width: unset;
+        max-width: unset;
+        padding: 22px 8px 14px;
     }
-    .step-card h3 { font-size: 0.95rem; }
-    .step-card p  { font-size: 0.82rem; }
+    .step-card h3 { font-size: 0.75rem; }
+    .step-card p  { font-size: 0.68rem; }
 
     /* الحالات المكتملة — عمود واحد */
     .completed-grid {
