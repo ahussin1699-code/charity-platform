@@ -184,6 +184,34 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (error) throw error;
 
+            // إشعار للمستفيد صاحب الحالة
+            const { data: caseData } = await sb
+                .from('cases')
+                .select('name, email')
+                .eq('id', id)
+                .maybeSingle();
+
+            if (caseData?.email) {
+                const { data: beneficiary } = await sb
+                    .from('users')
+                    .select('id')
+                    .eq('email', caseData.email)
+                    .maybeSingle();
+
+                if (beneficiary?.id) {
+                    try {
+                        await sb.from('notifications').insert({
+                            title: 'تمت الموافقة على حالتك ✅',
+                            message: `تمت الموافقة على حالة "${caseData.name}" ونشرها على المنصة.`,
+                            type: 'success',
+                            is_read: false,
+                            user_id: beneficiary.id,
+                            created_at: new Date().toISOString()
+                        });
+                    } catch(e) { console.warn('notification error:', e.message); }
+                }
+            }
+
             alert('تمت الموافقة على الحالة بنجاح ✅');
             await fetchCases();
         } catch (error) {
@@ -193,10 +221,123 @@ document.addEventListener('DOMContentLoaded', async function() {
     };
 
     window.sendToDoctor = async function(id, caseName) {
-        if (!confirm(`هل تريد إرسال حالة "${caseName}" للطبيب للمراجعة؟`)) return;
+        // عرض modal اختيار التخصص
+        showSpecialtyModal(id, caseName);
+    };
+
+    function showSpecialtyModal(caseId, caseName) {
+        // إزالة أي modal قديم
+        document.getElementById('specialtyModal')?.remove();
+
+        const specialties = [
+            { key: 'عام',           icon: 'fa-stethoscope',      label: 'طب عام' },
+            { key: 'أسنان',         icon: 'fa-tooth',            label: 'طب الأسنان' },
+            { key: 'عظام',          icon: 'fa-bone',             label: 'جراحة العظام' },
+            { key: 'مخ وأعصاب',    icon: 'fa-brain',            label: 'المخ والأعصاب' },
+            { key: 'قلب',           icon: 'fa-heart-pulse',      label: 'أمراض القلب' },
+            { key: 'أطفال',         icon: 'fa-baby',             label: 'طب الأطفال' },
+            { key: 'عيون',          icon: 'fa-eye',              label: 'طب العيون' },
+            { key: 'جراحة عامة',   icon: 'fa-scalpel',          label: 'جراحة عامة' },
+        ];
+
+        const modal = document.createElement('div');
+        modal.id = 'specialtyModal';
+        modal.style.cssText = `
+            position:fixed;inset:0;background:rgba(0,0,0,0.55);
+            z-index:9999;display:flex;align-items:center;justify-content:center;
+            animation:fadeInM .25s ease;
+        `;
+
+        modal.innerHTML = `
+            <style>
+                @keyframes fadeInM { from{opacity:0} to{opacity:1} }
+                @keyframes slideUpM { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+                .spec-modal-box {
+                    background:#fff;border-radius:20px;padding:28px 24px;
+                    max-width:520px;width:92%;direction:rtl;
+                    font-family:'Cairo',sans-serif;
+                    animation:slideUpM .25s ease;
+                    box-shadow:0 20px 60px rgba(0,0,0,0.2);
+                }
+                .spec-modal-title {
+                    font-size:1.1rem;font-weight:800;color:#2f6d3f;
+                    margin-bottom:6px;display:flex;align-items:center;gap:8px;
+                }
+                .spec-modal-sub {
+                    font-size:0.82rem;color:#888;margin-bottom:20px;
+                }
+                .spec-grid {
+                    display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+                    margin-bottom:20px;
+                }
+                .spec-card {
+                    border:2px solid #e0e0e0;border-radius:14px;padding:14px 8px;
+                    text-align:center;cursor:pointer;transition:all .2s;
+                    background:#fafafa;
+                }
+                .spec-card:hover { border-color:#2f6d3f;background:#f0f9f3;transform:translateY(-2px); }
+                .spec-card.selected { border-color:#2f6d3f;background:#e8f5ec; }
+                .spec-card i { font-size:1.6rem;color:#2f6d3f;margin-bottom:8px;display:block; }
+                .spec-card span { font-size:0.75rem;font-weight:700;color:#333; }
+                .spec-modal-footer { display:flex;gap:10px;justify-content:flex-end; }
+                .spec-btn-send {
+                    background:#2f6d3f;color:#fff;border:none;padding:10px 24px;
+                    border-radius:10px;font-size:0.9rem;font-weight:700;cursor:pointer;
+                    font-family:inherit;transition:.2s;
+                }
+                .spec-btn-send:hover { background:#3a8a50; }
+                .spec-btn-send:disabled { background:#aaa;cursor:not-allowed; }
+                .spec-btn-cancel {
+                    background:#f5f5f5;color:#555;border:none;padding:10px 18px;
+                    border-radius:10px;font-size:0.88rem;cursor:pointer;font-family:inherit;
+                }
+                @media(max-width:480px){
+                    .spec-grid{grid-template-columns:repeat(2,1fr);}
+                }
+            </style>
+            <div class="spec-modal-box">
+                <div class="spec-modal-title">
+                    <i class="fas fa-user-doctor"></i>
+                    إرسال للطبيب المختص
+                </div>
+                <div class="spec-modal-sub">اختر التخصص المناسب لحالة "${caseName}"</div>
+                <div class="spec-grid">
+                    ${specialties.map(s => `
+                        <div class="spec-card" data-key="${s.key}" onclick="selectSpecialty(this)">
+                            <i class="fas ${s.icon}"></i>
+                            <span>${s.label}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="spec-modal-footer">
+                    <button class="spec-btn-cancel" onclick="document.getElementById('specialtyModal').remove()">إلغاء</button>
+                    <button class="spec-btn-send" id="specSendBtn" disabled onclick="confirmSendToDoctor('${caseId}')">
+                        <i class="fas fa-paper-plane"></i> إرسال
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        // إغلاق بالضغط خارج الـ modal
+        modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+    }
+
+    window.selectSpecialty = function(el) {
+        document.querySelectorAll('.spec-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        document.getElementById('specSendBtn').disabled = false;
+    };
+
+    window.confirmSendToDoctor = async function(id) {
+        const selected = document.querySelector('.spec-card.selected');
+        if (!selected) return;
+        const specialty = selected.dataset.key;
+        const btn = document.getElementById('specSendBtn');
+        btn.disabled = true;
+        btn.textContent = 'جاري الإرسال...';
 
         try {
-            // جيب بيانات الحالة كاملة
             const { data: caseData, error: fetchErr } = await sb
                 .from('cases')
                 .select('*')
@@ -205,34 +346,70 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (fetchErr) throw fetchErr;
 
-            // أرسل رسالة في الشات الطبي
-            const msg = `📋 حالة جديدة للمراجعة:\n` +
+            // رسالة في الشات الطبي
+            const msg = `📋 حالة جديدة للمراجعة (${specialty}):\n` +
                 `الاسم: ${caseData.name || '-'}\n` +
                 `النوع: ${caseData.type || '-'}\n` +
                 `الوصف: ${caseData.description || '-'}\n` +
                 `الهاتف: ${caseData.phone || '-'}\n` +
                 `العنوان: ${caseData.address || '-'}\n` +
-                `المبلغ المطلوب: ${caseData.required_amount || 0} جنيه\n` +
-                `رابط الحالة: تفاصيل الحاله.html?id=${id}`;
+                `المبلغ المطلوب: ${caseData.required_amount || 0} جنيه`;
 
-            const { error: msgErr } = await sb.from('medical_messages').insert([{
-                text: msg,
-                sender_role: 'supervisor',
-                attachment_url: caseData.image_url || null,
-                attachment_name: caseData.image_url ? 'صورة الحالة' : null,
-                created_at: new Date().toISOString()
-            }]);
-
-            if (msgErr) throw msgErr;
-
-            // تحديث حالة الكيس
             await sb.from('cases').update({ status: 'قيد المراجعة الطبية' }).eq('id', id);
 
-            alert('✅ تم إرسال بيانات الحالة للطبيب في صفحة التقارير الطبية');
+            // جيب الأطباء بنفس التخصص
+            const { data: doctors } = await sb
+                .from('users')
+                .select('id')
+                .eq('user_type', 'طبيب')
+                .ilike('specialty', `%${specialty}%`);
+
+            // لو مفيش دكاتره بالتخصص ده، ابعت لكل الأطباء
+            const { data: allDoctors } = await sb
+                .from('users')
+                .select('id')
+                .eq('user_type', 'طبيب');
+
+            const targets = (doctors && doctors.length > 0) ? doctors : (allDoctors || []);
+
+            if (targets.length > 0) {
+                // ابعت رسالة في غرفة كل دكتور
+                try {
+                    await sb.from('medical_messages').insert(
+                        targets.map(d => ({
+                            text: msg,
+                            sender_role: 'supervisor',
+                            room_id: `doctor_${d.id}`,
+                            attachment_url: caseData.image_url || null,
+                            attachment_name: caseData.image_url ? 'صورة الحالة' : null,
+                            created_at: new Date().toISOString()
+                        }))
+                    );
+                } catch(e) { console.warn('messages error:', e.message); }
+
+                // إشعار لكل دكتور
+                try {
+                    await sb.from('notifications').insert(
+                        targets.map(d => ({
+                            title: `حالة تحتاج طبيب ${specialty}`,
+                            message: `تم إرسال حالة "${caseData.name}" لمراجعتك. التخصص: ${specialty}.`,
+                            type: 'info',
+                            is_read: false,
+                            user_id: d.id,
+                            created_at: new Date().toISOString()
+                        }))
+                    );
+                } catch(e) { console.warn('notification error:', e.message); }
+            }
+
+            document.getElementById('specialtyModal')?.remove();
+            alert(`✅ تم إرسال الحالة لطبيب ${specialty}`);
             await fetchCases();
         } catch (err) {
             console.error('Error sending to doctor:', err);
             alert('حدث خطأ: ' + (err.message || 'غير معروف'));
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال';
         }
     };
 
@@ -250,6 +427,34 @@ document.addEventListener('DOMContentLoaded', async function() {
                 .eq('id', id);
 
             if (error) throw error;
+
+            // إشعار للمستفيد صاحب الحالة
+            const { data: caseData } = await sb
+                .from('cases')
+                .select('name, email')
+                .eq('id', id)
+                .maybeSingle();
+
+            if (caseData?.email) {
+                const { data: beneficiary } = await sb
+                    .from('users')
+                    .select('id')
+                    .eq('email', caseData.email)
+                    .maybeSingle();
+
+                if (beneficiary?.id) {
+                    try {
+                        await sb.from('notifications').insert({
+                            title: 'تم رفض حالتك ❌',
+                            message: `للأسف تم رفض حالة "${caseData.name}". يمكنك التواصل معنا لمزيد من التفاصيل.`,
+                            type: 'warning',
+                            is_read: false,
+                            user_id: beneficiary.id,
+                            created_at: new Date().toISOString()
+                        });
+                    } catch(e) { console.warn('notification error:', e.message); }
+                }
+            }
 
             alert('تم رفض الحالة ❌');
             await fetchCases();

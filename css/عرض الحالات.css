@@ -618,6 +618,30 @@ footer {
         width: 100%;
     }
 
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .footer-about {
+        flex: none;
+    }
+
+    .footer-about h4 { font-size: 0.9rem; margin-bottom: 4px; }
+    .footer-about p  { font-size: 0.78rem; line-height: 1.5; }
+
+    .footer-social {
+        flex: none;
+        justify-content: center;
+    }
+
+    .footer-quick {
+        flex: none;
+        justify-content: center;
+    }
+
     .cases-container {
         grid-template-columns: repeat(3, 1fr);
         padding: 8px;
@@ -665,31 +689,49 @@ footer {
         font-size: 1.5rem;
     }
 
+    footer {
+        padding: 20px 15px;
+    }
+
     .footer-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 16px;
+        gap: 10px;
     }
 
-    .footer-social, .footer-quick {
+    .footer-about {
+        flex: none;
+        text-align: center;
+    }
+
+    .footer-about h4 { font-size: 0.9rem; margin-bottom: 4px; }
+    .footer-about p  { font-size: 0.78rem; line-height: 1.5; }
+
+    .footer-social {
+        flex: none;
         justify-content: center;
-        align-items: center;
+        gap: 8px;
     }
 
     .footer-quick {
+        flex: none;
         flex-direction: row;
         flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
     }
 
     .footer-quick a {
-        font-size: 0.8rem;
-        padding: 6px 12px;
+        font-size: 0.78rem;
+        padding: 5px 10px;
         height: auto;
         flex: 0 0 auto;
     }
 
-    .footer-about {
-        text-align: center;
+    .footer-bottom {
+        margin-top: 10px;
+        padding-top: 10px;
+        font-size: 0.75rem;
     }
 }

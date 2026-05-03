@@ -394,7 +394,7 @@
         
         .status-banned {
             background-color: #f8d7da;
-            color: #721c24;
+            color: #381317;
         }
         
         .user-type {
@@ -454,6 +454,32 @@
         .actions .view-btn {
             background-color: var(--secondary);
             color: white;
+        }
+
+        .actions .type-doctor-opt,
+        .actions .type-remove-doctor-opt {
+            background-color: #2f6d3f;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .actions .type-remove-doctor-opt {
+            background-color: ##2f6d3f;
+        }
+
+        .actions .type-doctor-opt:hover,
+        .actions .type-remove-doctor-opt:hover {
+            opacity: 0.85;
         }
         
         .actions .edit-btn {

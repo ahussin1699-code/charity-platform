@@ -109,24 +109,22 @@
             });
 
             // 5. Send notification to admin
+            const { data: { user: currentUser } } = await sb.auth.getUser();
+            const ADMIN_EMAIL = 'ahussin9125@gmail.com';
+            const { data: adminUser } = await sb.from('users').select('id').eq('email', ADMIN_EMAIL).maybeSingle();
+            const adminUserId = adminUser?.id || null;
+
             const notifData = {
                 title: 'تبرع جديد (' + (method === 'visa' ? 'فيزا' : 'محفظة') + ')',
                 message: `تبرع ${name} بمبلغ ${amount} جنيه لحالة ${caseData.name}. ${method === 'wallet' ? 'يرجى مراجعة الإيصال.' : ''}`,
                 type: 'donation',
+                is_read: false,
+                user_id: adminUserId,
                 created_at: new Date().toISOString()
             };
-            // نضيف is_read لو الجدول يدعمه
             try {
                 const { error: notifError } = await sb.from('notifications').insert(notifData);
-                if (notifError) {
-                    // جرب بدون created_at
-                    const { error: e2 } = await sb.from('notifications').insert({
-                        title: notifData.title,
-                        message: notifData.message,
-                        type: notifData.type
-                    });
-                    if (e2) console.error('خطأ في إرسال الإشعار:', e2.message);
-                }
+                if (notifError) console.error('خطأ في إرسال الإشعار:', notifError.message);
             } catch(e) { console.error('notification error:', e); }
 
             return true;

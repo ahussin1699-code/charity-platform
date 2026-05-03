@@ -65,13 +65,15 @@ document.getElementById('donateForm').addEventListener('submit', async function 
 
                 const notificationTitle = 'تبرع جديد';
                 const notificationMessage = 'تبرع ' + name + ' بمبلغ ' + amount + ' جنيه لحالة ' + caseData.name;
+                const { data: adminUser } = await sb.from('users').select('id').eq('email', 'ahussin9125@gmail.com').maybeSingle();
                 const { error: notificationError } = await sb
                     .from('notifications')
                     .insert({
                         title: notificationTitle,
                         message: notificationMessage,
                         type: 'donation',
-                        is_read: false
+                        is_read: false,
+                        user_id: adminUser?.id || null
                     });
 
                 if (notificationError) {

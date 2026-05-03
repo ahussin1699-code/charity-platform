@@ -73,8 +73,11 @@
                     <img id="navProfileImg" src="../images/default-avatar.png" alt="Profile" class="nav-profile-img" style="width:34px;height:34px;border-radius:50%;object-fit:cover;margin-top:0;">
                     <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">الملف الشخصي</span>
                 </a>
-                <a href="صفحه العرض.html" class="nav-item" id="logoutBtn">
-                    <i class="fa-solid fa-right-from-bracket" style="font-size:1.1rem;color:#fff;"></i>
+                <a href="الاشعارات.html" class="nav-item" style="position:relative;">
+                    <i class="fa-solid fa-bell" style="font-size:1.1rem;color:#fff;"></i>
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">الإشعارات</span>
+                </a>
+                <a href="صفحه العرض.html" class="nav-item" id="logoutBtn">                    <i class="fa-solid fa-right-from-bracket" style="font-size:1.1rem;color:#fff;"></i>
                     <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">خروج</span>
                 </a>
             </nav>
@@ -237,6 +240,7 @@
     <script src="../Js/config.js"></script>
     <script src="../Js/الصفحه الرئسيه.js"></script>
     <script src="../Js/home-extras.js"></script>
+    <script src="../Js/notification-badge.js"></script>
     <script>
         const menuBtn = document.getElementById("menuBtn");
         const mainNav = document.querySelector(".main-nav");

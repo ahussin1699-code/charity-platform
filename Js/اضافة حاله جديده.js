@@ -183,11 +183,13 @@ document.getElementById('caseForm').addEventListener('submit', async function(e)
 
     // إرسال إشعار للأدمن
     const caseName = formData.name || 'حالة جديدة';
+    const { data: adminUser } = await sb.from('users').select('id').eq('email', 'ahussin9125@gmail.com').maybeSingle();
     await sb.from('notifications').insert({
         title: 'تم إضافة حالة جديدة',
         message: `تمت إضافة حالة "${caseName}" وهي قيد المراجعة الآن.`,
         type: 'user',
         is_read: false,
+        user_id: adminUser?.id || null,
         created_at: new Date().toISOString()
     }).catch(e => console.warn('notification error:', e.message));
 

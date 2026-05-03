@@ -123,6 +123,7 @@ async function submitCase() {
     const name  = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address")?.value || '';
     const type  = document.getElementById("caseType").value;
     const desc  = document.getElementById("description").value;
 
@@ -146,24 +147,28 @@ async function submitCase() {
 
     try {
         const { error } = await sb.from('cases').insert([{
-            name, email, phone, type,
+            name, email, phone, address, type,
             description: desc,
             status: 'قيد المراجعة',
-            required_amount: 0,
-            remaining_amount: 1,
+            required_amount: parseFloat(document.getElementById('requiredAmount')?.value) || 0,
+            remaining_amount: parseFloat(document.getElementById('requiredAmount')?.value) || 1,
             image_url: imageUrl
         }]);
 
         if (error) throw error;
 
         // إرسال إشعار للأدمن
-        await sb.from('notifications').insert({
-            title: 'طلب حالة جديد',
-            message: `قدّم ${name} طلب مساعدة جديد. النوع: ${type}. الهاتف: ${phone}.`,
-            type: 'user',
-            is_read: false,
-            created_at: new Date().toISOString()
-        }).catch(e => console.warn('notification error:', e.message));
+        try {
+            const { data: adminUser } = await sb.from('users').select('id').eq('email', 'ahussin9125@gmail.com').maybeSingle();
+            await sb.from('notifications').insert({
+                title: 'طلب حالة جديد',
+                message: `قدّم ${name} طلب مساعدة جديد. النوع: ${type}. الهاتف: ${phone}.`,
+                type: 'user',
+                is_read: false,
+                user_id: adminUser?.id || null,
+                created_at: new Date().toISOString()
+            });
+        } catch(e) { console.warn('notification error:', e.message); }
 
         document.getElementById("result").innerText = "تم إرسال الطلب بنجاح ✅ سيتم مراجعته من المشرف.";
         document.getElementById("name").value        = "";

@@ -48,9 +48,9 @@ h1 {
 
 h1 i { color: var(--primary); }
 
-/* hamburger - يظهر دايماً */
+/* hamburger - مخفي افتراضياً، يظهر للأدمن فقط عبر JS */
 .menu-toggle {
-    display: flex;
+    display: none;
     background: rgba(255,255,255,0.15);
     color: white;
     border: none;
@@ -399,22 +399,31 @@ footer {
     display: none;
 }
 
-/* ===== Desktop: sidebar ثابت ===== */
+/* ===== Desktop: sidebar ثابت للأدمن فقط ===== */
 @media (min-width: 992px) {
-    .side-drawer {
+    .side-drawer.admin-visible {
         transform: translateX(0) !important;
         z-index: 100;
     }
 
-    .side-drawer-close { display: none; }
+    .side-drawer:not(.admin-visible) {
+        transform: translateX(100%) !important;
+        pointer-events: none;
+    }
 
-    .menu-toggle { display: none !important; }
+    .side-drawer-close { display: none; }
 
     .side-drawer-overlay { display: none !important; }
 
-    .main-content {
+    .main-content.with-sidebar {
         margin-right: 260px;
         max-width: calc(100% - 260px);
+        padding: 20px 30px;
+    }
+
+    .main-content:not(.with-sidebar) {
+        margin-right: 0;
+        max-width: 100%;
         padding: 20px 30px;
     }
 
@@ -437,7 +446,7 @@ footer {
 
     .side-drawer-overlay.active { display: block; }
 
-    .menu-toggle { display: flex !important; }
+    /* menu-toggle يظهر على الموبايل للأدمن فقط عبر JS */
 
     .admin-profile-box span {
         max-width: 80px;
