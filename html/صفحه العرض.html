@@ -1,0 +1,265 @@
+﻿﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>منصة تبرعات خيرية - الرئيسية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- CSS Links -->
+  <link rel="stylesheet" href="../css/صفحه العرض.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+        <div class="logo-section">
+            <div class="logo-text">تبرعات خيرية</div>
+        </div>
+        
+        <nav class="main-nav">
+         
+            <a href="اتصال بنا.html" class="nav-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>تواصل معنا</span>
+            </a>
+            <a href="من نحن.html" class="nav-item">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>من نحن</span>
+            </a>
+          
+            <a href="تسجيل الدخول .html" class="nav-item" id="loginBtn">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>تسجيل الدخول</span>
+            </a>
+        </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=2070" alt="Hero Image">
+    <div class="hero-content">
+      <h1>منصة عرض الحالات الإنسانية</h1>
+      <p>بكل خطوة بسيطة منك، يمكننا رسم البسمة على وجوه الكثيرين</p>
+      <a href="عرض الحالات.html" class="cta-button">ابدأ المساعدة الآن</a>
+    </div>
+  </section>
+
+  <!-- Section: Recent Cases (Dynamic) -->
+  <div class="section-container" id="recentCasesSection" style="display: none;">
+    <div class="section-header">
+        <h2>أحدث الحالات المحتاجة</h2>
+        <p>ساهم في تغيير حياتهم اليوم</p>
+    </div>
+    <div class="cases-grid" id="recentCasesContainer">
+        <!-- سيتم تحميل الحالات هنا ديناميكياً -->
+    </div>
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="عرض الحالات.html" class="cta-button" style="background: #fdd835; color: #000; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold;">مشاهدة جميع الحالات</a>
+    </div>
+  </div>
+
+  <!-- Section 1: Completed Cases -->
+  <div class="section-container" style="padding:50px 20px;">
+    <div class="section-header">
+      <h2 style="font-size:2rem;">حالات أكملنا مساعدتها</h2>
+      <p style="font-size:1rem;">بفضل تبرعاتكم تم إنجاز هذه الحالات</p>
+    </div>
+    <div id="completedCasesGridView" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:24px;max-width:1000px;margin:0 auto;">
+      <div style="grid-column:1/-1;text-align:center;color:#aaa;padding:20px;">جاري التحميل...</div>
+    </div>
+  </div>
+
+  <!-- Section 2: Projects -->
+  <div class="section-container">
+    <div class="section-header">
+        <h2>مساهماتنا الأخيرة</h2>
+        <p>نحن نعتز بكل من ساهم من خلال المنصة، بارك الله فيكم جميعاً</p>
+    </div>
+
+    <div class="info-row reverse">
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&q=80&w=2070" alt="عملية جراحية">
+        </div>
+        <div class="info-text">
+            <h3>تمويل عملية قلب مفتوح لطفل</h3>
+            <p>بفضل تبرعات أكثر من 120 متبرعاً، تم تأمين تكاليف عملية قلب مفتوح لطفل في الخامسة من عمره وإنقاذ حياته.</p>
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2070" alt="أجهزة طبية">
+        </div>
+        <div class="info-text">
+            <h3>توفير جهاز تنفس صناعي لمريض</h3>
+            <p>تم جمع المبلغ المطلوب خلال أسبوع واحد فقط لتوفير جهاز تنفس صناعي لمريض يعاني من فشل رئوي حاد.</p>
+        </div>
+    </div>
+
+    <div class="info-row reverse">
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&q=80&w=2070" alt="علاج سرطان">
+        </div>
+        <div class="info-text">
+            <h3>دعم جلسات علاج سرطان لأم</h3>
+            <p>ساهم المتبرعون في تغطية تكاليف 12 جلسة كيماوي لأم من ذوي الدخل المحدود، وهي الآن في طريقها للشفاء.</p>
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&q=80&w=2070" alt="أطراف صناعية">
+        </div>
+        <div class="info-text">
+            <h3>تركيب طرف صناعي لشاب فقد ساقه</h3>
+            <p>تم تأمين تكلفة طرف صناعي متطور لشاب في العشرينيات فقد ساقه في حادث، ليعود لحياته الطبيعية.</p>
+        </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Success Stories -->
+  <div class="section-container">
+    <div class="section-header">
+        <h2>قصصنا الملهمة</h2>
+        <p>نحن فخورون بمشاركة قصص النجاح التي تحققت بفضل دعمكم</p>
+    </div>
+
+    <div class="info-row">
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=2040" alt="طفل سعيد">
+        </div>
+        <div class="info-text">
+            <h3>ريم عادت للمدرسة بعد شفائها</h3>
+            <p>طفلة في التاسعة كانت تعاني من ورم في الدماغ. بعد تأمين تكاليف العملية عبر المنصة، عادت ريم لمقاعد الدراسة وهي بصحة جيدة.</p>
+        </div>
+    </div>
+
+    <div class="info-row reverse">
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&q=80&w=2070" alt="عائلة سعيدة">
+        </div>
+        <div class="info-text">
+            <h3>أب يعود لعمله بعد تركيب طرف صناعي</h3>
+            <p>محمد، أب لثلاثة أطفال، فقد ذراعه في حادث عمل. بفضل تبرعات المنصة تم تركيب طرف صناعي وعاد لإعالة أسرته.</p>
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-image">
+            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=2070" alt="أسرة">
+        </div>
+        <div class="info-text">
+            <h3>أم تتغلب على السرطان بدعم المتبرعين</h3>
+            <p>سارة، أم لطفلين، أنهت جلسات العلاج الكيماوي بالكامل بعد أن تكفّل المتبرعون بتكاليف علاجها البالغة 45,000 جنيه.</p>
+        </div>
+    </div>
+  </div>
+
+  <!-- Section 4: How to help -->
+  <div class="section-container">
+    <div class="section-header">
+        <h2>كيف يمكنك المساعدة</h2>
+        <p>كل تبرع مهما كان صغيراً يصنع فارقاً حقيقياً</p>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid-card">
+            <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&q=80&w=2070" alt="تبرع مالي">
+            <h3>التبرع المالي</h3>
+            <p>تبرع بأي مبلغ عبر فيزا أو ماستركارد أو المحفظة الإلكترونية — لا يوجد حد أدنى للتبرع</p>
+        </div>
+        <div class="grid-card">
+            <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&q=80&w=2070" alt="أجهزة طبية">
+            <h3>تمويل أجهزة طبية</h3>
+            <p>ساهم في توفير جهاز طبي لمريض محتاج — كل جهاز قد يكون الفرق بين الحياة والموت</p>
+        </div>
+        <div class="grid-card">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=2070" alt="نشر الوعي">
+            <h3>نشر الوعي</h3>
+            <p>شارك الحالات على وسائل التواصل الاجتماعي — كل مشاركة تساعد في الوصول لمتبرع جديد</p>
+        </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Projects -->
+  <footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="اتصال بنا.html">اتصل بنا</a>
+            <a href="من نحن.html">من نحن</a>
+            <a href="عرض الحالات.html">الحالات</a>
+            <a href="صفحه العرض.html">ابدأ المساعدة</a>
+        </div>
+        <div class="footer-social">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <p>&copy; 2026 منصة تبرعات خيرية. جميع الحقوق محفوظة.</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../Js/config.js"></script>
+  <script src="../Js/صفحه العرض.js"></script>
+  <style>
+    .completed-card-v { border-radius:16px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,0.09); background:#fff; }
+    .completed-card-v img { width:100%; height:220px; object-fit:cover; }
+    .completed-card-v .info { padding:18px 20px; }
+    .completed-badge-v { background:#e9f5ec; color:#2f6d3f; font-size:0.82rem; font-weight:700; padding:4px 12px; border-radius:20px; display:inline-block; margin-bottom:10px; }
+    .completed-card-v h4 { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
+    .completed-card-v p  { font-size:0.88rem; color:#666; }
+    #completedCasesGridView { overflow: visible !important; }
+    @media (max-width: 768px) {
+      #completedCasesGridView { grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; }
+      .completed-card-v img { height: 110px; }
+      .completed-card-v .info { padding: 10px; }
+      .completed-card-v h4 { font-size: 0.82rem; }
+      .completed-card-v p  { font-size: 0.72rem; }
+      .completed-badge-v { font-size: 0.7rem; padding: 3px 8px; }
+    }
+  </style>
+  <script>
+  (async function(){
+    const sb = createSupabaseClient();
+    if (!sb) return;
+    const grid = document.getElementById('completedCasesGridView');
+    if (!grid) return;
+    const { data } = await sb.from('cases')
+      .select('id,name,type,image_url,required_amount')
+      .eq('remaining_amount', 0)
+      .eq('status', 'مقبول')
+      .order('created_at', { ascending: false })
+      .limit(3);
+    if (!data || data.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:20px;">لا توجد حالات مكتملة بعد</div>';
+      return;
+    }
+    grid.innerHTML = data.map(c=>`
+      <div class="completed-card-v">
+        <img src="${c.image_url||'../صور المشروع/تبرع.jpg'}" alt="${c.name}" onerror="this.src='../صور المشروع/تبرع.jpg'">
+        <div class="info">
+          <span class="completed-badge-v"><i class="fa-solid fa-circle-check"></i> مكتملة</span>
+          <h4>${c.name||'حالة'}</h4>
+          <p>${c.type||'إنسانية'} — تم جمع ${(c.required_amount||0).toLocaleString('ar-EG')} جنيه</p>
+        </div>
+      </div>`).join('');
+  })();
+  </script>
+  <link rel="stylesheet" href="../css/chatbot.css">
+  <script src="../Js/chatbot.js"></script>
+
+</body>
+</html>

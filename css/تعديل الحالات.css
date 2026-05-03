@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+:root {
+    --primary: #2f6d3f;
+    --primary-light: #2c7744;
+    --secondary: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --gray: #6c757d;
+    --border: #e0e0e0;
+}
+
+body {
+    background-color: #f1f7e9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    padding: 30px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.cases-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cases-table th {
+    background-color: #f8f9fa;
+    color: var(--primary);
+    text-align: right;
+    padding: 15px;
+    border-bottom: 2px solid var(--border);
+}
+
+.cases-table td {
+    padding: 15px;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+}
+
+.case-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.case-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background-color: #eee;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-active { background-color: #d4edda; color: #155724; }
+.status-pending { background-color: #fff3cd; color: #856404; }
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-edit {
+    background-color: var(--warning);
+    color: #212529;
+}
+
+.btn-delete {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}

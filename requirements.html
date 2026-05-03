@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متطلبات المستخدمين — منصة التبرعات الخيرية</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:#222;direction:rtl}
+header{background:#2f6d3f;color:#fff;padding:28px 32px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{opacity:.85;font-size:.95rem}
+.container{max-width:1100px;margin:0 auto;padding:32px 16px}
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.tab-btn{padding:10px 22px;border:2px solid #2f6d3f;background:#fff;color:#2f6d3f;border-radius:8px;cursor:pointer;font-size:.95rem;font-weight:600;transition:.2s}
+.tab-btn.active,.tab-btn:hover{background:#2f6d3f;color:#fff}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.card{background:#fff;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.card h2{color:#2f6d3f;font-size:1.2rem;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #e8f5e9;display:flex;align-items:center;gap:8px}
+.req-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.req-table th{background:#2f6d3f;color:#fff;padding:10px 14px;text-align:right}
+.req-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+.req-table tr:last-child td{border-bottom:none}
+.req-table tr:hover td{background:#f9fffe}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.78rem;font-weight:600}
+.badge-func{background:#e8f5e9;color:#2f6d3f}
+.badge-nonfunc{background:#e3f2fd;color:#1565c0}
+.badge-sec{background:#fce4ec;color:#c62828}
+.badge-perf{background:#fff3e0;color:#e65100}
+.priority-high{color:#c62828;font-weight:700}
+.priority-med{color:#e65100;font-weight:600}
+.priority-low{color:#2f6d3f;font-weight:600}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.summary-card{background:#fff;border-radius:10px;padding:20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.summary-card .icon{font-size:2.2rem;margin-bottom:8px}
+.summary-card h3{font-size:1rem;color:#555;margin-bottom:4px}
+.summary-card .num{font-size:1.8rem;font-weight:700;color:#2f6d3f}
+</style>
+</head>
+<body>
+<header>
+<h1>📋 متطلبات المستخدمين</h1>
+<p>منصة التبرعات الخيرية — وثيقة المتطلبات الوظيفية وغير الوظيفية لكل نوع مستخدم</p>
+</header>
+<div class="container">
+
+<div class="summary-grid">
+<div class="summary-card"><div class="icon">👤</div><h3>متبرع</h3><div class="num">12</div><small>متطلب</small></div>
+<div class="summary-card"><div class="icon">🏥</div><h3>مستفيد</h3><div class="num">8</div><small>متطلب</small></div>
+<div class="summary-card"><div class="icon">👨‍💼</div><h3>مسؤول</h3><div class="num">15</div><small>متطلب</small></div>
+<div class="summary-card"><div class="icon">👨‍⚕️</div><h3>طبيب</h3><div class="num">6</div><small>متطلب</small></div>
+<div class="summary-card"><div class="icon">🌐</div><h3>زائر</h3><div class="num">4</div><small>متطلب</small></div>
+<div class="summary-card"><div class="icon">🔒</div><h3>غير وظيفية</h3><div class="num">10</div><small>متطلب</small></div>
+</div>
+
+<div class="tabs">
+<button class="tab-btn active" onclick="showTab('visitor')">🌐 زائر</button>
+<button class="tab-btn" onclick="showTab('donor')">👤 متبرع</button>
+<button class="tab-btn" onclick="showTab('beneficiary')">🏥 مستفيد</button>
+<button class="tab-btn" onclick="showTab('admin')">👨‍💼 مسؤول</button>
+<button class="tab-btn" onclick="showTab('doctor')">👨‍⚕️ طبيب</button>
+<button class="tab-btn" onclick="showTab('nonfunc')">🔒 غير وظيفية</button>
+</div>
+
+<!-- ===== زائر ===== -->
+<div id="visitor" class="tab-content active">
+<div class="card">
+<h2>🌐 الزائر (غير المسجل)</h2>
+<table class="req-table">
+<thead><tr><th>#</th><th>المتطلب</th><th>النوع</th><th>الأولوية</th><th>التفاصيل</th></tr></thead>
+<tbody>
+<tr><td>Z-01</td><td>تصفح الحالات المتاحة</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>يمكن للزائر رؤية قائمة الحالات المقبولة دون تسجيل دخول</td></tr>
+<tr><td>Z-02</td><td>عرض تفاصيل الحالة</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>يمكن الاطلاع على اسم الحالة، الوصف، المبلغ المطلوب والمتبقي</td></tr>
+<tr><td>Z-03</td><td>تسجيل حساب جديد</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>إنشاء حساب كمتبرع أو مستفيد باستخدام البريد الإلكتروني أو رقم الهاتف</td></tr>
+<tr><td>Z-04</td><td>تسجيل الدخول</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>الدخول بالبريد الإلكتروني أو رقم الهاتف أو حساب Google</td></tr>
+<tr><td>Z-05</td><td>الوصول لصفحة "من نحن"</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-low">منخفضة</td><td>عرض معلومات المنصة وأهدافها</td></tr>
+<tr><td>Z-06</td><td>التواصل مع الفريق</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>إرسال رسالة عبر صفحة "اتصل بنا"</td></tr>
+<tr><td>Z-07</td><td>الأسئلة الشائعة</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-low">منخفضة</td><td>الاطلاع على الأسئلة الشائعة دون تسجيل دخول</td></tr>
+<tr><td>Z-08</td><td>استخدام الشات بوت</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>التفاعل مع المساعد الذكي للحصول على معلومات عامة</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ===== متبرع ===== -->
+<div id="donor" class="tab-content">
+<div class="card">
+<h2>👤 المتبرع</h2>
+<table class="req-table">
+<thead><tr><th>#</th><th>المتطلب</th><th>النوع</th><th>الأولوية</th><th>التفاصيل</th></tr></thead>
+<tbody>
+<tr><td>MT-01</td><td>تسجيل حساب كمتبرع</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>إنشاء حساب باختيار نوع "متبرع" مع إدخال الاسم، البريد/الهاتف، كلمة المرور، تاريخ الميلاد</td></tr>
+<tr><td>MT-02</td><td>تسجيل الدخول</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>الدخول بالبريد الإلكتروني أو رقم الهاتف أو Google OAuth</td></tr>
+<tr><td>MT-03</td><td>تصفح الحالات وتصفيتها</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>عرض الحالات المقبولة مع إمكانية البحث بالاسم وتصفية حسب النوع</td></tr>
+<tr><td>MT-04</td><td>عرض تفاصيل الحالة</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>الاطلاع على الوصف الكامل، المبلغ المطلوب والمتبقي، شريط التقدم، بيانات التواصل</td></tr>
+<tr><td>MT-05</td><td>التبرع لحالة</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>إدخال الاسم، رقم الهاتف، المبلغ، واختيار طريقة الدفع</td></tr>
+<tr><td>MT-06</td><td>الدفع بالفيزا</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>إدخال بيانات البطاقة (رقم، تاريخ انتهاء، CVV) وإتمام الدفع</td></tr>
+<tr><td>MT-07</td><td>الدفع بالمحفظة الإلكترونية</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>رفع صورة إيصال التحويل لمراجعة المسؤول</td></tr>
+<tr><td>MT-08</td><td>التحقق من المبلغ</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>النظام يمنع التبرع بمبلغ أكبر من المبلغ المتبقي للحالة</td></tr>
+<tr><td>MT-09</td><td>تحديث الملف الشخصي</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>تعديل الاسم، رقم الهاتف، وصورة الملف الشخصي</td></tr>
+<tr><td>MT-10</td><td>تغيير كلمة المرور</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>تحديث كلمة المرور من صفحة الملف الشخصي</td></tr>
+<tr><td>MT-11</td><td>استعادة كلمة المرور</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>إرسال رمز التحقق على البريد/الهاتف لإعادة تعيين كلمة المرور</td></tr>
+<tr><td>MT-12</td><td>استخدام الشات بوت الذكي</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>التفاعل مع Gemini AI للحصول على إجابات مخصصة حسب حالة تسجيل الدخول</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ===== مستفيد ===== -->
+<div id="beneficiary" class="tab-content">
+<div class="card">
+<h2>🏥 المستفيد</h2>
+<table class="req-table">
+<thead><tr><th>#</th><th>المتطلب</th><th>النوع</th><th>الأولوية</th><th>التفاصيل</th></tr></thead>
+<tbody>
+<tr><td>MS-01</td><td>تسجيل حساب كمستفيد</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>إنشاء حساب باختيار نوع "مستفيد" مع إدخال الاسم، العنوان، الجنس، تاريخ الميلاد</td></tr>
+<tr><td>MS-02</td><td>تسجيل الدخول</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>الدخول بالبريد الإلكتروني أو رقم الهاتف</td></tr>
+<tr><td>MS-03</td><td>إضافة حالة جديدة</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>رفع حالة تحتاج دعماً مع الاسم، الوصف، النوع، المبلغ المطلوب، الصورة، بيانات التواصل</td></tr>
+<tr><td>MS-04</td><td>متابعة حالة الطلب</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>معرفة ما إذا كانت الحالة قيد المراجعة أو مقبولة أو مكتملة</td></tr>
+<tr><td>MS-05</td><td>عرض المبلغ المتبقي</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>متابعة التقدم في جمع التبرعات للحالة المقدمة</td></tr>
+<tr><td>MS-06</td><td>تحديث الملف الشخصي</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>تعديل الاسم، رقم الهاتف، صورة الملف الشخصي</td></tr>
+<tr><td>MS-07</td><td>تغيير / استعادة كلمة المرور</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>تحديث أو استعادة كلمة المرور عبر البريد/الهاتف</td></tr>
+<tr><td>MS-08</td><td>التواصل مع الفريق</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>إرسال استفسارات أو شكاوى عبر صفحة "اتصل بنا"</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ===== مسؤول ===== -->
+<div id="admin" class="tab-content">
+<div class="card">
+<h2>👨‍💼 المسؤول (Admin)</h2>
+<table class="req-table">
+<thead><tr><th>#</th><th>المتطلب</th><th>النوع</th><th>الأولوية</th><th>التفاصيل</th></tr></thead>
+<tbody>
+<tr><td>AD-01</td><td>تسجيل الدخول للوحة التحكم</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>الدخول التلقائي للوحة التحكم عند التعرف على الحساب كمسؤول</td></tr>
+<tr><td>AD-02</td><td>عرض إحصائيات لوحة التحكم</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>عرض إجمالي الحالات، الحالات النشطة، الحالات المكتملة</td></tr>
+<tr><td>AD-03</td><td>مراجعة الحالات والموافقة عليها</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>قبول أو رفض الحالات المقدمة من المستفيدين قبل نشرها</td></tr>
+<tr><td>AD-04</td><td>إضافة حالة جديدة مباشرة</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>إضافة حالة وتفعيلها مباشرة دون مراجعة</td></tr>
+<tr><td>AD-05</td><td>تعديل الحالات</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>تعديل بيانات أي حالة (الاسم، الوصف، المبلغ، الصورة، الحالة)</td></tr>
+<tr><td>AD-06</td><td>حذف الحالات</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>حذف الحالة من قاعدة البيانات أو تصفير المبلغ المتبقي</td></tr>
+<tr><td>AD-07</td><td>إدارة المستخدمين</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>عرض جميع المستخدمين مع إمكانية البحث والتصفية حسب النوع</td></tr>
+<tr><td>AD-08</td><td>تغيير حالة المستخدم</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>تنشيط / حظر / وضع في الانتظار لأي حساب مستخدم</td></tr>
+<tr><td>AD-09</td><td>تعيين أدوار المستخدمين</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>تعيين مستخدم كطبيب أو مسؤول أو إلغاء الدور</td></tr>
+<tr><td>AD-10</td><td>مراجعة التبرعات</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>عرض جميع التبرعات مع البحث والتصفية، والانتقال لتفاصيل الحالة</td></tr>
+<tr><td>AD-11</td><td>استقبال الإشعارات</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>استقبال إشعارات فورية عند كل تبرع جديد أو حالة جديدة</td></tr>
+<tr><td>AD-12</td><td>إدارة الإشعارات</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>تعيين الإشعارات كمقروءة، حذف إشعار، حذف الكل</td></tr>
+<tr><td>AD-13</td><td>عرض ملف المستخدم</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>الاطلاع على بيانات أي مستخدم من صفحة إدارة المستخدمين</td></tr>
+<tr><td>AD-14</td><td>تحديث ملفه الشخصي</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>تعديل اسمه وصورته وبياناته الشخصية</td></tr>
+<tr><td>AD-15</td><td>تسجيل الخروج</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>تسجيل الخروج من لوحة التحكم والعودة لصفحة تسجيل الدخول</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ===== طبيب ===== -->
+<div id="doctor" class="tab-content">
+<div class="card">
+<h2>👨‍⚕️ الطبيب</h2>
+<table class="req-table">
+<thead><tr><th>#</th><th>المتطلب</th><th>النوع</th><th>الأولوية</th><th>التفاصيل</th></tr></thead>
+<tbody>
+<tr><td>DR-01</td><td>تسجيل الدخول وتوجيه تلقائي</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>عند تسجيل الدخول يُوجَّه تلقائياً لصفحة التقارير الطبية</td></tr>
+<tr><td>DR-02</td><td>عرض المحادثات الطبية السابقة</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>تحميل جميع الرسائل السابقة بين الطبيب والمشرف من قاعدة البيانات</td></tr>
+<tr><td>DR-03</td><td>إرسال رسائل نصية للمشرف</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>إرسال ملاحظات أو تقارير نصية للمشرف عبر نظام المحادثة</td></tr>
+<tr><td>DR-04</td><td>رفع ملفات ومرفقات طبية</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>إرفاق صور أو ملفات PDF مع الرسائل ورفعها على Supabase Storage</td></tr>
+<tr><td>DR-05</td><td>استقبال رسائل المشرف في الوقت الفعلي</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-high">عالية</td><td>استخدام Supabase Realtime لاستقبال ردود المشرف فوراً دون تحديث الصفحة</td></tr>
+<tr><td>DR-06</td><td>تحديث الملف الشخصي</td><td><span class="badge badge-func">وظيفي</span></td><td class="priority-med">متوسطة</td><td>تعديل الاسم، رقم الهاتف، صورة الملف الشخصي</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ===== غير وظيفية ===== -->
+<div id="nonfunc" class="tab-content">
+<div class="card">
+<h2>🔒 المتطلبات غير الوظيفية</h2>
+<table class="req-table">
+<thead><tr><th>#</th><th>المتطلب</th><th>النوع</th><th>الأولوية</th><th>التفاصيل</th></tr></thead>
+<tbody>
+<tr><td>NF-01</td><td>أمان المصادقة</td><td><span class="badge badge-sec">أمان</span></td><td class="priority-high">عالية</td><td>استخدام Supabase Auth مع JWT tokens، دعم Google OAuth، تشفير كلمات المرور</td></tr>
+<tr><td>NF-02</td><td>تشفير بيانات الدفع</td><td><span class="badge badge-sec">أمان</span></td><td class="priority-high">عالية</td><td>جميع معاملات الدفع تتم عبر HTTPS مع تشفير بيانات البطاقة</td></tr>
+<tr><td>NF-03</td><td>التحكم في الصلاحيات</td><td><span class="badge badge-sec">أمان</span></td><td class="priority-high">عالية</td><td>كل نوع مستخدم يرى ويصل فقط للصفحات المخصصة له، الحسابات المحظورة لا تستطيع الدخول</td></tr>
+<tr><td>NF-04</td><td>حماية بيانات المستخدمين</td><td><span class="badge badge-sec">أمان</span></td><td class="priority-high">عالية</td><td>عدم عرض بيانات المستخدمين الحساسة في الكود أو الـ URL</td></tr>
+<tr><td>NF-05</td><td>سرعة تحميل الصفحات</td><td><span class="badge badge-perf">أداء</span></td><td class="priority-high">عالية</td><td>تحميل الصور بـ lazy loading، تحديد عدد الحالات المعروضة في الصفحة الرئيسية بـ 3</td></tr>
+<tr><td>NF-06</td><td>التوافق مع الأجهزة المحمولة</td><td><span class="badge badge-nonfunc">قابلية الاستخدام</span></td><td class="priority-high">عالية</td><td>تصميم متجاوب (Responsive) يعمل على الموبايل والتابلت والكمبيوتر</td></tr>
+<tr><td>NF-07</td><td>دعم اللغة العربية</td><td><span class="badge badge-nonfunc">قابلية الاستخدام</span></td><td class="priority-high">عالية</td><td>الواجهة كاملة باللغة العربية مع دعم RTL في جميع الصفحات</td></tr>
+<tr><td>NF-08</td><td>التعامل مع انقطاع الاتصال</td><td><span class="badge badge-perf">أداء</span></td><td class="priority-med">متوسطة</td><td>عرض بيانات احتياطية (fallback) عند فشل الاتصال بـ Supabase</td></tr>
+<tr><td>NF-09</td><td>حفظ جلسة المحادثة</td><td><span class="badge badge-nonfunc">قابلية الاستخدام</span></td><td class="priority-med">متوسطة</td><td>حفظ تاريخ محادثة الشات بوت في sessionStorage لاستعادتها عند إعادة الفتح</td></tr>
+<tr><td>NF-10</td><td>قابلية التوسع</td><td><span class="badge badge-nonfunc">قابلية الاستخدام</span></td><td class="priority-med">متوسطة</td><td>البنية تسمح بإضافة أنواع مستخدمين جديدة وصفحات إضافية بسهولة</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+<script>
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

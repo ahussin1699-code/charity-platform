@@ -1,0 +1,397 @@
+/* ================== Global Fix ================== */
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+ :root{
+      --green:#0b5e32;
+      --yellow:#f3e21d;
+      --muted:#6b6b6b;
+      --box:#ededed;
+    }
+
+    body{
+      margin:0;
+      font-family: "Cairo", sans-serif;
+      background:#f6f7f3;
+      direction: rtl;
+    }
+    header {
+        background: #2f6d3f;
+        color: white;
+        padding: 12px 20px;
+        margin: 0 0 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    header .logo {
+        font-size: clamp(18px, 3vw, 24px);
+        font-weight: bold;
+    }
+
+    /* ================== Nav ================== */
+    .main-nav {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.8);
+        transition: 0.3s;
+        gap: 4px;
+    }
+
+    .nav-item i {
+        font-size: 1.1rem;
+    }
+
+    .nav-item span {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .nav-item:hover, .nav-item.active {
+        color: #f3e21d;
+    }
+
+    .nav-profile-img {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #f3e21d;
+    }
+
+    /* ==================== CARD ==================== */
+    .page{
+      max-width:100%;
+      margin:40px auto;
+      padding:20px;
+      text-align:center;
+    }
+
+    .card{
+      background:#fff;
+      width: min(85%, 950px);
+      max-width: calc(100% - 30px);
+      margin:80px auto 30px;
+      padding:80px 30px 40px;
+      border-radius:14px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.08);
+      position:relative;
+    }
+
+    /* الصورة داخل الكارد */
+    .avatar-wrap{
+      position:absolute;
+      top:-50px;
+      left:50%;
+      transform:translateX(-50%);
+    }
+    .avatar{
+      width:110px;
+      height:110px;
+      border-radius:50%;
+      border:6px solid #fff;
+      object-fit:cover;
+      box-shadow:0 6px 14px rgba(0,0,0,0.15);
+    }
+
+    .headline{
+      font-size:34px;
+      margin-bottom:5px;
+      font-weight:900;
+    }
+    .sub{
+      color:var(--muted);
+      margin-bottom:20px;
+    }
+    .desc{
+      color:var(--muted);
+      line-height:1.9;
+      font-size:17px;
+      max-width:800px;
+      margin:auto;
+    }
+
+    /* ==================== CONTACT BOX ==================== */
+    .contact-box{
+      background:#fdfdfd;
+      border:1px solid #eee;
+      width:100%;
+      margin:30px auto 10px;
+      padding:20px;
+      border-radius:12px;
+      text-align:right;
+    }
+    .box-label{
+      display:block;
+      font-weight:700;
+      margin-bottom:12px;
+      font-size:18px;
+      color:var(--green);
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+    .info-row{
+      display:flex;
+      justify-content:space-between;
+      padding:8px 0;
+      font-size:16px;
+      color:#444;
+      border-bottom:1px dashed #eee;
+    }
+    .info-row:last-child{
+      border-bottom:0;
+    }
+    .info-row span:first-child{
+      font-weight:700;
+      color:var(--muted);
+    }
+
+    /* ==================== BOX ==================== */
+    .amount-box{
+      background:var(--box);
+      width:85%;
+      margin:40px auto;
+      padding:25px 20px;
+      border-radius:12px;
+    }
+    .amount-label{
+      display:block;
+      font-weight:700;
+      margin-bottom:10px;
+      font-size:18px;
+    }
+    .amount-row{
+      display:flex;
+      justify-content:space-between;
+      padding:10px;
+      font-size:18px;
+      font-weight:700;
+    }
+
+    /* ==================== زر التبرع ==================== */
+    .bottom-btn{
+      text-align:center;
+      margin:40px 0 80px;
+    }
+    .donate-btn{
+      background:linear-gradient(#3b6b3b, #2f5f33);
+      color:#fff;
+      padding:16px 60px;
+      font-size:22px;
+      border-radius:16px;
+      border:0;
+      cursor:pointer;
+      box-shadow:0 6px 0 rgba(0,0,0,0.14);
+    }
+    .delete-btn{
+      background:#c0392b;
+      margin-right:12px;
+    }
+
+    /* ================== Menu Button ================== */
+    .menu-btn {
+        display: none;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background 0.2s;
+    }
+    .menu-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* ================== Responsive ================== */
+    @media (max-width: 768px) {
+        header {
+            padding: 10px 15px;
+        }
+
+        .header-container {
+            flex-wrap: wrap;
+            gap: 0;
+        }
+
+        .menu-btn {
+            display: flex;
+        }
+
+        .main-nav {
+            display: none;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 10px 0 8px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            margin-top: 8px;
+        }
+
+        .main-nav.active {
+            display: flex;
+        }
+
+        .nav-item {
+            flex-direction: row;
+            gap: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 6px 12px;
+        }
+
+        .nav-item i { font-size: 0.95rem; }
+        .nav-item span { font-size: 0.78rem; }
+        .nav-profile-img { width: 20px; height: 20px; }
+
+        .card {
+            width: calc(100% - 30px);
+            padding: 70px 15px 25px;
+            margin: 70px auto 20px;
+        }
+
+        .headline { font-size: 22px; }
+        .desc { font-size: 15px; }
+
+        .donate-btn {
+            padding: 14px 30px;
+            font-size: 17px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .headline { font-size: 18px; }
+        .info-row { font-size: 14px; }
+        .bottom-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .donate-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+        }
+    }
+
+    /* ==================== PAYMENT INFO BOX ==================== */
+    .payment-info-box {
+      margin: 16px auto;
+      max-width: 560px;
+      background: #f8fdf9;
+      border: 1px solid #c8e6c9;
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .payment-info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: #1a1a1a;
+    }
+
+    .payment-info-row i { color: #2f6d3f; font-size: 1.1rem; }
+    .payment-info-row strong { color: #2f6d3f; font-size: 1.05rem; margin-right: 4px; }
+
+    .payment-methods-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .methods-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .methods-label i { color: #2f6d3f; }
+
+    .methods-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .method-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .method-visa   { background: #e8f0fe; color: #1a56db; border: 1px solid #c3d3f7; }
+    .method-wallet { background: #fef3e2; color: #b45309; border: 1px solid #f6d860; }
+
+    /* ==================== PROGRESS BAR ==================== */
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2f6d3f, #56ab6e);
+      border-radius: 20px;
+      transition: width 0.6s ease;
+      min-width: 4px;
+    }
+
+    .progress-pct {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #2f6d3f;
+      min-width: 36px;
+      text-align: left;
+    }

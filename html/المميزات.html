@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مميزات المنصة - تبرعات خيرية</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f5f7f5; color: #1a1a1a; direction: rtl; }
+
+    /* Header */
+    header {
+      background: #2f6d3f;
+      padding: 14px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { color: #fff; font-size: 1.2rem; font-weight: 700; text-decoration: none; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: #fff; text-decoration: none; font-size: 0.9rem;
+      background: rgba(255,255,255,0.15); padding: 7px 16px;
+      border-radius: 20px; transition: 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #2f6d3f 0%, #1a4a26 100%);
+      color: #fff;
+      text-align: center;
+      padding: 60px 20px 50px;
+    }
+    .hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; margin-bottom: 14px; }
+    .hero p  { font-size: 1rem; opacity: 0.85; max-width: 560px; margin: 0 auto; line-height: 1.7; }
+
+    /* Features Grid */
+    .features-section {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+    .features-section h2 {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #2f6d3f;
+      margin-bottom: 36px;
+      font-weight: 700;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border-top: 4px solid #2f6d3f;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(47,109,63,0.15);
+    }
+    .feature-icon {
+      width: 54px; height: 54px;
+      background: #e9f5ec;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .feature-icon i { font-size: 1.5rem; color: #2f6d3f; }
+    .feature-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: #1a1a1a; }
+    .feature-card p  { font-size: 0.88rem; color: #555; line-height: 1.7; }
+
+    /* Stats */
+    .stats-section {
+      background: #2f6d3f;
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .stats-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .stat-item h3 { font-size: 2rem; font-weight: 800; color: #f4d03f; }
+    .stat-item p  { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .cta-section h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; color: #1a1a1a; }
+    .cta-section p  { color: #555; margin-bottom: 24px; font-size: 0.95rem; }
+    .cta-btn {
+      display: inline-block;
+      background: #2f6d3f; color: #fff;
+      padding: 13px 36px; border-radius: 30px;
+      text-decoration: none; font-weight: 700; font-size: 1rem;
+      transition: 0.2s;
+    }
+    .cta-btn:hover { background: #245632; transform: translateY(-2px); }
+
+    /* Footer */
+    footer {
+      background: #1c1c1c; color: #777;
+      text-align: center; padding: 16px;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="الصفحه الرئسيه.html" class="logo">
+    <i class="fa-solid fa-hands-holding-heart"></i> تبرعات خيرية
+  </a>
+  <a href="الصفحه الرئسيه.html" class="back-btn">
+    <i class="fa-solid fa-arrow-right"></i> الرئيسية
+  </a>
+</header>
+
+<div class="hero">
+  <h1>مميزات منصة تبرعات خيرية</h1>
+  <p>منصة متكاملة تربط المتبرعين بالحالات الإنسانية بطريقة آمنة وشفافة وسهلة</p>
+</div>
+
+<section class="features-section">
+  <h2>لماذا تختار منصتنا؟</h2>
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <h3>أمان وموثوقية</h3>
+      <p>جميع الحالات يتم التحقق منها يدوياً من قِبل المشرفين والأطباء قبل نشرها، لضمان وصول تبرعك لمستحقيه.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-eye"></i></div>
+      <h3>شفافية كاملة</h3>
+      <p>تتبّع كل تبرع بشكل مباشر — يمكنك رؤية المبلغ المطلوب والمبلغ المتبقي لكل حالة في الوقت الفعلي.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-credit-card"></i></div>
+      <h3>طرق دفع متعددة</h3>
+      <p>ندعم الدفع عبر Visa وMastercard والمحافظ الإلكترونية، لتسهيل عملية التبرع على الجميع.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-user-doctor"></i></div>
+      <h3>مراجعة طبية متخصصة</h3>
+      <p>يشارك أطباء متخصصون في مراجعة الحالات الطبية وإصدار تقارير موثوقة لضمان دقة المعلومات.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+      <h3>إشعارات فورية</h3>
+      <p>يصلك إشعار فوري عند كل تبرع جديد أو تحديث على الحالات التي تتابعها.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+      <h3>مساعد ذكي</h3>
+      <p>شات بوت مدعوم بالذكاء الاصطناعي يجيب على استفساراتك ويرشدك خلال عملية التبرع على مدار الساعة.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+      <h3>لوحة تحكم متكاملة</h3>
+      <p>يمتلك المشرفون لوحة تحكم شاملة لإدارة الحالات والمستخدمين والتبرعات بكل سهولة.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+      <h3>متوافق مع الجوال</h3>
+      <p>المنصة مصممة بشكل متجاوب يعمل بسلاسة على جميع الأجهزة — هاتف، تابلت، أو كمبيوتر.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
+      <h3>سهولة الاستخدام</h3>
+      <p>واجهة بسيطة وسهلة تمكّن أي شخص من تصفح الحالات والتبرع في خطوات قليلة.</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h3>+500</h3>
+      <p>حالة تم مساعدتها</p>
+    </div>
+    <div class="stat-item">
+      <h3>+1000</h3>
+      <p>متبرع مسجل</p>
+    </div>
+    <div class="stat-item">
+      <h3>100%</h3>
+      <p>شفافية في التبرعات</p>
+    </div>
+    <div class="stat-item">
+      <h3>24/7</h3>
+      <p>دعم مستمر</p>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <h2>ابدأ رحلة العطاء الآن</h2>
+  <p>انضم إلى آلاف المتبرعين وساهم في تغيير حياة إنسان</p>
+  <a href="عرض الحالات.html" class="cta-btn">
+    <i class="fa-solid fa-heart"></i> تصفح الحالات
+  </a>
+</div>
+
+<footer>
+  جميع الحقوق محفوظة &copy; 2025 منصة تبرعات خيرية
+</footer>
+
+</body>
+</html>

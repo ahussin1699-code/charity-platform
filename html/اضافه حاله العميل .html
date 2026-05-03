@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة حالة - تبرعات خيرية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/اضافه حاله العميل .css">
+    <link rel="stylesheet" href="../css/sidebar-shared.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <!-- زر القائمة للموبايل -->
+    <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة" style="display:none;">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- الشريط الجانبي (للأدمن فقط) -->
+    <div class="sidebar" id="sidebar" style="display:none;">
+      <div class="sidebar-header">
+        <h2><i class="fas fa-hands-holding-child"></i><span>تبرعات خيريه</span></h2>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="الصفحه الرئسيه.html"><i class="fas fa-home"></i><span>الصفحة الرئيسية</span></a></li>
+          <li><a href="لوحه التحكم .html"><i class="fas fa-tachometer-alt"></i><span>لوحة التحكم</span></a></li>
+          <li><a href="ادارة المستخدمين.html"><i class="fas fa-users"></i><span>إدارة المستخدمين</span></a></li>
+          <li><a href="مراجعه الحالات.html"><i class="fas fa-hands-helping"></i><span>المستفيدون</span></a></li>
+          <li><a href="مراجعه التبرعات.html"><i class="fas fa-hand-holding-usd"></i><span>مراجعة التبرعات</span></a></li>
+          <li><a href="الاشعارات.html"><i class="fas fa-bell"></i><span>الاشعارات</span></a></li>
+          <li><a href="اضافة حاله جديده.html"><i class="fas fa-plus-circle"></i><span>إضافة حالة</span></a></li>
+          <li><a href="اضافه حاله العميل .html" class="active"><i class="fas fa-user-plus"></i><span>إضافة حالة عميل</span></a></li>
+          <li><a href="التقارير الطبيه.html"><i class="fas fa-file-medical"></i><span>التقارير الطبية</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn-sidebar" id="sidebarLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="page-wrapper" id="pageWrapper">
+
+    <header> 
+         <div class="header-container"> 
+             <div class="logo-section"> 
+                 <div class="logo-text">تبرعات خيرية</div> 
+             </div> 
+             <nav class="main-nav"> 
+                 <a href="الصفحه الرئسيه.html" class="nav-item"><i class="fa-solid fa-house"></i><span>الرئيسية</span></a> 
+                 <a href="اتصال بنا.html" class="nav-item"><i class="fa-solid fa-envelope"></i><span>تواصل معنا</span></a> 
+                 <a href="من نحن.html" class="nav-item"><i class="fa-solid fa-circle-info"></i><span>من نحن</span></a> 
+                 <a href="الصفحه الشخصية.html" class="nav-item"> 
+                     <img id="navProfileImg" src="../images/default-avatar.png" alt="Profile" class="nav-profile-img"> 
+                     <span>الملف الشخصي</span> 
+                 </a> 
+                 <a href="صفحه العرض.html" class="nav-item" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i><span>خروج</span></a> 
+             </nav> 
+         </div> 
+     </header>
+
+<div class="container">
+
+    <!-- نموذج إضافة الحالة -->
+    <div class="card">
+        <h2>تقديم طلب كمستفيد</h2>
+
+        <div class="form-container">
+            <input type="text" id="name" placeholder="الاسم بالكامل">
+            <input type="email" id="email" placeholder="البريد الإلكتروني">
+            <input type="text" id="phone" placeholder="رقم الهاتف">
+             <input type="text" id="phone" placeholder="العنوان">
+            
+            <select id="caseType">
+                <option value="">اختر نوع الحالة</option>
+                <option value="علاج">علاج</option>
+                <option value="عملية جراحية">عملية جراحية</option>
+                <option value="أجهزة طبية">أجهزة طبية</option>
+            </select>
+
+            <textarea id="description" rows="4" placeholder="وصف الحالة المرضية"></textarea>
+
+            <div class="form-group-img">
+                <label class="img-label">صورة المريض / الحالة</label>
+                <div class="img-upload-box" id="imgUploadBox">
+                    <img id="caseImgPreview" style="display:none;" alt="معاينة">
+                    <label for="caseImageFile" class="img-upload-placeholder" id="imgPlaceholder">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>اضغط لرفع صورة أو ملف</span>
+                        <small>JPG, PNG, PDF, DOC — حجم أقصى 10MB</small>
+                    </label>
+                    <input type="file" id="caseImageFile" accept="image/*,.pdf,.doc,.docx" hidden>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-primary" onclick="submitCase()">إرسال الطلب</button>
+
+        <p id="result" style="margin-top:10px;color:green;"></p>
+    </div>
+
+
+    <!-- قسم التواصل مع المشرف -->
+    <div class="card">
+        <h2>التواصل مع المشرف</h2>
+
+        <div class="chat-box" id="chatBox"></div>
+
+        <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا...">
+        <button class="btn-primary" onclick="sendMessage()">إرسال</button>
+    </div>
+
+</div>
+
+</div> <!-- end page-wrapper -->
+
+<script src="../Js/config.js"></script>
+<script src="../Js/اضافه حاله العميل .js"></script>
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script></body>
+</html>

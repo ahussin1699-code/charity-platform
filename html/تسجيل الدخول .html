@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول -   تبرعات خيرية</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/تسجيل الدخول.css">
+</head>
+
+<body>
+
+    <header>   منصة تبرعات خيرية </header>
+
+    <div class="container">
+        <div class="login-card">
+            <h1>تسجيل الدخول</h1>
+            <p class="subtitle">أدخل بياناتك للوصول إلى حسابك</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="contact">البريد الإلكتروني أو رقم الهاتف</label>
+                    <input type="text" id="contact" placeholder="أدخل بريدك الإلكتروني أو رقم الهاتف" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                        <button type="button" class="toggle-password" id="togglePassword" title="إظهار/إخفاء كلمة المرور">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <div id="errorMsg" class="error"></div>
+
+                <div class="options">
+                    <div class="remember-me">
+                    </div>
+                    <a href="نسيت كلمة المرور.html" class="forgot-password">نسيت كلمة المرور؟</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginButton">
+                    تسجيل الدخول
+                </button>
+            </form>
+
+            <div class="divider">
+                <span class="divider-text">أو</span>
+            </div>
+
+            <div class="social-login" style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:12px;">
+                <div id="googleLoginIcon" style="width:52px;height:52px;border:1px solid #ddd;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#db4437;cursor:pointer;">
+                    <i class="fa-brands fa-google" style="font-size:22px;"></i>
+                </div>
+                <div style="font-size:0.9rem;color:#333;">التسجيل عبر جوجل</div>
+            </div>
+
+            <div class="register-link">
+                ليس لديك حساب؟ <a href="تسجيل حساب جديد.html">إنشاء حساب جديد</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../Js/config.js"></script>
+    <script src="../Js/تسجيل الدخول .js"></script>
+
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+
+</html>

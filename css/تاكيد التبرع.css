@@ -1,0 +1,69 @@
+body {
+    font-family: "Cairo", sans-serif;
+    background: #f3f3f3;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* البوكس */
+.box {
+    background: #ffffff;
+    width: 340px;
+    padding: 25px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* النص */
+.title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* دائرة العلامة */
+.circle {
+    width: 90px;
+    height: 90px;
+    background: #1b5e20;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+.check {
+    color: white;
+    font-size: 42px;
+    font-weight: bold;
+}
+
+/* النص التاني */
+.thanks {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* زرار */
+.btn {
+    background: #1b5e20;
+    color: white;
+    padding: 10px 28px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #144616;
+}
+    

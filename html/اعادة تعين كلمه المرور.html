@@ -1,0 +1,86 @@
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إعادة تعيين كلمة المرور - تبرعات خيرية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/اعادة تعين كلمه مرور.css" />
+    <style></style>
+</head>
+
+<body>
+    <header>تبرعات خيرية</header>
+
+    <div class="top-buttons"></div>
+
+    <div class="container">
+        <div class="reset-card">
+            <h1>إعادة تعيين كلمة المرور</h1>
+            <p class="instructions">من فضلك أدخل كلمة مرور جديدة لحسابك</p>
+
+            <form id="resetForm">
+                <div class="form-group">
+                    <label for="newPassword">كلمة المرور الجديدة</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="newPassword" placeholder="أدخل كلمة المرور الجديدة" required />
+                        <button type="button" class="password-toggle" onclick="togglePassword('newPassword')">
+                            👁
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrength"></div>
+                    </div>
+                    <div class="password-requirements">
+                        <div class="requirement invalid" id="reqLength">
+                            <i>●</i> 8 أحرف على الأقل
+                        </div>
+                        <div class="requirement invalid" id="reqUpper">
+                            <i>●</i> حرف كبير واحد على الأقل
+                        </div>
+                        <div class="requirement invalid" id="reqLower">
+                            <i>●</i> حرف صغير واحد على الأقل
+                        </div>
+                        <div class="requirement invalid" id="reqNumber">
+                            <i>●</i> رقم واحد على الأقل
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">تأكيد كلمة المرور الجديدة</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="confirmPassword" placeholder="تاكيد إدخال كلمة المرور الجديدة"
+                            required />
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                            👁
+                        </button>
+                    </div>
+                </div>
+
+                <div id="errorMsg" class="error"></div>
+                <div id="successMsg" class="success"></div>
+
+                <button type="submit" class="reset-btn" id="resetButton">
+                    حفظ كلمة المرور
+                </button>
+            </form>
+
+            <div class="login-link">
+                <a href="تسجيل الدخول .html" onclick="login()">العودة إلى تسجيل الدخول</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Js/config.js"></script>
+    <script src="../Js/اعادة تعين كلمه المرور.js"></script>
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+
+</html>

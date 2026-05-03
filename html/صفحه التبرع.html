@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبرع لحالة محمد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/صفحه التبرع.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+    header { position: relative; }
+    .menu-btn { background: #2f6d3f; color: white; border: none; padding: 8px 12px; font-size: 1rem; border-radius: 5px; cursor: pointer; position:absolute; left:10px; top:50%; transform:translateY(-50%); margin-left:0; }
+    @media (max-width: 768px) { .main-nav { display: none; flex-direction: column; gap:10px; } .main-nav.active { display: flex; } }
+        
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">تبرعات خيرية</div>
+            
+            <nav class="main-nav">
+                <a href="الصفحه الرئسيه.html" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a href="اتصال بنا.html" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>تواصل معنا</span>
+                </a>
+                <a href="من نحن.html" class="nav-item">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>من نحن</span>
+                </a>
+                 <a href="الصفحه الشخصية.html" class="nav-item" id="profileNavItem">
+                    <img id="navProfileImg" src="../images/default-avatar.png" alt="Profile" class="nav-profile-img">
+                    <span>الملف الشخصي</span>
+                </a>
+                <a href="تسجيل الدخول .html" class="nav-item" id="logoutBtn">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>تسجيل الدخول</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="donate-container">
+        <h1 class="page-title" id="caseNameDisplay">جاري التحميل...</h1>
+        <div class="border-accent"></div>
+
+        <div class="info-section">
+            <div class="info-row">
+                <span class="info-label">المبلغ المطلوب:</span>
+                <span class="info-value" id="requiredAmountDisplay">0 جنيه</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">المبلغ المتبقي:</span>
+                <span class="info-value" id="remainingAmountDisplay">0 جنيه</span>
+            </div>
+            <form id="donateForm">
+                <div class="form-group">
+                    <input type="text" id="donorName" placeholder="ادخل (الاسم)" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="donorNumber" placeholder="ادخل رقم الهاتف بتاعك  " required>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" id="donationAmount" placeholder="ادخل مبلغ التبرع بالجنيه المصري" required>
+                </div>
+                
+                <div class="donate-btn-container">
+                    <button type="submit" class="donate-btn">تبرع الآن</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- تم تحديث المسار ليشير إلى مجلد Js النسبي. يرجى التأكد من وجود الملف أو إنشائه -->
+    <script src="../Js/صفحه التبرع.js"></script>
+
+    <script src="../Js/config.js"></script>
+    <script>
+        const sb = createSupabaseClient();
+
+        // menu toggle
+        const menuBtnD = document.getElementById('menuBtn');
+        const mainNavD = document.querySelector('nav.main-nav');
+        if (menuBtnD && mainNavD) {
+            menuBtnD.addEventListener('click', () => {
+                mainNavD.classList.toggle('active');
+            });
+        }
+
+        async function checkUserAndImage() {
+            if (!sb) return;
+            const { data } = await sb.auth.getUser();
+            const user = data && data.user;
+
+            const profileNavItem = document.getElementById("profileNavItem");
+            const logoutBtn = document.getElementById("logoutBtn");
+
+            if (!user) {
+                if (profileNavItem) {
+                    profileNavItem.style.display = "none";
+                }
+                if (logoutBtn) {
+                    logoutBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i><span>تسجيل الدخول</span>';
+                    logoutBtn.href = "تسجيل الدخول .html";
+                    logoutBtn.onclick = null;
+                }
+                return;
+            }
+
+            if (profileNavItem) {
+                profileNavItem.style.display = "flex";
+            }
+
+            if (logoutBtn) {
+                logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i><span>خروج</span>';
+                logoutBtn.href = "#";
+                logoutBtn.onclick = async function(e) {
+                    e.preventDefault();
+                    if (sb) await sb.auth.signOut();
+                    window.location.href = "تسجيل الدخول .html";
+                };
+            }
+
+            const { data: userData } = await sb
+                .from('users')
+                .select('profile_image')
+                .eq('email', user.email)
+                .maybeSingle();
+
+            const profileImgSrc = userData?.profile_image || localStorage.getItem(`profileImage_${user.id}`);
+            if (profileImgSrc) {
+                const navProfileImg = document.getElementById("navProfileImg");
+                if (navProfileImg) navProfileImg.src = profileImgSrc;
+            }
+        }
+
+        window.addEventListener('load', () => {
+            checkUserAndImage();
+        });
+
+        function goToHome() {
+            window.location.href = "الصفحه الرئسيه.html";
+        }
+
+        function viewCases() {
+            window.location.href = "عرض الحالات.html";
+        }
+
+        function contactUs() {
+            window.location.href = "اتصال بنا.html";
+        }
+    </script>
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+
+</html>

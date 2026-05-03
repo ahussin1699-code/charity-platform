@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي</title>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../css/الصفحه الشخصيه.css">
+    <style>
+    header { position: relative; overflow: visible; }
+
+    .menu-btn {
+        display: none;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background 0.2s;
+    }
+    .menu-btn:hover { background: rgba(255,255,255,0.25); }
+
+    @media (max-width: 768px) {
+        .menu-btn { display: flex !important; }
+
+        header { flex-wrap: wrap; padding-bottom: 0; }
+
+        .header-right { width: 100%; }
+
+        .main-nav {
+            display: none !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            width: 100%;
+            padding: 10px 0 8px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            margin-top: 8px;
+        }
+
+        .main-nav.active { display: flex !important; }
+
+        .nav-item {
+            flex-direction: row !important;
+            gap: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 6px 12px;
+        }
+
+        .nav-item i { font-size: 0.95rem !important; margin: 0 !important; }
+        .nav-item span { font-size: 0.78rem !important; display: inline !important; }
+        .nav-profile-img { width: 20px !important; height: 20px !important; }
+    }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= الهيدر ================= -->
+<header>
+    <div class="logo">تبرعات خيرية</div>
+
+    <button class="menu-btn" id="menuBtn" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="header-right">
+        <nav class="main-nav" id="mainNav">
+            <a href="الصفحه الرئسيه.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="اتصال بنا.html" class="nav-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>تواصل معنا</span>
+            </a>
+            <a href="من نحن.html" class="nav-item">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>من نحن</span>
+            </a>
+            <a href="الصفحه الشخصية.html" class="nav-item active">
+                <img id="navProfileImg" src="../images/default-avatar.png" alt="Profile" class="nav-profile-img">
+                <span>الملف الشخصي</span>
+            </a>
+            <a href="صفحه العرض.html" class="nav-item logout-link" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>خروج</span>
+            </a>
+        </nav>
+    </div>
+</header>
+
+
+
+<!-- ================= Popup ================= -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeProfile">&times;</span>
+            <!-- الصورة مع رفع صورة جديدة -->
+            <img id="profileImg" src="../images/default-avatar.png" class="profile-img-icon">
+            <input type="file" id="uploadProfile" accept="image/*" style="display:none;">
+
+            <h2 id="userNameDisplay">اسم المستخدم</h2>
+            <p style="color:#666">تعديل الصورة الشخصية وإدارة الحساب</p>
+
+            <!-- الأزرار داخل البوب أب -->
+            <div class="popup-buttons">
+                <button class="popup-btn edit" onclick="document.getElementById('uploadProfile').click()">تغيير الصورة</button>
+                <button class="popup-btn delete">حذف الحساب</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= نموذج تعديل البيانات ================= -->
+    <div class="form-wrapper">
+        <div class="form-container">
+            <!-- مؤشر التحميل -->
+            <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+                <div class="spinner"></div>
+                <p>جاري معالجة البيانات...</p>
+            </div>
+
+            <!-- الصورة داخل النموذج -->
+            <div class="profile-image-section">
+                <div class="image-container">
+                    <img id="formProfileImg" src="../images/default-avatar.png" alt="Profile" class="form-profile-img">
+                    <div class="image-overlay" onclick="document.getElementById('uploadProfile').click()">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>تغيير الصورة</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="form-title">تعديل البيانات الشخصية</h3>
+            <input type="text" id="firstName" placeholder="الاسم أول">
+            <input type="text" id="lastName" placeholder="الاسم الأخير">
+            <input type="email" id="email" placeholder="البريد الالكتروني" disabled title="لا يمكن تغيير البريد الإلكتروني">
+            <input type="tel" id="phone" placeholder="رقم الهاتف">
+            <div class="buttons">
+                <button id="saveBtn" class="save-btn" onclick="saveData()">حفظ التغييرات</button>
+                <button id="resetPasswordBtn" class="reset-btn" onclick="location.href='تحديث كلمة المرور.html'">إعادة تعيين كلمة المرور</button>
+                <button class="cancel-btn" onclick="cancel()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= JavaScript ================= -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../Js/config.js"></script>
+<script src="../Js/الصفحه الشخصية.js"></script>
+
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+</html>

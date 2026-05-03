@@ -1,0 +1,220 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: 'Cairo', Arial, sans-serif;
+    background: #f2f2f2;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* ===== الشريط الأخضر الأعلى ===== */
+.header-bar {
+    background-color: #1D7D36;
+    color: white;
+    text-align: center;
+    padding: 16px 20px;
+    font-size: clamp(16px, 4vw, 24px);
+    font-weight: bold;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+/* ===== نموذج التسجيل ===== */
+.form-container {
+    background: white;
+    padding: clamp(16px, 5vw, 30px) clamp(14px, 5vw, 40px);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    width: min(450px, 94%);
+    text-align: center;
+    margin: clamp(16px, 4vw, 30px) auto;
+}
+
+h2 {
+    margin-bottom: 16px;
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+}
+
+/* ===== الإدخالات ===== */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="date"] {
+    width: 100%;
+    padding: clamp(10px, 3vw, 14px) clamp(10px, 3vw, 16px);
+    margin: 6px 0;
+    border-radius: 10px;
+    border: 1.5px solid #d0dff0;
+    box-sizing: border-box;
+    background: #eef3fb;
+    font-size: clamp(13px, 3.5vw, 15px);
+    color: #333;
+    font-family: 'Cairo', Arial, sans-serif;
+    outline: none;
+    transition: border-color .2s, background .2s;
+    max-width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus {
+    border-color: #1D7D36;
+    background: #e6f4ea;
+}
+
+input::placeholder {
+    color: #8a9bb5;
+    font-size: clamp(12px, 3vw, 15px);
+}
+
+/* ===== بوكس اختيار نوع الحساب والجنس ===== */
+.user-type-boxes,
+.gender-boxes {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.user-type-box,
+.gender-box {
+    flex: 1;
+    padding: clamp(10px, 3vw, 20px) 8px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    text-align: center;
+    font-size: clamp(13px, 3.5vw, 16px);
+}
+
+.user-type-box:hover,
+.gender-box:hover {
+    border-color: #1D7D36;
+    background-color: #ecf6ff;
+}
+
+.user-type-box.selected,
+.gender-box.selected {
+    border-color: #1D7D36;
+    background-color: #1D7D36;
+    color: white;
+}
+
+/* ===== الأزرار ===== */
+button {
+    width: 100%;
+    padding: clamp(10px, 3vw, 12px);
+    margin-top: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #1D7D36;
+    color: white;
+    font-size: clamp(14px, 4vw, 16px);
+    font-family: 'Cairo', Arial, sans-serif;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+button:hover { background-color: #165f29; }
+
+/* ===== رابط تسجيل الدخول ===== */
+.login-link {
+    margin-top: 14px;
+    font-size: clamp(12px, 3vw, 14px);
+}
+
+.login-link a {
+    color: #1D7D36;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover { text-decoration: underline; }
+
+/* ===== حقل كلمة المرور مع زر الإظهار ===== */
+.password-wrapper {
+    position: relative;
+    margin: 6px 0;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding: clamp(10px, 3vw, 14px) 40px clamp(10px, 3vw, 14px) clamp(10px, 3vw, 16px);
+    border-radius: 10px;
+    border: 1.5px solid #d0dff0;
+    box-sizing: border-box;
+    font-size: clamp(13px, 3.5vw, 15px);
+    background: #eef3fb;
+    color: #333;
+    font-family: 'Cairo', Arial, sans-serif;
+    outline: none;
+    transition: border-color .2s, background .2s;
+    max-width: 100%;
+}
+
+.password-wrapper input:focus {
+    border-color: #1D7D36;
+    background: #e6f4ea;
+}
+
+.password-wrapper input::placeholder {
+    color: #8a9bb5;
+}
+
+.toggle-pass {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    width: auto;
+    color: #666;
+    line-height: 1;
+}
+
+.toggle-pass:hover { color: #1D7D36; }
+
+/* ===== قواعد كلمة المرور ===== */
+.password-rules {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 4px 0 6px;
+    padding: 0 2px;
+    justify-content: flex-end;
+}
+
+.rule {
+    font-size: clamp(11px, 2.8vw, 14px) !important;
+    font-weight: 600;
+    color: #c0392b;
+    transition: color .2s;
+}
+
+.rule.ok { color: #1D7D36; }
+
+/* ===== رسالة تطابق كلمة المرور ===== */
+.match-msg {
+    font-size: clamp(11px, 2.8vw, 14px) !important;
+    font-weight: 600;
+    margin: 4px 0 8px;
+    min-height: 18px;
+    text-align: right;
+}
+
+.match-msg.ok  { color: #1D7D36; }
+.match-msg.err { color: #c0392b; }

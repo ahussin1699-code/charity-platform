@@ -1,0 +1,75 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: "Tajawal", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+    background: #0a4f2f;
+}
+
+.splash {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url("../pngtree-helping-hand-symbol-aid-teenager-assistance-photo-picture-image_11439234.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 92, 51, 0.82);
+}
+
+.splash-content {
+    position: relative;
+    text-align: center;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.splash-content.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.splash-icon i {
+    font-size: clamp(52px, 7vw, 72px);
+}
+
+.splash-title {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+}
+
+.splash-subtitle {
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 400;
+}
+
+@media (max-width: 600px) {
+    .splash {
+        align-items: center;
+    }
+}
+

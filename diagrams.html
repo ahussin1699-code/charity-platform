@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليل مشروع منصة التبرعات الخيرية</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f4f8; color: #222; direction: rtl; }
+        header { background: #2f6d3f; color: white; padding: 24px 32px; text-align: center; }
+        header h1 { font-size: 1.8rem; margin-bottom: 6px; }
+        header p { opacity: 0.85; font-size: 0.95rem; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+        .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .section h2 { color: #2f6d3f; font-size: 1.3rem; margin-bottom: 8px; border-bottom: 2px solid #e8f5e9; padding-bottom: 10px; }
+        .section p { color: #555; font-size: 0.9rem; margin-bottom: 18px; line-height: 1.7; }
+        .mermaid { overflow-x: auto; text-align: center; }
+        .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+        .table-card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+        .table-card h3 { background: #2f6d3f; color: white; padding: 10px 14px; font-size: 0.95rem; }
+        .table-card table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .table-card td { padding: 7px 12px; border-bottom: 1px solid #f0f0f0; }
+        .table-card td:first-child { font-weight: 600; color: #333; width: 40%; }
+        .table-card td:last-child { color: #666; }
+        .table-card tr:last-child td { border-bottom: none; }
+        .pk { color: #e67e22 !important; }
+        .fk { color: #2980b9 !important; }
+        .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 12px; font-size: 0.85rem; }
+        .legend span { display: flex; align-items: center; gap: 6px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🏥 تحليل مشروع منصة التبرعات الخيرية</h1>
+    <p>ERD · DFD Level 0 · DFD Level 1 · Use Case · Flowcharts</p>
+</header>
+
+<div class="container">
+
+    <!-- ===== ERD ===== -->
+    <div class="section">
+        <h2>📊 ERD — مخطط قاعدة البيانات</h2>
+        <p>يوضح جميع الجداول والعلاقات بينها في قاعدة بيانات Supabase.</p>
+        <div class="mermaid">
+erDiagram
+    USERS {
+        uuid id PK
+        text name
+        text email
+        text phone
+        text user_type
+        text status
+        text address
+        text gender
+        date birth_date
+        text profile_image
+        timestamp created_at
+    }
+    CASES {
+        uuid id PK
+        text name
+        text description
+        text type
+        text status
+        numeric required_amount
+        numeric remaining_amount
+        text image_url
+        text address
+        text phone
+        text email
+        uuid beneficiary_id FK
+        timestamp created_at
+    }
+    DONATIONS {
+        uuid id PK
+        uuid case_id FK
+        text donor_name
+        text phone
+        numeric amount
+        text payment_method
+        text status
+        text attachment_url
+        timestamp created_at
+    }
+    DONORS {
+        uuid id PK
+        uuid user_id FK
+        text email
+        text name
+        text phone
+        timestamp created_at
+    }
+    BENEFICIARIES {
+        uuid id PK
+        uuid user_id FK
+        text email
+        text name
+        text phone
+        text address
+        timestamp created_at
+    }
+    DOCTORS {
+        uuid id PK
+        uuid user_id FK
+        text email
+        text name
+        text specialty
+        timestamp created_at
+    }
+    SUPERVISORS {
+        uuid id PK
+        uuid user_id FK
+        text email
+        text name
+        timestamp created_at
+    }
+    DONATION_REQUESTS {
+        uuid id PK
+        uuid case_id FK
+        uuid donor_id FK
+        numeric amount
+        text status
+        timestamp created_at
+    }
+    NOTIFICATIONS {
+        uuid id PK
+        text title
+        text message
+        text type
+        boolean is_read
+        text image_url
+        timestamp created_at
+    }
+
+    USERS ||--o{ DONATIONS : "يتبرع"
+    USERS ||--o| DONORS : "يكون"
+    USERS ||--o| BENEFICIARIES : "يكون"
+    USERS ||--o| DOCTORS : "يكون"
+    USERS ||--o| SUPERVISORS : "يكون"
+    BENEFICIARIES ||--o{ CASES : "يملك"
+    CASES ||--o{ DONATIONS : "تستقبل"
+    CASES ||--o{ DONATION_REQUESTS : "تستقبل"
+    DONORS ||--o{ DONATION_REQUESTS : "يرسل"
+        </div>
+
+        <div class="legend" style="margin-top:16px;">
+            <span><span class="dot" style="background:#e67e22;"></span> PK = المفتاح الأساسي</span>
+            <span><span class="dot" style="background:#2980b9;"></span> FK = المفتاح الأجنبي</span>
+        </div>
+    </div>
+
+    <!-- ===== جداول قاعدة البيانات ===== -->
+    <div class="section">
+        <h2>🗄️ تفاصيل جداول قاعدة البيانات</h2>
+        <div class="tables-grid">
+            <div class="table-card">
+                <h3>users — المستخدمون</h3>
+                <table>
+                    <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
+                    <tr><td>name</td><td>text</td></tr>
+                    <tr><td>email</td><td>text</td></tr>
+                    <tr><td>phone</td><td>text</td></tr>
+                    <tr><td>user_type</td><td>متبرع / مستفيد / طبيب / مسؤول</td></tr>
+                    <tr><td>status</td><td>نشط / محظور / محذوف</td></tr>
+                    <tr><td>profile_image</td><td>text (URL)</td></tr>
+                </table>
+            </div>
+            <div class="table-card">
+                <h3>cases — الحالات</h3>
+                <table>
+                    <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
+                    <tr><td>name</td><td>text</td></tr>
+                    <tr><td>description</td><td>text</td></tr>
+                    <tr><td>type</td><td>text</td></tr>
+                    <tr><td>status</td><td>قيد المراجعة / مقبول / مكتمل</td></tr>
+                    <tr><td>required_amount</td><td>numeric</td></tr>
+                    <tr><td>remaining_amount</td><td>numeric</td></tr>
+                    <tr><td class="fk">beneficiary_id (FK)</td><td>→ beneficiaries</td></tr>
+                </table>
+            </div>
+            <div class="table-card">
+                <h3>donations — التبرعات</h3>
+                <table>
+                    <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
+                    <tr><td class="fk">case_id (FK)</td><td>→ cases</td></tr>
+                    <tr><td>donor_name</td><td>text</td></tr>
+                    <tr><td>amount</td><td>numeric</td></tr>
+                    <tr><td>payment_method</td><td>visa / wallet</td></tr>
+                    <tr><td>status</td><td>مقبول / قيد المراجعة / مكتمل</td></tr>
+                    <tr><td>attachment_url</td><td>text (إيصال)</td></tr>
+                </table>
+            </div>
+            <div class="table-card">
+                <h3>notifications — الإشعارات</h3>
+                <table>
+                    <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
+                    <tr><td>title</td><td>text</td></tr>
+                    <tr><td>message</td><td>text</td></tr>
+                    <tr><td>type</td><td>donation / user / system</td></tr>
+                    <tr><td>is_read</td><td>boolean</td></tr>
+                    <tr><td>image_url</td><td>text</td></tr>
+                </table>
+            </div>
+            <div class="table-card">
+                <h3>donation_requests — طلبات التبرع</h3>
+                <table>
+                    <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
+                    <tr><td class="fk">case_id (FK)</td><td>→ cases</td></tr>
+                    <tr><td class="fk">donor_id (FK)</td><td>→ donors</td></tr>
+                    <tr><td>amount</td><td>numeric</td></tr>
+                    <tr><td>status</td><td>قيد المراجعة / مقبول</td></tr>
+                </table>
+            </div>
+            <div class="table-card">
+                <h3>doctors — الأطباء</h3>
+                <table>
+                    <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
+                    <tr><td class="fk">user_id (FK)</td><td>→ users</td></tr>
+                    <tr><td>email</td><td>text</td></tr>
+                    <tr><td>name</td><td>text</td></tr>
+                    <tr><td>specialty</td><td>text</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DFD Level 0 ===== -->
+    <div class="section">
+        <h2>🔄 DFD Level 0 — مخطط تدفق البيانات (السياق)</h2>
+        <p>نظرة عامة على النظام وتفاعله مع الجهات الخارجية.</p>
+        <div class="mermaid">
+flowchart LR
+    MT([🙋 متبرع]) -->|بيانات التبرع / الدفع| SYS[["🌐 منصة التبرعات الخيرية"]]
+    MS([🏥 مستفيد]) -->|طلب إضافة حالة| SYS
+    AD([👨‍💼 مسؤول]) -->|إدارة الحالات والمستخدمين| SYS
+    DR([👨‍⚕️ طبيب]) -->|التقارير الطبية| SYS
+    SYS -->|تأكيد التبرع / إشعارات| MT
+    SYS -->|حالة الطلب| MS
+    SYS -->|إحصائيات / تقارير| AD
+    SYS -->|بيانات الحالات الطبية| DR
+    SYS <-->|تخزين / استرجاع البيانات| DB[(Supabase DB)]
+    SYS <-->|معالجة الدفع| PAY([💳 بوابة الدفع])
+        </div>
+    </div>
+
+    <!-- ===== DFD Level 1 ===== -->
+    <div class="section">
+        <h2>🔄 DFD Level 1 — مخطط تدفق البيانات (التفصيلي)</h2>
+        <p>يوضح العمليات الرئيسية داخل النظام وتدفق البيانات بينها.</p>
+        <div class="mermaid">
+flowchart TD
+    MT([متبرع]) -->|بيانات الدخول| P1[1. تسجيل الدخول\nوالمصادقة]
+    MS([مستفيد]) -->|بيانات التسجيل| P2[2. إدارة الحسابات]
+    AD([مسؤول]) -->|بيانات الحالة| P3[3. إدارة الحالات]
+
+    P1 -->|session token| P4[4. عرض الحالات]
+    P2 -->|بيانات المستخدم| DB_U[(users)]
+    P3 -->|بيانات الحالة| DB_C[(cases)]
+    P4 -->|قراءة الحالات| DB_C
+
+    MT -->|اختيار حالة + مبلغ| P5[5. عملية التبرع]
+    P5 -->|تحديث remaining_amount| DB_C
+    P5 -->|حفظ سجل التبرع| DB_D[(donations)]
+    P5 -->|إنشاء إشعار| DB_N[(notifications)]
+    P5 -->|بيانات الدفع| P6[6. معالجة الدفع]
+    P6 -->|Visa / Wallet| PAY([بوابة الدفع])
+    P6 -->|رفع إيصال| STG[(Supabase Storage)]
+
+    AD -->|مراجعة| P7[7. لوحة التحكم]
+    P7 -->|قراءة| DB_C
+    P7 -->|قراءة| DB_D
+    P7 -->|قراءة| DB_N
+    P7 -->|إدارة المستخدمين| DB_U
+
+    DR([طبيب]) -->|رفع تقارير| P8[8. التقارير الطبية]
+    P8 -->|حفظ| DB_C
+        </div>
+    </div>
+
+    <!-- ===== Use Case ===== -->
+    <div class="section">
+        <h2>👥 Use Case Diagram — حالات الاستخدام</h2>
+        <p>يوضح ما يستطيع كل مستخدم فعله في النظام.</p>
+        <div class="mermaid">
+flowchart LR
+    subgraph SYS["🌐 منصة التبرعات الخيرية"]
+        UC1([تسجيل حساب جديد])
+        UC2([تسجيل الدخول])
+        UC3([تصفح الحالات])
+        UC4([عرض تفاصيل حالة])
+        UC5([التبرع لحالة])
+        UC6([الدفع بالفيزا])
+        UC7([الدفع بالمحفظة])
+        UC8([إضافة حالة])
+        UC9([تعديل / حذف حالة])
+        UC10([مراجعة التبرعات])
+        UC11([إدارة المستخدمين])
+        UC12([عرض الإشعارات])
+        UC13([رفع تقارير طبية])
+        UC14([تحديث الملف الشخصي])
+    end
+
+    MT([👤 متبرع]) --> UC1
+    MT --> UC2
+    MT --> UC3
+    MT --> UC4
+    MT --> UC5
+    UC5 --> UC6
+    UC5 --> UC7
+    MT --> UC14
+
+    MS([🏥 مستفيد]) --> UC1
+    MS --> UC2
+    MS --> UC8
+    MS --> UC14
+
+    AD([👨‍💼 مسؤول]) --> UC2
+    AD --> UC8
+    AD --> UC9
+    AD --> UC10
+    AD --> UC11
+    AD --> UC12
+
+    DR([👨‍⚕️ طبيب]) --> UC2
+    DR --> UC13
+    DR --> UC12
+        </div>
+    </div>
+
+    <!-- ===== Flowchart: عملية التبرع ===== -->
+    <div class="section">
+        <h2>💳 Flowchart — عملية التبرع الكاملة</h2>
+        <p>خطوات عملية التبرع من اختيار الحالة حتى التأكيد.</p>
+        <div class="mermaid">
+flowchart TD
+    A([بداية]) --> B{هل المستخدم\nمسجل دخوله؟}
+    B -->|لا| C[صفحة تسجيل الدخول]
+    C --> D[إدخال البيانات]
+    D --> E{بيانات صحيحة؟}
+    E -->|لا| D
+    E -->|نعم| F[الصفحة الرئيسية]
+    B -->|نعم| F
+    F --> G[تصفح الحالات]
+    G --> H[اختيار حالة]
+    H --> I[عرض تفاصيل الحالة]
+    I --> J[الضغط على تبرع الآن]
+    J --> K[صفحة الدفع]
+    K --> L{اختيار طريقة الدفع}
+    L -->|فيزا| M[إدخال بيانات البطاقة]
+    L -->|محفظة| N[رفع إيصال التحويل]
+    M --> O{التحقق من البيانات}
+    N --> O
+    O -->|خطأ| P[عرض رسالة خطأ]
+    P --> K
+    O -->|صحيح| Q{المبلغ ≤ المتبقي؟}
+    Q -->|لا| R[تنبيه: المبلغ أكبر من المتاح]
+    R --> K
+    Q -->|نعم| S[تحديث remaining_amount في DB]
+    S --> T[حفظ سجل التبرع في donations]
+    T --> U[إرسال إشعار للمسؤول]
+    U --> V[صفحة تأكيد النجاح]
+    V --> W([نهاية])
+        </div>
+    </div>
+
+    <!-- ===== Flowchart: تسجيل الدخول ===== -->
+    <div class="section">
+        <h2>🔐 Flowchart — تسجيل الدخول وتوجيه المستخدمين</h2>
+        <p>منطق تسجيل الدخول وتوجيه كل نوع مستخدم للصفحة المناسبة.</p>
+        <div class="mermaid">
+flowchart TD
+    A([بداية]) --> B[إدخال البريد / الهاتف + كلمة المرور]
+    B --> C{نوع الإدخال}
+    C -->|بريد إلكتروني| D[signInWithPassword بالإيميل]
+    C -->|رقم هاتف| E[تحويل الهاتف لإيميل وهمي\nXXXX@charity.internal]
+    E --> D
+    D --> F{نجح تسجيل الدخول؟}
+    F -->|لا| G[عرض رسالة الخطأ]
+    G --> B
+    F -->|نعم| H[جلب بيانات المستخدم من جدول users]
+    H --> I{حالة الحساب}
+    I -->|محظور / محذوف| J[تسجيل خروج + رسالة تنبيه]
+    I -->|نشط| K{نوع المستخدم}
+    K -->|admin / مسؤول| L[لوحة التحكم]
+    K -->|doctor / طبيب| M[صفحة التقارير الطبية]
+    K -->|متبرع / مستفيد| N[الصفحة الرئيسية]
+        </div>
+    </div>
+
+    <!-- ===== Flowchart: إضافة حالة ===== -->
+    <div class="section">
+        <h2>📋 Flowchart — إضافة حالة جديدة</h2>
+        <p>مسار إضافة حالة من قِبل المستفيد أو المسؤول.</p>
+        <div class="mermaid">
+flowchart TD
+    A([بداية]) --> B{نوع المستخدم}
+    B -->|مسؤول| C[نموذج إضافة حالة كاملة]
+    B -->|مستفيد| D[نموذج إضافة حالة مبسط]
+    C --> E[إدخال: الاسم، الوصف، النوع،\nالمبلغ، الصورة، بيانات التواصل]
+    D --> E
+    E --> F{التحقق من البيانات}
+    F -->|ناقصة| G[عرض رسالة خطأ]
+    G --> E
+    F -->|مكتملة| H[رفع الصورة إلى Supabase Storage]
+    H --> I[حفظ الحالة في جدول cases\nبحالة: قيد المراجعة]
+    I --> J{هل المستخدم مسؤول؟}
+    J -->|نعم| K[تغيير الحالة إلى: مقبول مباشرة]
+    J -->|لا| L[انتظار مراجعة المسؤول]
+    K --> M[عرض الحالة للمتبرعين]
+    L --> N[المسؤول يراجع ويقبل / يرفض]
+    N --> M
+    M --> O([نهاية])
+        </div>
+    </div>
+
+    <!-- ===== System Architecture ===== -->
+    <div class="section">
+        <h2>🏗️ System Architecture — معمارية النظام</h2>
+        <p>طبقات النظام والتقنيات المستخدمة.</p>
+        <div class="mermaid">
+flowchart TB
+    subgraph CLIENT["🖥️ Frontend (HTML/CSS/JS)"]
+        P1[الصفحة الرئيسية]
+        P2[عرض الحالات]
+        P3[تفاصيل الحالة]
+        P4[صفحة الدفع]
+        P5[لوحة التحكم]
+        P6[الملف الشخصي]
+        P7[الشات بوت]
+    end
+
+    subgraph BFF["⚙️ Business Logic (JS)"]
+        L1[Auth Manager]
+        L2[Cases Manager]
+        L3[Donations Manager]
+        L4[Notifications Manager]
+        L5[Chatbot - Gemini AI]
+    end
+
+    subgraph BACKEND["☁️ Backend (Supabase)"]
+        DB[(PostgreSQL DB)]
+        AUTH[Supabase Auth]
+        STORAGE[Supabase Storage]
+        RT[Realtime]
+    end
+
+    subgraph EXTERNAL["🌐 External Services"]
+        GEMINI[Google Gemini AI]
+        PAYMENT[بوابة الدفع]
+        GOOGLE[Google OAuth]
+    end
+
+    CLIENT --> BFF
+    BFF --> BACKEND
+    L5 --> GEMINI
+    L3 --> PAYMENT
+    L1 --> GOOGLE
+        </div>
+    </div>
+
+</div>
+
+    <!-- ===== UML Class Diagram ===== -->
+    <div class="section">
+        <h2>🧩 UML Class Diagram — مخطط الفئات</h2>
+        <p>يوضح الكلاسات الرئيسية في النظام وعلاقاتها وخصائصها وعملياتها.</p>
+        <div class="mermaid">
+classDiagram
+    class User {
+        +String id
+        +String name
+        +String email
+        +String phone
+        +String userType
+        +String status
+        +String profileImage
+        +login()
+        +logout()
+        +updateProfile()
+        +changePassword()
+    }
+
+    class Donor {
+        +String id
+        +String userId
+        +donate(caseId, amount)
+        +viewDonationHistory()
+    }
+
+    class Beneficiary {
+        +String id
+        +String userId
+        +String address
+        +String gender
+        +addCase()
+        +viewCaseStatus()
+    }
+
+    class Doctor {
+        +String id
+        +String userId
+        +String specialty
+        +uploadMedicalReport()
+        +viewCases()
+    }
+
+    class Admin {
+        +String id
+        +String userId
+        +approveCase()
+        +rejectCase()
+        +manageUsers()
+        +viewDashboard()
+        +viewNotifications()
+    }
+
+    class Case {
+        +String id
+        +String name
+        +String description
+        +String type
+        +String status
+        +Float requiredAmount
+        +Float remainingAmount
+        +String imageUrl
+        +String beneficiaryId
+        +approve()
+        +reject()
+        +delete()
+        +updateRemainingAmount(amount)
+    }
+
+    class Donation {
+        +String id
+        +String caseId
+        +String donorName
+        +String phone
+        +Float amount
+        +String paymentMethod
+        +String status
+        +String attachmentUrl
+        +process()
+        +getReceipt()
+    }
+
+    class Payment {
+        +String method
+        +Float amount
+        +String cardNumber
+        +String walletNumber
+        +processVisa()
+        +processWallet()
+        +uploadReceipt()
+    }
+
+    class Notification {
+        +String id
+        +String title
+        +String message
+        +String type
+        +Boolean isRead
+        +markAsRead()
+        +delete()
+    }
+
+    class Chatbot {
+        +String apiKey
+        +Array history
+        +sendMessage(text)
+        +askGemini(text)
+        +clearHistory()
+        +detectActions(text)
+    }
+
+    User <|-- Donor : يرث
+    User <|-- Beneficiary : يرث
+    User <|-- Doctor : يرث
+    User <|-- Admin : يرث
+
+    Beneficiary "1" --> "0..*" Case : يضيف
+    Admin "1" --> "0..*" Case : يدير
+    Donor "1" --> "0..*" Donation : يجري
+    Case "1" --> "0..*" Donation : تستقبل
+    Donation "1" --> "1" Payment : تستخدم
+    Admin "1" --> "0..*" Notification : يستقبل
+    Donation ..> Notification : تنشئ
+        </div>
+    </div>
+
+    <!-- ===== UML Sequence: عملية التبرع ===== -->
+    <div class="section">
+        <h2>🔁 UML Sequence Diagram — تسلسل عملية التبرع</h2>
+        <p>يوضح التفاعل بين المكونات خطوة بخطوة أثناء عملية التبرع.</p>
+        <div class="mermaid">
+sequenceDiagram
+    actor MT as متبرع
+    participant UI as واجهة المستخدم
+    participant AUTH as Supabase Auth
+    participant DB as قاعدة البيانات
+    participant STORAGE as Supabase Storage
+    participant NOTIF as الإشعارات
+
+    MT->>UI: فتح صفحة الدفع
+    UI->>AUTH: التحقق من الجلسة
+    AUTH-->>UI: بيانات المستخدم
+
+    UI->>DB: جلب بيانات الحالة (case_id)
+    DB-->>UI: remaining_amount, name
+
+    MT->>UI: إدخال البيانات + اختيار طريقة الدفع
+
+    alt دفع بالفيزا
+        MT->>UI: إدخال بيانات البطاقة
+        UI->>UI: التحقق من صحة البيانات
+    else دفع بالمحفظة
+        MT->>UI: رفع صورة الإيصال
+        UI->>STORAGE: رفع الملف
+        STORAGE-->>UI: رابط الإيصال
+    end
+
+    UI->>DB: التحقق: amount <= remaining_amount
+    DB-->>UI: القيمة الحالية
+
+    alt المبلغ أكبر من المتاح
+        UI-->>MT: تنبيه: المبلغ تجاوز المتاح
+    else المبلغ مقبول
+        UI->>DB: UPDATE cases SET remaining_amount = remaining_amount - amount
+        DB-->>UI: تم التحديث
+        UI->>DB: INSERT INTO donations (...)
+        DB-->>UI: تم الحفظ
+        UI->>NOTIF: INSERT INTO notifications (تبرع جديد)
+        NOTIF-->>UI: تم الإشعار
+        UI-->>MT: تأكيد نجاح التبرع
+        UI->>UI: redirect → تم اجراء التغير بنجاح.html
+    end
+        </div>
+    </div>
+
+    <!-- ===== UML Sequence: تسجيل الدخول ===== -->
+    <div class="section">
+        <h2>🔁 UML Sequence Diagram — تسلسل تسجيل الدخول</h2>
+        <p>يوضح تسلسل عملية المصادقة وتوجيه المستخدم.</p>
+        <div class="mermaid">
+sequenceDiagram
+    actor U as مستخدم
+    participant UI as واجهة المستخدم
+    participant AUTH as Supabase Auth
+    participant DB as جدول users
+
+    U->>UI: إدخال البريد/الهاتف + كلمة المرور
+    UI->>UI: التحقق من نوع الإدخال
+
+    alt رقم هاتف
+        UI->>UI: تحويل → XXXX@charity.internal
+    end
+
+    UI->>AUTH: signInWithPassword(email, password)
+
+    alt بيانات خاطئة
+        AUTH-->>UI: خطأ في المصادقة
+        UI-->>U: عرض رسالة الخطأ
+    else بيانات صحيحة
+        AUTH-->>UI: session + user data
+        UI->>DB: SELECT * FROM users WHERE id = user.id
+        DB-->>UI: بيانات المستخدم (user_type, status)
+
+        alt الحساب محظور/محذوف
+            UI->>AUTH: signOut()
+            UI-->>U: رسالة: الحساب محظور
+        else admin / مسؤول
+            UI-->>U: redirect → لوحة التحكم
+        else doctor / طبيب
+            UI-->>U: redirect → التقارير الطبية
+        else متبرع / مستفيد
+            UI-->>U: redirect → الصفحة الرئيسية
+        end
+    end
+        </div>
+    </div>
+
+    <!-- ===== UML Sequence: الشات بوت ===== -->
+    <div class="section">
+        <h2>🔁 UML Sequence Diagram — تسلسل الشات بوت</h2>
+        <p>يوضح كيف يتفاعل الشات بوت مع Gemini AI.</p>
+        <div class="mermaid">
+sequenceDiagram
+    actor U as مستخدم
+    participant CB as Chatbot Widget
+    participant AUTH as Supabase Auth
+    participant GEMINI as Gemini AI API
+
+    U->>CB: فتح نافذة الشات
+    CB->>AUTH: getUser()
+    AUTH-->>CB: بيانات المستخدم (أو null)
+    CB-->>U: رسالة ترحيب مخصصة + أزرار
+
+    U->>CB: كتابة رسالة
+    CB->>CB: إظهار typing indicator
+    CB->>GEMINI: POST /generateContent\n(system context + رسالة المستخدم)
+
+    alt الاتصال ناجح
+        GEMINI-->>CB: نص الرد
+        CB->>CB: detectActions() لتحديد الأزرار
+        CB-->>U: عرض الرد + أزرار التنقل
+    else فشل الاتصال / quota exceeded
+        GEMINI-->>CB: خطأ 429 / 500
+        CB-->>U: رسالة خطأ توضيحية
+    end
+
+    CB->>CB: حفظ المحادثة في sessionStorage
+        </div>
+    </div>
+
+    <!-- ===== UML State: حالة الـ Case ===== -->
+    <div class="section">
+        <h2>🔄 UML State Diagram — دورة حياة الحالة</h2>
+        <p>يوضح الحالات المختلفة التي تمر بها الحالة الإنسانية في النظام.</p>
+        <div class="mermaid">
+stateDiagram-v2
+    [*] --> قيد_المراجعة : إضافة حالة جديدة
+
+    قيد_المراجعة --> مقبول : المسؤول يوافق
+    قيد_المراجعة --> مرفوض : المسؤول يرفض
+    مرفوض --> [*] : حذف الحالة
+
+    مقبول --> نشط : ظهور للمتبرعين
+    نشط --> نشط : استقبال تبرعات جزئية\n(remaining_amount يتناقص)
+    نشط --> مكتمل : remaining_amount = 0
+    نشط --> محذوف : المسؤول يحذف
+
+    مكتمل --> [*] : أُغلقت الحالة بنجاح
+    محذوف --> [*]
+
+    note right of قيد_المراجعة : الحالة الافتراضية\nعند الإضافة
+    note right of مقبول : يظهر في صفحة\nعرض الحالات
+    note right of مكتمل : تم جمع المبلغ\nالمطلوب كاملاً
+        </div>
+    </div>
+
+    <!-- ===== UML State: حالة المستخدم ===== -->
+    <div class="section">
+        <h2>🔄 UML State Diagram — دورة حياة حساب المستخدم</h2>
+        <p>يوضح الحالات المختلفة لحساب المستخدم.</p>
+        <div class="mermaid">
+stateDiagram-v2
+    [*] --> غير_مسجل : زيارة الموقع
+
+    غير_مسجل --> مسجل_جديد : إنشاء حساب
+    مسجل_جديد --> نشط : تأكيد البريد الإلكتروني
+    غير_مسجل --> نشط : تسجيل الدخول (حساب موجود)
+
+    نشط --> مسجل_دخول : signInWithPassword
+    مسجل_دخول --> نشط : signOut
+
+    نشط --> محظور : المسؤول يحظر الحساب
+    محظور --> نشط : المسؤول يرفع الحظر
+    محظور --> محذوف : المسؤول يحذف
+
+    نشط --> محذوف : طلب حذف الحساب
+    محذوف --> [*]
+
+    note right of مسجل_دخول : يمكنه التبرع\nوإدارة الحساب
+    note right of محظور : لا يمكنه\nتسجيل الدخول
+        </div>
+    </div>
+
+    <!-- ===== UML Component Diagram ===== -->
+    <div class="section">
+        <h2>🧱 UML Component Diagram — مخطط المكونات</h2>
+        <p>يوضح المكونات الرئيسية للنظام وتبعياتها.</p>
+        <div class="mermaid">
+flowchart TB
+    subgraph FRONTEND["🖥️ Frontend Components"]
+        direction TB
+        subgraph PAGES["الصفحات"]
+            PG1[["الصفحة الرئيسية"]]
+            PG2[["عرض الحالات"]]
+            PG3[["تفاصيل الحالة"]]
+            PG4[["صفحة الدفع"]]
+            PG5[["لوحة التحكم"]]
+            PG6[["الملف الشخصي"]]
+            PG7[["تسجيل الدخول"]]
+            PG8[["تسجيل حساب"]]
+        end
+        subgraph SHARED["مكونات مشتركة"]
+            CM1[["Chatbot Widget"]]
+            CM2[["Navigation Bar"]]
+            CM3[["config.js"]]
+        end
+    end
+
+    subgraph SERVICES["⚙️ Services Layer"]
+        SV1[["AuthService"]]
+        SV2[["CasesService"]]
+        SV3[["DonationService"]]
+        SV4[["NotificationService"]]
+        SV5[["GeminiService"]]
+        SV6[["StorageService"]]
+    end
+
+    subgraph INFRA["☁️ Infrastructure"]
+        IN1[("Supabase Auth")]
+        IN2[("PostgreSQL DB")]
+        IN3[("Supabase Storage")]
+        IN4[("Gemini AI API")]
+    end
+
+    PAGES --> CM3
+    CM1 --> SV5
+    PG7 --> SV1
+    PG8 --> SV1
+    PG2 --> SV2
+    PG3 --> SV2
+    PG4 --> SV3
+    PG5 --> SV2
+    PG5 --> SV4
+    PG5 --> SV1
+
+    SV1 --> IN1
+    SV2 --> IN2
+    SV3 --> IN2
+    SV3 --> IN3
+    SV4 --> IN2
+    SV5 --> IN4
+    SV6 --> IN3
+        </div>
+    </div>
+
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'default',
+        flowchart: { curve: 'basis', padding: 20 },
+        er: { diagramPadding: 20 }
+    });
+</script>
+</body>
+</html>

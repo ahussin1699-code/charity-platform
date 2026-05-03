@@ -1,0 +1,135 @@
+﻿﻿<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>التقارير الطبية - منصة تبرعات خيرية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/التقارير الطبيه.css" />
+    <link rel="stylesheet" href="../css/sidebar-shared.css" />
+  </head>
+  <body>
+    <!-- الشريط الجانبي -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>
+          <i class="fas fa-hands-holding-child"></i>
+          <span>تبرعات خيريه</span>
+        </h2>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="الصفحه الرئسيه.html"><i class="fas fa-home"></i> <span>الصفحة الرئيسية</span></a></li>
+          <li><a href="لوحه التحكم .html"><i class="fas fa-tachometer-alt"></i> <span>لوحة التحكم</span></a></li>
+          <li><a href="ادارة المستخدمين.html"><i class="fas fa-users"></i> <span>إدارة المستخدمين</span></a></li>
+          <li><a href="مراجعه الحالات.html"><i class="fas fa-hands-helping"></i> <span>المستفيدون</span></a></li>
+          <li><a href="مراجعه التبرعات.html"><i class="fas fa-hand-holding-usd"></i> <span>مراجعة التبرعات</span></a></li>
+          <li><a href="الاشعارات.html"><i class="fas fa-bell"></i> <span>الاشعارات</span></a></li>
+          <li><a href="اضافة حاله جديده.html"><i class="fas fa-plus-circle"></i> <span>إضافة حالة</span></a></li>
+          <li><a href="اضافه حاله العميل .html"><i class="fas fa-user-plus"></i> <span>إضافة حالة عميل</span></a></li>
+          <li><a href="التقارير الطبيه.html" class="active"><i class="fas fa-file-medical"></i> <span>التقارير الطبية</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="logout-btn-sidebar" id="sidebarLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- زر القائمة للموبايل -->
+    <button class="menu-toggle" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <main class="main-content">
+      <header class="header">
+        <div class="welcome-text">
+          <h1>التقارير الطبية</h1>
+        </div>
+        <div class="header-actions">
+          <a class="home-btn" href="الصفحه الرئسيه.html" aria-label="الصفحة الرئيسية">
+            <i class="fa-solid fa-house"></i>
+            <span>الرئيسية</span>
+          </a>
+          <div class="admin-profile-box">
+            <span id="adminName">جاري التحميل...</span>
+            <img id="adminProfileImg" src="../images/default-avatar.png" alt="صورة المستخدم" />
+          </div>
+        </div>
+      </header>
+
+      <section class="reports-section">
+        <div class="reports-grid">
+
+          <!-- قائمة الحالات (للطبيب فقط) -->
+          <div class="cases-panel" id="casesPanel">
+            <div class="cases-panel-header">
+              <h3><i class="fas fa-list-ul"></i> الحالات المعلقة</h3>
+              <span class="cases-count" id="casesPanelCount">0</span>
+            </div>
+            <div class="cases-panel-list" id="casesPanelList">
+              <div class="cases-loading">جاري التحميل...</div>
+            </div>
+          </div>
+
+          <div class="chat-card">
+            <div class="chat-header">
+              <h2>غرفة المحادثة</h2>
+              <span class="chat-status" id="chatStatus">متصل</span>
+            </div>
+            <div class="chat-box" id="chatMessages"></div>
+            <form id="chatForm" class="chat-form">
+              <div class="chat-inputs">
+                <div class="chat-text-wrapper">
+                  <textarea
+                    id="chatInput"
+                    rows="2"
+                    placeholder="اكتب رسالتك للطبيب أو المشرف هنا"
+                  ></textarea>
+                </div>
+                <div class="chat-actions">
+                  <label for="fileInput" class="file-label">
+                    <i class="fas fa-paperclip"></i>
+                    <span>إرفاق ملف</span>
+                  </label>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*,.pdf,.doc,.docx"
+                    hidden
+                  />
+                  <button type="submit" id="sendBtn" class="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>إرسال</span>
+                  </button>
+                </div>
+                <div class="file-preview" id="filePreview"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Js/config.js"></script>
+    <script src="../Js/التقارير الطبيه.js"></script>
+    <script src="../Js/notification-badge.js"></script>
+  
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+</html>

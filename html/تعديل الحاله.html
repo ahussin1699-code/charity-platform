@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل بيانات الحالة الإنسانية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/تعديل الحاله.css">
+    <style>
+    header { position: relative; }
+    .menu-btn { background: #2f6d3f; color: white; border: none; padding: 8px 12px; font-size: 1rem; border-radius: 5px; cursor: pointer; position:absolute; left:10px; top:50%; transform:translateY(-50%); margin-left:0; }
+    @media (max-width: 768px) { .main-nav { display: none; flex-direction: column; gap:10px; } .main-nav.active { display: flex; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">منصة عرض الحالات الإنسانية</div>
+            
+            <nav class="main-nav">
+                <a href="الصفحه الرئسيه.html" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a href="اتصال بنا.html" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>تواصل معنا</span>
+                </a>
+                <a href="من نحن.html" class="nav-item">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>من نحن</span>
+                </a>
+                <a href="#" class="nav-item active" id="addCaseLink" style="display: none;">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>اضافة حالة</span>
+                </a>
+                <a href="الصفحه الشخصية.html" class="nav-item">
+                    <img id="navProfileImg" src="../images/default-avatar.png" alt="Profile" class="nav-profile-img">
+                    <span>الملف الشخصي</span>
+                </a>
+                <a href="صفحه العرض.html" class="nav-item" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>خروج</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="form-container">
+        <h2 class="form-title">تعديل بيانات الحالة الإنسانية</h2>
+        <div class="border-accent"></div>
+        
+            <div class="form-group">
+                <label class="form-label">صورة المريض / الحالة</label>
+                <div class="image-upload-wrap">
+                    <img id="imagePreview" class="image-preview" src="" alt="معاينة الصورة" style="display:none;">
+                    <label for="caseImage" class="image-upload-label" id="imageUploadLabel">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>اضغط لرفع صورة</span>
+                        <small>JPG, PNG — حجم أقصى 5MB</small>
+                    </label>
+                    <input type="file" id="caseImage" accept="image/*" hidden>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">اسم الحالة</label>
+                <input type="text" id="caseName" placeholder="اسم الحالة" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">وصف الحالة</label>
+                <input type="text" id="caseDescription" placeholder="وصف الحالة" required>
+            </div>
+  
+            <div class="form-group">
+                <label class="form-label">رقم الهاتف للتواصل</label>
+                <input type="tel" id="phone" placeholder="رقم الهاتف" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">المبلغ المطلوب (جنيه)</label>
+                <input type="number" id="targetAmount" placeholder="أدخل المبلغ المطلوب" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">طريقة التبرع</label>
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="checkbox" name="paymentMethod" value="visa"> 
+                        <span><i class="fa-brands fa-cc-visa"></i> فيزا / ماستركارد</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="checkbox" name="paymentMethod" value="wallet">
+                        <span><i class="fa-solid fa-wallet"></i> محفظة إلكترونية</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">حالة الحالة</label>
+                <select id="caseStatus" class="form-select" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; background: #fff; font-family: inherit; font-size: 16px; margin-top: 5px;">
+                    <option value="قيد المراجعة">قيد المراجعة</option>
+                    <option value="مقبول">مقبول (نشط في العرض)</option>
+                    <option value="مكتمل">مكتمل (منتهي)</option>
+                </select>
+            </div>
+
+            <div class="buttons-row">
+                <button type="submit" class="submit-btn">حفظ التعديلات</button>
+                <button type="button" class="delete-btn" id="deleteCaseBtn">حذف الحالة</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Js/config.js"></script>
+    <script src="../Js/تعديل الحاله.js"></script>
+    <script>
+      (async function loadNavProfile() {
+        try {
+          const sb = createSupabaseClient();
+          if (!sb) return;
+          const { data: { user } } = await sb.auth.getUser();
+          if (!user) return;
+          const { data } = await sb.from('users').select('profile_image').eq('email', user.email).maybeSingle();
+          const img = document.getElementById('navProfileImg');
+          if (img && data?.profile_image) img.src = data.profile_image;
+          else if (img) {
+            const local = localStorage.getItem('profileImage_' + user.id);
+            if (local) img.src = local;
+          }
+        } catch (_) {}
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+</html>

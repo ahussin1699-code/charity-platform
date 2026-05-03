@@ -1,0 +1,258 @@
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>صفحة الدفع</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/صفحة الدفع.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="logo">تبرعات خيرية</div>
+
+        <button class="menu-btn" id="menuBtn" aria-label="القائمة">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav class="main-nav" id="mainNav">
+          <a href="الصفحه الرئسيه.html" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span>الرئيسية</span>
+          </a>
+          <a href="اتصال بنا.html" class="nav-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>تواصل معنا</span>
+          </a>
+          <a href="من نحن.html" class="nav-item">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>من نحن</span>
+          </a>
+          <a href="الصفحه الشخصية.html" class="nav-item" id="profileNavItem">
+            <img
+              id="navProfileImg"
+              src="../images/default-avatar.png"
+              alt="Profile"
+              class="nav-profile-img"
+            />
+            <span>الملف الشخصي</span>
+          </a>
+          <a href="تسجيل الدخول .html" class="nav-item" id="logoutBtn">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>تسجيل الدخول</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="payment-container">
+      <h1 class="page-title">اختيار طريقة الدفع</h1>
+      <div class="border-accent"></div>
+
+      <!-- Unified Donor Info Section -->
+      <div class="donor-info-section">
+        <h2 class="section-subtitle">بيانات المتبرع</h2>
+        <div class="form-group">
+          <label for="donor-name">الاسم بالكامل</label>
+          <input type="text" id="donor-name" placeholder="اسم المتبرع" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="donor-phone">رقم الهاتف</label>
+            <input type="tel" id="donor-phone" placeholder="01xxxxxxxxx" required />
+          </div>
+          <div class="form-group">
+            <label for="donation-amount">مبلغ التبرع (جنيه)</label>
+            <input type="number" id="donation-amount" placeholder="مثلاً: 100" required min="1" />
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-methods">
+        <div class="method-card active" id="visa-method">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>بطاقة ائتمان (فيزا / ماستر كارد)</span>
+        </div>
+        <div class="method-card" id="wallet-method">
+          <i class="fa-solid fa-mobile-screen-button"></i>
+          <span>محفظة إلكترونية</span>
+        </div>
+      </div>
+
+      <div id="payment-forms-container">
+        <!-- Visa Form -->
+        <form id="visa-form" class="payment-form">
+          <div class="form-group">
+            <label for="card-number">رقم البطاقة</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-credit-card field-icon"></i>
+              <input
+                type="text"
+                id="card-number"
+                placeholder="1234 5678 9101 1121"
+                required
+                maxlength="19"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="expiry-date">تاريخ الانتهاء</label>
+              <input
+                type="text"
+                id="expiry-date"
+                placeholder="MM/YY"
+                required
+                maxlength="5"
+              />
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input
+                type="text"
+                id="cvv"
+                placeholder="123"
+                required
+                maxlength="3"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="card-holder">اسم صاحب البطاقة</label>
+            <input
+              type="text"
+              id="card-holder"
+              placeholder="الاسم كما هو مكتوب على البطاقة"
+              required
+            />
+          </div>
+          <button type="submit" class="pay-btn">تأكيد الدفع</button>
+        </form>
+
+        <!-- Wallet Form -->
+        <form id="wallet-form" class="payment-form hidden">
+          <div class="wallet-info">
+            <p>برجاء تحويل المبلغ إلى الرقم التالي:</p>
+            <div class="wallet-number">01020152710</div>
+            <p class="small-text">
+              بعد التحويل، قم بإرفاق صورة من إيصال التحويل ورقم هاتفك.
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="wallet-phone">رقم الهاتف المحول منه</label>
+            <input
+              type="tel"
+              id="wallet-phone"
+              placeholder="01xxxxxxxxx"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="transfer-receipt">إرفاق إيصال التحويل</label>
+            <input
+              type="file"
+              id="transfer-receipt"
+              accept="image/*"
+              required
+            />
+          </div>
+          <button type="submit" class="pay-btn">تأكيد الإرسال</button>
+        </form>
+      </div>
+
+      <div id="payment-status" class="status-message hidden"></div>
+    </div>
+
+    <script src="../Js/config.js"></script>
+    <script src="../Js/صفحة الدفع.js"></script>
+    <script>
+      const sb = createSupabaseClient();
+
+      // ---- hamburger menu ----
+      const menuBtn = document.getElementById("menuBtn");
+      const mainNav = document.getElementById("mainNav");
+      if (menuBtn && mainNav) {
+        menuBtn.addEventListener("click", () => {
+          mainNav.classList.toggle("active");
+          menuBtn.querySelector("i").className = mainNav.classList.contains("active")
+            ? "fa-solid fa-xmark" : "fa-solid fa-bars";
+        });
+        mainNav.querySelectorAll(".nav-item").forEach(a => {
+          a.addEventListener("click", () => {
+            mainNav.classList.remove("active");
+            menuBtn.querySelector("i").className = "fa-solid fa-bars";
+          });
+        });
+        document.addEventListener("click", (e) => {
+          if (!e.target.closest("header") && mainNav.classList.contains("active")) {
+            mainNav.classList.remove("active");
+            menuBtn.querySelector("i").className = "fa-solid fa-bars";
+          }
+        });
+      }
+
+      async function checkUserAndImage() {
+        if (!sb) return;
+        const { data } = await sb.auth.getUser();
+        const user = data && data.user;
+
+        const profileNavItem = document.getElementById("profileNavItem");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        if (!user) {
+          if (profileNavItem) profileNavItem.style.display = "none";
+          if (logoutBtn) {
+            logoutBtn.innerHTML =
+              '<i class="fa-solid fa-right-to-bracket"></i><span>تسجيل الدخول</span>';
+            logoutBtn.href = "تسجيل الدخول .html";
+            logoutBtn.onclick = null;
+          }
+          return;
+        }
+
+        if (profileNavItem) profileNavItem.style.display = "flex";
+
+        if (logoutBtn) {
+          logoutBtn.innerHTML =
+            '<i class="fa-solid fa-right-from-bracket"></i><span>خروج</span>';
+          logoutBtn.href = "#";
+          logoutBtn.onclick = async function (e) {
+            e.preventDefault();
+            if (sb) await sb.auth.signOut();
+            window.location.href = "تسجيل الدخول .html";
+          };
+        }
+
+        const { data: userData } = await sb
+          .from("users")
+          .select("profile_image, name, phone")
+          .eq("email", user.email)
+          .maybeSingle();
+
+        if (userData) {
+          const navProfileImg = document.getElementById("navProfileImg");
+          if (navProfileImg && userData.profile_image) navProfileImg.src = userData.profile_image;
+          
+          // Auto-fill donor info
+          if (userData.name) document.getElementById("donor-name").value = userData.name;
+          if (userData.phone) document.getElementById("donor-phone").value = userData.phone;
+        }
+      }
+
+      window.addEventListener("load", checkUserAndImage);
+    </script>
+  
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+</html>

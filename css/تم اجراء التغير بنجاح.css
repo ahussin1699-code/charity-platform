@@ -1,0 +1,213 @@
+  :root {
+            --primary-color: #215732;
+            --secondary-color: #ffcc00;
+            --success-color: #2e7d32;
+            --error-color: #d32f2f;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .top-buttons {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .top-buttons button {
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .top-buttons button:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            position: relative;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .success-icon::before {
+            content: "✓";
+            font-size: 40px;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: var(--success-color);
+            margin-bottom: 15px;
+            font-size: 28px;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+
+        .success-message {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+            animation: fadeIn 0.8s ease-out 0.5s both;
+        }
+
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            margin-top: 10px;
+            animation: fadeIn 0.8s ease-out 0.7s both;
+        }
+
+        .login-btn:hover {
+            background-color: #1a4528;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .countdown {
+            margin-top: 15px;
+            color: #666;
+            font-size: 14px;
+            animation: fadeIn 0.8s ease-out 0.9s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--success-color);
+            opacity: 0;
+            animation: confettiFall 3s ease-in-out forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-card {
+                padding: 30px 20px;
+            }
+            
+            .top-buttons {
+                position: relative;
+                top: 0;
+                left: 0;
+                justify-content: center;
+                margin: 15px 0;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .success-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .success-icon::before {
+                font-size: 35px;
+            }
+        }

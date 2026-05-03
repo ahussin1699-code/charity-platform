@@ -1,0 +1,233 @@
+:root {
+    --primary-color: #2f6d3f;
+    --secondary-color: #23472f;
+    --bg-color: #f1f7e9;
+    --white: #ffffff;
+    --shadow: 0 10px 25px rgba(44, 13, 13, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 10px rgba(247, 244, 244, 0.05);
+    margin-bottom: 50px;
+    border-radius: 15px;
+}
+
+.logo {
+    color: #f7faf8;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.content {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.otp-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+}
+
+.page-title {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.page-subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.email-display {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 28px;
+    direction: ltr;
+}
+
+/* ===== OTP Boxes ===== */
+.otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    direction: ltr;
+}
+
+.otp-box {
+    width: 52px;
+    height: 58px;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--primary-color);
+    background: #f9fafb;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    caret-color: transparent;
+}
+
+.otp-box:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(47, 109, 63, 0.15);
+    background: #fff;
+    transform: scale(1.06);
+}
+
+.otp-box.filled {
+    border-color: var(--primary-color);
+    background: #f0faf3;
+}
+
+.otp-box.error-box {
+    border-color: #dc3545;
+    background: #fff5f5;
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%       { transform: translateX(-5px); }
+    75%       { transform: translateX(5px); }
+}
+
+/* ===== Messages ===== */
+.error {
+    color: #dc3545;
+    font-size: 14px;
+    margin-bottom: 14px;
+    display: none;
+}
+
+.success {
+    color: #28a745;
+    font-size: 14px;
+    margin-bottom: 14px;
+    display: none;
+}
+
+/* ===== Button ===== */
+.send-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.send-btn:hover:not(:disabled) {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.send-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ===== Resend Row ===== */
+.resend-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.timer-text {
+    color: #888;
+    font-size: 13px;
+}
+
+#countdown {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.resend-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.resend-btn:disabled {
+    color: #aaa;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+.resend-btn:hover:not(:disabled) {
+    color: var(--secondary-color);
+}
+
+/* ===== Footer Link ===== */
+.footer-link {
+    display: block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+    .content { padding: 30px 20px; }
+    .otp-box  { width: 42px; height: 50px; font-size: 20px; }
+    header    { padding: 10px 20px; }
+}

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نسيت كلمة السر؟</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/نسيت كلمه المرور.css">
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">منصة تبرعات خيريه</div>
+    <div class="header-right">
+    </div>
+  </header>
+
+  <main class="content">
+    <h1 class="page-title">نسيت كلمة المرور؟</h1>
+    
+    <div class="input-section">
+      <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+      <div id="errorMsg" class="error">خطأ الرجاء إدخال بريد إلكتروني صالح</div>
+      <div id="successMsg" class="success"></div>
+    </div>
+    
+    <button class="send-btn" onclick="sendReset()" id="sendButton">
+      إرسال رابط إعادة التعيين
+    </button>
+    
+    <a href="تسجيل الدخول .html" class="footer-link">تذكرت كلمة المرور؟ تسجيل الدخول</a>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../Js/config.js"></script>
+  <script src="../Js/نسيت كلمة المرور.js"></script>
+
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+</html>

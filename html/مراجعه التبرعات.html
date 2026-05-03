@@ -1,0 +1,107 @@
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مراجعة التبرعات</title>
+    <link rel="stylesheet" href="../css/مراجعة التبرعات.css" />
+    <link rel="stylesheet" href="../css/sidebar-shared.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- زر القائمة للموبايل -->
+    <button class="menu-toggle" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>
+          <i class="fas fa-hands-holding-child"></i>
+          <span>تبرعات خيريه</span>
+        </h2>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="الصفحه الرئسيه.html"><i class="fas fa-home"></i> <span>الصفحة الرئيسية</span></a></li>
+          <li><a href="لوحه التحكم .html"><i class="fas fa-tachometer-alt"></i> <span>لوحة التحكم</span></a></li>
+          <li><a href="ادارة المستخدمين.html"><i class="fas fa-users"></i> <span>إدارة المستخدمين</span></a></li>
+          <li><a href="مراجعه الحالات.html"><i class="fas fa-hands-helping"></i> <span>المستفيدون</span></a></li>
+          <li><a href="مراجعه التبرعات.html" class="active"><i class="fas fa-hand-holding-usd"></i> <span>مراجعة التبرعات</span></a></li>
+          <li><a href="الاشعارات.html"><i class="fas fa-bell"></i> <span>الاشعارات</span></a></li>
+          <li><a href="اضافة حاله جديده.html"><i class="fas fa-plus-circle"></i> <span>إضافة حالة</span></a></li>
+          <li><a href="اضافه حاله العميل .html"><i class="fas fa-user-plus"></i> <span>إضافة حالة عميل</span></a></li>
+          <li><a href="التقارير الطبيه.html"><i class="fas fa-file-medical"></i> <span>التقارير الطبية</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="logout-btn-sidebar" id="sidebarLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="container">
+        <header class="header">
+          <h1>مراجعة التبرعات</h1>
+          <div class="admin-profile-box">
+            <span id="adminHeaderName">جاري التحميل...</span>
+            <img id="adminHeaderImg" src="../images/default-avatar.png" alt="صورة المسؤول">
+          </div>
+        </header>
+
+        <div class="search-section">
+          <div class="search-box">
+            <input type="text" placeholder="ابحث باسم الحالة أو المشروع..." />
+            <i class="fas fa-search"></i>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>رقم</th>
+                <th>اسم المتبرع</th>
+                <th>اسم الحالة</th>
+                <th>المبلغ</th>
+                <th>التاريخ</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="donationsBody">
+              <tr>
+                <td colspan="7">جاري تحميل بيانات التبرعات...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="footer">
+          <p>جميع الحقوق محفوظة &copy; 2023 نظام مراجعة التبرعات</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Js/config.js"></script>
+    <script src="../Js/مراجعه التبرعات.js"></script>
+    <script src="../Js/notification-badge.js"></script>
+  
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+</html>

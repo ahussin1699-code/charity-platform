@@ -1,0 +1,374 @@
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    direction: rtl;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e8f5e9 100%);
+    min-height: 100vh;
+    padding: 20px 10px;
+    color: #333;
+}
+body {
+            font-family: 'Cairo', sans-serif !important;
+        }
+
+        /* ==================== Header ==================== */
+        header {
+            background: #2f6d3f;
+            padding: clamp(10px, 2vh, 15px) clamp(15px, 3vw, 30px);
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+            max-width: 100%;
+            margin: 0 auto !important;
+            border-radius: 50px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            height: 60px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        header .logo {
+            font-size: clamp(18px, 3vw, 24px);
+            font-weight: 800;
+            color: #f3e21d;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ================== Nav ================== */
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: clamp(10px, 2vw, 5px);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            gap: 2px;
+            padding: 5px 0px;
+            border-radius: 12px;
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+        }
+
+        .nav-item span {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f3e21d;
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            color: #f3e21d;
+        }
+
+        .nav-profile-img {
+            width: 1.80rem;
+            height: 1.80rem;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #f3e21d;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover .nav-profile-img {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(243, 226, 29, 0.5);
+        }
+/* Header & Navigation */
+header {
+    background: #2f6d3f !important;
+    padding: 0 clamp(15px, 3vw, 25px) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: sticky !important;
+    top: 15px !important;
+    z-index: 1000 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto 40px !important;
+    border-radius: 50 px !important;
+    transition: all 0.3s ease !important;
+    height: 60px !important;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-container img {
+    height: clamp(35px, 5vh, 45px);
+    width: auto;
+    border-radius: 50%;
+}
+
+.logo-text {
+    color: white;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 700;
+}
+
+.header-buttons {
+    display: flex;
+    gap: clamp(8px, 1.5vw, 15px);
+    align-items: center;
+}
+
+.header-btn {
+    background-color: #f4d03f;
+    color: #0b5e32;
+    border: none;
+    padding: clamp(6px, 1vh, 10px) clamp(12px, 2vw, 25px);
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-btn:hover {
+    background-color: #f1c40f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 208, 63, 0.3);
+}
+
+/* Donate Container */
+.donate-container {
+    background: white;
+    max-width: 700px;
+    margin: 0 auto 50px;
+    padding: clamp(30px, 6vw, 50px) clamp(20px, 5vw, 40px);
+    border-radius: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.page-title {
+    text-align: center;
+    color: #0b5e32;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.border-accent {
+    width: 130px;
+    height: 5px;
+    background: linear-gradient(90deg, #f4d03f, #0b5e32);
+    margin: 0 auto 40px;
+    border-radius: 10px;
+}
+
+.case-img {
+    width: 100%;
+    height: clamp(200px, 35vh, 320px);
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.case-desc {
+    text-align: right;
+    color: #555;
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    line-height: 1.7;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #f9fbf9;
+    border-radius: 15px;
+    border-right: 4px solid #0b5e32;
+}
+
+/* Status Box */
+.status-box {
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.status-success {
+    background: #e8f5e9;
+    color: #0b5e32;
+    border: 1px solid #c8e6c9;
+}
+
+.status-error {
+    background: #fdecea;
+    color: #c62828;
+    border: 1px solid #f5c6cb;
+}
+
+/* Info Section */
+.info-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 35px;
+    border: 1px solid #edf2f7;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed #cbd5e0;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #718096;
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    font-weight: 600;
+}
+
+.info-value {
+    color: #0b5e32;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 800;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 0.95rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: clamp(12px, 2.5vh, 18px);
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #fdfdfd;
+    color: #0b5e32;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #0b5e32;
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(11, 94, 50, 0.1);
+}
+
+.form-group input::placeholder {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.donate-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.donate-btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 16px;
+    background: linear-gradient(135deg, #0b5e32, #10b981);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 25px rgba(11, 94, 50, 0.25);
+}
+
+.donate-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(11, 94, 50, 0.35);
+    background: linear-gradient(135deg, #2f6d3f, #059669);
+}
+
+.donate-btn:active {
+    transform: translateY(-1px);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    header {
+        top: 10px !important;
+        padding: 8px 15px !important;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+    }
+
+    .donate-container {
+        padding: 25px 20px;
+        border-radius: 20px;
+    }
+
+    .info-row {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+        padding: 15px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-text {
+        display: none;
+    }
+    
+    .header-btn span {
+        display: none;
+    }
+    
+    .header-btn {
+        padding: 10px;
+    }
+}

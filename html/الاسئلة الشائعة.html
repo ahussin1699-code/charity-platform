@@ -1,0 +1,147 @@
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الأسئلة الشائعة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/الاساله الشائعه.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        header {
+            position: relative;
+        }
+
+        .menu-btn {
+            background: #2f6d3f;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .main-nav.active {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">تبرعات خيرية</div>
+
+            <nav class="main-nav">
+                <a href="الصفحه الرئسيه.html" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a href="اتصال بنا.html" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>تواصل معنا</span>
+                </a>
+                <a href="من نحن.html" class="nav-item">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>من نحن</span>
+                </a>
+                <a href="الصفحه الشخصية.html" class="nav-item">
+                    <img id="navProfileImg" src="../images/default-avatar.png" alt="Profile" class="nav-profile-img" />
+                    <span>الملف الشخصي</span>
+                </a>
+                <a href="صفحه العرض.html" class="nav-item" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>خروج</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <h1>الأسئلة الشائعة</h1>
+        <p class="subtitle">
+            هنا تجد إجابات على أكثر الاسئلة التي تلقاها من المستخدمين
+        </p>
+
+        <div class="faq-item">
+            <div class="faq-question">كيف استطيع التبرع من خلال المنصة؟</div>
+            <div class="faq-answer">
+                يمكنك اختيار الحالة التي ترغب في مساعدتها، أو النقر على رمز "تبرع
+                الآن" وأتمام الخطوات البسيطة للدفع.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">هل أموال التبرعات تصل إلى المستفيدين؟</div>
+            <div class="faq-answer">
+                نعم جميع التبرعات تصل إلى المستفيدين بعد مراجعة الحالة والتحقق منها من
+                قبل الفريق المسؤول.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">هل يمكنني معرفة كيف تم استخدام تبرعي؟</div>
+            <div class="faq-answer">
+                يمكنك معرفة ذلك من خلال "سجل التبرعات" داخل حسابك، حيث نوضح كيفية
+                استخدام التبرعات التي ساهمت فيها.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">هل يمكنني تحديد هدف معين للتبرع؟</div>
+            <div class="faq-answer">
+                نعم يمكنك تحديد هدف التبرع من خلال حسابك الذي يساعدك في متابعة تبرعاتك
+                وإنجازاتها.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">ما هي وسائل الدفع المتاحة؟</div>
+            <div class="faq-answer">
+                حاليًا يمكنك الدفع باستخدام البطاقات الائتمانية، المحافظ الإلكترونية،
+                والتحويل البنكي.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">هل يمكنني التبرع باسم شركتي أو مؤسستي؟</div>
+            <div class="faq-answer">
+                نعم يمكن التبرع باسم الشركة أو المؤسسة من خلال حساب خاص بالجهات.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">كيف أتواصل مع الفريق المسؤول؟</div>
+            <div class="faq-answer">
+                يمكنك التواصل معنا من خلال صفحة "اتصل بنا" المتوفرة في الموقع.
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <a href="الصفحه الرئسيه.html" class="home-btn">العودة للصفحة الرئيسية</a>
+    </div>
+
+    <script src="../Js/config.js"></script>
+    <script src="../Js/الاسئلة الشائعة.js"></script>
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+
+</html>

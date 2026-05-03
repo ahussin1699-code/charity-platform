@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبرعات خيرية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/الصفحه الرئيسيه.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+    header { position: relative; }
+    .menu-btn {
+        background: #2f6d3f;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-left: 0;
+    }
+    @media (max-width: 768px) {
+        .main-nav { display: none; flex-direction: column; gap:10px; }
+        .main-nav.active { display: flex; }
+    }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container" style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+            <div class="logo" style="font-size:clamp(15px,4vw,26px);font-weight:bold;color:#fff;display:flex;flex-direction:row;align-items:center;gap:10px;">
+                <span>تبرعات خيرية</span>
+                <span id="userEmail" style="font-size:clamp(14px,2.5vw,18px);font-weight:500;color:#ffeb99;white-space:nowrap;"></span>
+            </div>
+            <button class="menu-btn" id="menuBtn" aria-label="القائمة" style="display:none;">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav class="main-nav" style="display:flex;align-items:center;gap:clamp(6px,1.2vw,14px);">
+                <a href="الصفحه الرئسيه.html" class="nav-item active">
+                    <i class="fa-solid fa-house" style="font-size:1.1rem;color:#f4d03f;"></i>
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">الرئيسية</span>
+                </a>
+                <a href="اتصال بنا.html" class="nav-item">
+                    <i class="fa-solid fa-envelope" style="font-size:1.1rem;color:#fff;"></i>
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">تواصل معنا</span>
+                </a>
+                <a href="من نحن.html" class="nav-item">
+                    <i class="fa-solid fa-circle-info" style="font-size:1.1rem;color:#fff;"></i>
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">من نحن</span>
+                </a>
+                <a href="التقارير الطبيه.html" class="nav-item" id="medicalReportsLink" style="display: none;">
+                    <i class="fa-solid fa-file-medical" style="font-size:1.1rem;color:#fff;"></i>
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">التقارير</span>
+                </a>
+                <a href="#" class="nav-item" id="addCaseLink" style="display: none;">
+                    <i class="fa-solid fa-plus" style="font-size:1.1rem;color:#fff;"></i>
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">اضافة حالة</span>
+                </a>
+                <a href="لوحه التحكم .html" class="nav-item" id="adminDashboardLink" style="display: none;">
+                    <i class="fa-solid fa-gauge-high" style="font-size:1.1rem;color:#fff;"></i>
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">لوحة التحكم</span>
+                </a>
+                <a href="الصفحه الشخصية.html" class="nav-item">
+                    <img id="navProfileImg" src="../images/default-avatar.png" alt="Profile" class="nav-profile-img" style="width:34px;height:34px;border-radius:50%;object-fit:cover;margin-top:0;">
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">الملف الشخصي</span>
+                </a>
+                <a href="صفحه العرض.html" class="nav-item" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket" style="font-size:1.1rem;color:#fff;"></i>
+                    <span style="font-size:clamp(0.6rem,1vw,0.72rem);font-weight:600;color:#fff;margin-top:2px;">خروج</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+
+    <section class="hero-section">
+        <div class="hero-image">
+            <img src="../pngtree-helping-hand-symbol-aid-teenager-assistance-photo-picture-image_11439234.jpg" alt="تبرعات">
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>ساهم في تغيير حياة انسان بتبرع بسيط منك</h1>
+                <p>منصة تربط المتبرعين بالمستفيدين بطريقه آمنه وسهلة</p>
+                <div class="hero-buttons">
+                    <a href="عرض الحالات.html" class="btn-yellow">تصفح الحالات  </a>
+                    <a href="من نحن.html" class="btn-yellow"> من نحن</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <h2 class="section-title">بعض الحالات المحتاجة لمساعدتك</h2>
+
+    <section class="cards" id="recentCasesSection">
+    </section>
+
+    <div class="browse-cases-container">
+        <a href="عرض الحالات.html" class="browse-btn">تصفح الحالات</a>
+    </div>
+
+    <!-- ===== بانر الحالات العاجلة ===== -->
+    <div class="urgent-banner" id="urgentBanner" style="display:none;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span id="urgentText">حالة عاجلة تحتاج مساعدتك الآن!</span>
+        <a id="urgentLink" href="عرض الحالات.html" class="urgent-btn">تبرع الآن</a>
+        <button class="urgent-close" onclick="document.getElementById('urgentBanner').style.display='none'">✕</button>
+    </div>
+
+    <!-- ===== عداد الإحصائيات ===== -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <i class="fa-solid fa-users"></i>
+                <h3 class="counter" data-target="0" id="statDonors">0</h3>
+                <p>متبرع مسجل</p>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <h3 class="counter" data-target="0" id="statAmount">0</h3>
+                <p>جنيه تم جمعه</p>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <h3 class="counter" data-target="0" id="statCompleted">0</h3>
+                <p>حالة مكتملة</p>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <h3 class="counter" data-target="0" id="statActive">0</h3>
+                <p>حالة نشطة</p>
+            </div>
+        </div>
+        <!-- شريط التقدم العام -->
+        <div class="overall-progress">
+            <div class="progress-label">
+                <span>إجمالي ما تم جمعه</span>
+                <span id="progressPctLabel">0%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill-overall" id="overallFill" style="width:0%"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== كيف تتبرع ===== -->
+    <section class="how-section">
+        <h2 class="section-title">كيف تتبرع؟</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <h3>تصفح الحالات</h3>
+                <p>اختر الحالة التي تريد مساعدتها من بين الحالات المتاحة</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <i class="fa-solid fa-credit-card"></i>
+                <h3>اختر طريقة الدفع</h3>
+                <p>ادفع بسهولة عبر فيزا أو ماستركارد أو المحفظة الإلكترونية</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <i class="fa-solid fa-circle-check"></i>
+                <h3>تأكيد التبرع</h3>
+                <p>يصلك تأكيد فوري وتبرعك يصل مباشرة لصاحب الحالة</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== الحالات المكتملة ===== -->
+    <section class="completed-section">
+        <h2 class="section-title">حالات أكملنا مساعدتها</h2>
+        <div class="completed-grid" id="completedCasesGrid">
+            <div style="text-align:center;color:#aaa;padding:20px;grid-column:1/-1;">جاري التحميل...</div>
+        </div>
+    </section>
+
+    <!-- ===== شهادات المتبرعين ===== -->
+    <section class="testimonials-section">
+        <h2 class="section-title">ماذا قال المتبرعون؟</h2>
+        <div class="testimonials-grid" id="testimonialsGrid">
+            <div style="grid-column:1/-1;text-align:center;color:#aaa;padding:20px;">جاري التحميل...</div>
+        </div>
+        <div style="text-align:center;margin-top:24px;">
+            <a href="التقييمات.html" style="display:inline-flex;align-items:center;gap:8px;background:#2f6d3f;color:#fff;padding:11px 28px;border-radius:25px;text-decoration:none;font-weight:700;font-size:0.92rem;transition:0.2s;">
+                <i class="fa-solid fa-star"></i> شاهد كل التقييمات وأضف تقييمك
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== زرار تبرع سريع floating ===== -->
+    <a href="عرض الحالات.html" class="floating-donate" title="تبرع الآن">
+        <i class="fa-solid fa-heart"></i>
+        <span>تبرع</span>
+    </a>
+
+     <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>عن الموقع</h3>
+                    <p>منصة تبرعات خيرية تربط المتبرعين بالحالات الإنسانية المحتاجة، بشفافية كاملة وإشراف طبي موثوق.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <p><a href="المميزات.html" style="color: #aaa; text-decoration: none;">المميزات</a></p>
+                    <p><a href="الاسئلة الشائعة.html" style="color: #aaa; text-decoration: none;">الأسئلة الشائعة</a></p>
+                    <p><a href="من نحن.html" style="color: #aaa; text-decoration: none;">من نحن</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>اتصل بنا</h3>
+                    <p><i class="fas fa-envelope"></i> ahussin9125@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> 01020152710</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>منصه تبرعات خيريه </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../Js/config.js"></script>
+    <script src="../Js/الصفحه الرئسيه.js"></script>
+    <script src="../Js/home-extras.js"></script>
+    <script>
+        const menuBtn = document.getElementById("menuBtn");
+        const mainNav = document.querySelector(".main-nav");
+        if (menuBtn && mainNav) {
+            menuBtn.addEventListener("click", () => {
+                mainNav.classList.toggle("active");
+                menuBtn.querySelector("i").className = mainNav.classList.contains("active")
+                    ? "fa-solid fa-xmark"
+                    : "fa-solid fa-bars";
+            });
+            // إغلاق القائمة عند الضغط على أي رابط
+            mainNav.querySelectorAll(".nav-item").forEach(a => {
+                a.addEventListener("click", () => {
+                    mainNav.classList.remove("active");
+                    menuBtn.querySelector("i").className = "fa-solid fa-bars";
+                });
+            });
+            // إغلاق عند الضغط خارج الهيدر
+            document.addEventListener("click", (e) => {
+                if (!e.target.closest("header")) {
+                    mainNav.classList.remove("active");
+                    menuBtn.querySelector("i").className = "fa-solid fa-bars";
+                }
+            });
+        }
+    </script>
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+
+</body>
+
+</html>

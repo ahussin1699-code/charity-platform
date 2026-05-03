@@ -1,0 +1,237 @@
+
+        body {
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            background: #f5f6f8;
+            direction: rtl;
+        }
+
+        /* الهيدر */
+        header {
+            background: #2f6d3f !important;
+            padding: 10px 5% !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            position: sticky !important;
+            top: 0px !important;
+            z-index: 1000 !important;
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto !important;
+            border-radius: 50px !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .header-container {
+            width: 100% !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
+
+        .logo {
+            color: white !important;
+            font-size: clamp(1.2rem, 4vw, 1.8rem) !important;
+            font-weight: 800 !important;
+            letter-spacing: 1px !important;
+            white-space: nowrap !important;
+        }
+
+        .main-nav {
+            display: flex !important;
+            gap: clamp(10px, 3vw, 30px) !important;
+            align-items: center !important;
+        }
+
+        .nav-item {
+            text-decoration: none !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            font-size: clamp(0.7rem, 2vw, 0.85rem) !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            gap: 4px !important;
+        }
+
+        .nav-item i {
+            font-size: clamp(1.1rem, 3vw, 1.3rem) !important;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: #fdd835 !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .nav-profile-img {
+            width: clamp(24px, 5vw, 32px) !important;
+            height: clamp(24px, 5vw, 32px) !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+            border: 2px solid #fdd835 !important;
+        }
+
+        /* ===== Floating Toolbar ===== */
+        .floating-toolbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            display: flex;
+            gap: 15px;
+            padding: 10px 25px;
+            border-radius: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 2000;
+            width: max-content;
+            max-width: 95%;
+        }
+
+        .toolbar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.75rem;
+            transition: 0.3s;
+            gap: 3px;
+        }
+
+        .toolbar-item i {
+            font-size: 1.2rem;
+        }
+
+        .toolbar-item span {
+            font-weight: bold;
+        }
+
+        .toolbar-item.active {
+            color: #0b5e32;
+        }
+
+        .profile-img-small {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1d8a3b;
+            margin-top: 25px;
+            font-size: clamp(20px, 6vw, 28px);
+            padding: 0 20px;
+        }
+
+        .desc-text {
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            margin-top: 10px;
+            line-height: 1.7;
+            font-size: clamp(14px, 4vw, 18px);
+            padding: 0 10px;
+        }
+
+        /* المربعات */
+        .features {
+            width: 95%;
+            max-width: 1200px;
+            margin: auto;
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-box {
+            background: #e4e4e4;
+            padding: 20px;
+            flex: 1 1 250px;
+            max-width: 350px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .feature-box:hover {
+            background: #d9d9d9;
+            transform: scale(1.05);
+        }
+
+        .feature-title {
+            font-size: clamp(18px, 5vw, 22px);
+            color: #1d8a3b;
+            font-weight: bold;
+        }
+
+        .vision-box, .mission-box {
+            background: #dce6b5;
+            width: 90%;
+            max-width: 800px;
+            margin: 25px auto;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: clamp(14px, 4vw, 18px);
+            line-height: 1.8;
+        }
+
+        .vision-title, .mission-title {
+            font-size: clamp(20px, 6vw, 26px);
+            font-weight: bold;
+            color: #1d8a3b;
+            margin-bottom: 10px;
+        }
+
+        /* ================== استجابة الشاشات (Responsive Design) ================== */
+        @media (max-width: 768px) {
+            header {
+                width: 95% !important;
+                top: 10px !important;
+                padding: 10px 15px !important;
+                border-radius: 25px !important;
+            }
+
+            .nav-item span {
+                display: none; /* إخفاء النص والاكتفاء بالأيقونات في الموبايل */
+            }
+
+            .main-nav {
+                gap: 15px !important;
+            }
+
+            .features {
+                gap: 15px;
+            }
+
+            .feature-box {
+                flex: 1 1 100%;
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 8px 12px !important;
+            }
+
+            .logo {
+                letter-spacing: 0;
+            }
+
+            .main-nav {
+                gap: 10px !important;
+            }
+        }
+
+   

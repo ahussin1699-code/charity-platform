@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تم التبرع بنجاح - تبرعات خيرية</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #e9f5ec 0%, #f5f7f5 100%);
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; direction: rtl; padding: 20px;
+    }
+    .card {
+      background: #fff; border-radius: 24px; padding: 48px 40px;
+      text-align: center; max-width: 480px; width: 100%;
+      box-shadow: 0 20px 60px rgba(47,109,63,0.12);
+    }
+    .icon-wrap {
+      width: 90px; height: 90px; background: #e9f5ec;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 24px;
+      animation: pop .5s ease;
+    }
+    .icon-wrap i { font-size: 2.8rem; color: #2f6d3f; }
+    @keyframes pop {
+      0%   { transform: scale(0); opacity: 0; }
+      70%  { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    h1 { font-size: 1.6rem; font-weight: 800; color: #2f6d3f; margin-bottom: 12px; }
+    p  { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 28px; }
+    .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #2f6d3f; color: #fff; padding: 12px 28px;
+      border-radius: 25px; text-decoration: none; font-weight: 700;
+      font-size: 0.95rem; transition: 0.2s;
+    }
+    .btn-primary:hover { background: #245632; transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #f0f0f0; color: #333; padding: 12px 28px;
+      border-radius: 25px; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: 0.2s;
+    }
+    .btn-secondary:hover { background: #e0e0e0; }
+    .countdown { margin-top: 20px; font-size: 0.82rem; color: #aaa; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon-wrap">
+      <i class="fa-solid fa-heart-circle-check"></i>
+    </div>
+    <h1>تم التبرع بنجاح! 🎉</h1>
+    <p>شكراً جزيلاً على تبرعك الكريم.<br>تبرعك سيصل لمستحقيه وسيصنع فارقاً حقيقياً في حياة إنسان.</p>
+    <div class="btns">
+      <a href="عرض الحالات.html" class="btn-primary">
+        <i class="fa-solid fa-heart"></i> تصفح حالات أخرى
+      </a>
+      <a href="الصفحه الرئسيه.html" class="btn-secondary">
+        <i class="fa-solid fa-house"></i> الرئيسية
+      </a>
+    </div>
+    <div class="countdown">سيتم توجيهك للصفحة الرئيسية خلال <span id="sec">5</span> ثوانٍ</div>
+  </div>
+  <script>
+    let s = 5;
+    const el = document.getElementById('sec');
+    const t = setInterval(() => {
+      s--;
+      if (el) el.textContent = s;
+      if (s <= 0) { clearInterval(t); window.location.href = 'الصفحه الرئسيه.html'; }
+    }, 1000);
+  </script>
+</body>
+</html>

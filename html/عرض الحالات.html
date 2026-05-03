@@ -1,0 +1,135 @@
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>الحالات المتاحة للمساعدة - منصة عرض الحالات الإنسانية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/عرض الحالات.css" />
+  </head>
+  <body>
+    <!-- الهيدر -->
+    <header>
+      <div class="header-container">
+        <div class="logo">منصة عرض الحالات الإنسانية</div>
+
+        <button class="menu-btn" id="menuBtn" aria-label="القائمة">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav class="main-nav" id="mainNav">
+          <a href="الصفحه الرئسيه.html" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span>الرئيسية</span>
+          </a>
+          <a href="اتصال بنا.html" class="nav-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>تواصل معنا</span>
+          </a>
+          <a href="من نحن.html" class="nav-item">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>من نحن</span>
+          </a>
+          <a href="#" class="nav-item" id="addCaseLink" style="display: none">
+            <i class="fa-solid fa-plus"></i>
+            <span>اضافة حالة</span>
+          </a>
+          <a href="الصفحه الشخصية.html" class="nav-item" id="profileNavItem">
+            <img
+              id="navProfileImg"
+              src="../images/default-avatar.png"
+              alt="Profile"
+              class="nav-profile-img"
+            />
+            <span>الملف الشخصي</span>
+          </a>
+          <a href="تسجيل الدخول .html" class="nav-item" id="logoutBtn">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>تسجيل الدخول</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <h2 class="page-title">الحالات الإنسانية المتاحة</h2>
+
+    <!-- مربع البحث + قائمة اختيار نوع الحالة -->
+    <div class="search-container">
+      <div class="search-box">
+        <input
+          type="text"
+          id="search"
+          placeholder="ابحث عن حاله"
+          onkeyup="searchCases()"
+        />
+      </div>
+      <div class="case-type-menu">
+        <button type="button" class="case-type-toggle">
+          <span class="case-type-label">اختار نوع الحاله</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="case-type-list">
+          <button type="button" data-type="all">جميع الحالات</button>
+          <button type="button" data-type="عمليات جراحيه">عمليه جراحيه</button>
+          <button type="button" data-type="علاج">علاج</button>
+          <button type="button" data-type="اجهزه طبيه">اجهزه طبيه</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- الحالات -->
+    <div class="cases-container" id="cases">
+      <!-- تحميل الحالات بواسطة JS -->
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-about">
+          <h4>منصة عرض الحالات الإنسانية</h4>
+          <p>
+            نربط فاعلي الخير بالحالات المحتاجة بسرعة وشفافية، مع تسهيل الوصول
+            للحالات الأشد احتياجاً وتقديم المساعدة المباشرة.
+          </p>
+        </div>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Facebook"
+            ><i class="fa-brands fa-facebook-f"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="WhatsApp"
+            ><i class="fa-brands fa-whatsapp"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="Instagram"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="X"
+            ><i class="fa-brands fa-x-twitter"></i
+          ></a>
+        </div>
+        <div class="footer-quick">
+          <a href="صفحه العرض.html">الرئيسية</a>
+          <a href="عرض الحالات.html">الحالات</a>
+          <a href="اتصال بنا.html">اتصل بنا</a>
+          <a href="من نحن.html">من نحن</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>جميع الحقوق محفوظة © منصة عرض الحالات الإنسانية 2025</span>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Js/config.js"></script>
+    <script src="../Js/عرض الحالات.js"></script>
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+  </body>
+</html>

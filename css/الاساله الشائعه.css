@@ -1,0 +1,197 @@
+/* استيراد الخط */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Tajawal', sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    padding: 0; /* إزالة الحشو من الجسم لأن الهيدر سيكون له هوامش */
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+}
+
+/* تصميم الهيدر الموحد */
+header {
+    background: #2F6D3F !important;
+    padding: clamp(8px, 1.5vh, 12px) clamp(15px, 3vw, 25px) !important;
+    border-radius: 50px !important;
+    margin: 10px auto 30px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    width: 100%;
+    max-width: 100%;
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: clamp(1.1rem, 4vw, 1.4rem) !important;
+    font-weight: bold;
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.main-nav {
+    display: flex;
+    gap: clamp(10px, 2vw, 20px);
+    align-items: center;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #fff !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: clamp(0.75rem, 1.5vw, 0.85rem) !important;
+    transition: 0.3s;
+}
+
+.nav-item i {
+    font-size: clamp(0.9rem, 2vw, 1.2rem) !important;
+    margin-bottom: 2px;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: #f1d131 !important;
+    transform: translateY(-2px);
+}
+
+.nav-profile-img {
+    width: clamp(28px, 4vw, 32px) !important;
+    height: clamp(28px, 4vw, 32px) !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f1d131 !important;
+}
+
+.container {
+    width: 95%;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    padding: clamp(20px, 5vw, 40px);
+}
+        
+h1 {
+    color: #1c1e21;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-weight: 800;
+}
+
+.subtitle {
+    color: #65676b;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    line-height: 1.5;
+}
+
+.faq-item {
+    margin-bottom: 30px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #f8f9fa;
+    transition: 0.3s;
+}
+
+.faq-item:hover {
+    background: #f0f2f5;
+    transform: translateX(-5px);
+}
+
+.faq-question {
+    color: #2F6D3F;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    margin-bottom: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.faq-question::before {
+    content: '?';
+    background: #2F6D3F;
+    color: white;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.faq-answer {
+    color: #4b4d50;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    line-height: 1.6;
+    padding-right: 34px;
+}
+
+.home-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 250px;
+    margin: 20px auto 0;
+    background-color: #2F6D3F;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.home-btn:hover {
+    background-color: #0b5e32;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(6, 78, 59, 0.3);
+}
+
+@media (max-width: 768px) {
+    .nav-item span {
+        display: none;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    .faq-question::before {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .faq-answer {
+        padding-right: 30px;
+    }
+}

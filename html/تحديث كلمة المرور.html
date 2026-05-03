@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحديث كلمة المرور</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/تحديث كلمه المرور.css">
+    <style>
+      
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo-section">
+            <h2 class="logo-text">منصة تبرعات خيرية</h2>
+        </div>
+
+        <h1>إعادة تعيين كلمة المرور</h1>
+        <p>من فضلك أدخل كلمة مرور جديده لتأمين حسابك</p>
+
+        <div class="form-content">
+            <div class="input-group">
+                <input type="password" id="newPassword" placeholder="كلمة المرور الجديدة" required>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('newPassword', this)"></i>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور الجديدة" required>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('confirmPassword', this)"></i>
+            </div>
+
+            <div class="messages-container">
+                <div id="errorMsg" class="error"></div>
+                <div id="successMsg" class="success"></div>
+            </div>
+
+            <button id="updateBtn" onclick="updatePassword()">حفظ كلمة المرور</button>
+
+            <div class="login-link"> 
+                <a href="تسجيل الدخول .html">العودة إلى تسجيل الدخول</a> 
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Js/config.js"></script>
+    <script src="../Js/تحديث كلمة المرور.js"></script>
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+</html>

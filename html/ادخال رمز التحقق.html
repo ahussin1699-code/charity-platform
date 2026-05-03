@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدخال رمز التحقق</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/ادخال رمز التحقق.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo">منصة تبرعات خيريه</div>
+  </header>
+
+  <main class="content">
+    <div class="otp-icon">
+      <i>✉️</i>
+    </div>
+
+    <h1 class="page-title">إدخال رمز التحقق</h1>
+    <p class="page-subtitle">تم إرسال رمز مكون من 6 أرقام إلى بريدك الإلكتروني</p>
+    <p class="email-display" id="emailDisplay"></p>
+
+    <div class="otp-inputs" id="otpInputs">
+      <input type="text" maxlength="1" class="otp-box" data-index="0" inputmode="numeric">
+      <input type="text" maxlength="1" class="otp-box" data-index="1" inputmode="numeric">
+      <input type="text" maxlength="1" class="otp-box" data-index="2" inputmode="numeric">
+      <input type="text" maxlength="1" class="otp-box" data-index="3" inputmode="numeric">
+      <input type="text" maxlength="1" class="otp-box" data-index="4" inputmode="numeric">
+      <input type="text" maxlength="1" class="otp-box" data-index="5" inputmode="numeric">
+    </div>
+
+    <div id="errorMsg" class="error">الرمز غير صحيح، يرجى المحاولة مجدداً</div>
+    <div id="successMsg" class="success">تم التحقق بنجاح! جاري التحويل...</div>
+
+    <button class="send-btn" id="verifyBtn" onclick="verifyOtp()">
+      تحقق من الرمز
+    </button>
+
+    <div class="resend-row">
+      <span class="timer-text">إعادة الإرسال بعد <span id="countdown">60</span>s</span>
+      <button class="resend-btn" id="resendBtn" onclick="resendOtp()" disabled>
+        إعادة إرسال الرمز
+      </button>
+    </div>
+
+    <a href="نسيت كلمة المرور.html" class="footer-link">تغيير البريد الإلكتروني؟</a>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../Js/config.js"></script>
+  <script src="../Js/ادخال رمز التحقق.js"></script>
+
+  <link rel="stylesheet" href="../css/chatbot.css">
+  <script src="../Js/chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+﻿﻿<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title> تفاصيل الحاله</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../css/تفاصيل الحاله.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    header { position: relative; }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== Header ==================== -->
+  <header>
+    <div class="header-container">
+      <div class="logo">منصة تبرعات خيرية</div>
+
+      <button class="menu-btn" id="menuBtn" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="الصفحه الرئسيه.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>الرئيسية</span>
+        </a>
+        <a href="اتصال بنا.html" class="nav-item">
+          <i class="fa-solid fa-envelope"></i>
+          <span>تواصل معنا</span>
+        </a>
+        <a href="من نحن.html" class="nav-item">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>من نحن</span>
+        </a>
+        <a href="الصفحه الشخصية.html" class="nav-item" id="profileNavItem">
+          <img id="navProfileImg" src="../images/default-avatar.png" alt="Profile" class="nav-profile-img">
+          <span>الملف الشخصي</span>
+        </a>
+        <a href="تسجيل الدخول .html" class="nav-item" id="logoutBtn">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>تسجيل الدخول</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== PAGE ==================== -->
+  <div class="page">
+
+    <div class="card">
+      <div class="avatar-wrap">
+        <img class="avatar" id="caseAvatar" src="../صور المشروع/تبرع.jpg" alt="صورة الحالة">
+      </div>
+
+      <h1 class="headline" id="caseTitle">جاري تحميل بيانات الحالة...</h1>
+      <div class="sub" id="caseShort"></div>
+
+      <p class="desc" id="caseDesc">
+        جاري تحميل وصف الحالة...
+      </p>
+
+      <div class="contact-box">
+        <span class="box-label">معلومات التواصل والمساعدة</span>
+        <div class="info-row"><span>العنوان:</span><span id="caseAddress">-</span></div>
+        <div class="info-row admin-only" style="display:none;"><span>رقم الهاتف:</span><span id="casePhone">-</span></div>
+        <div class="info-row admin-only" style="display:none;"><span>البريد الإلكتروني:</span><span id="caseEmail">-</span></div>
+      </div>
+
+      <!-- المبلغ المطلوب وطرق التبرع -->
+      <div class="payment-info-box" id="paymentInfoBox" style="display:none;">
+        <div class="payment-info-row" id="targetAmountRow" style="display:none;">
+          <i class="fa-solid fa-circle-dollar-to-slot"></i>
+          <span>المبلغ المطلوب:</span>
+          <strong id="targetAmountVal">-</strong>
+        </div>
+
+        <!-- المتبقي + progress -->
+        <div class="payment-info-row" id="remainingRow" style="display:none;">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>تم جمع:</span>
+          <strong id="collectedVal" style="color:#2f6d3f;">-</strong>
+          <span style="margin:0 6px;color:#aaa;">|</span>
+          <span>المتبقي:</span>
+          <strong id="remainingVal" style="color:#e07b00;">-</strong>
+        </div>
+        <div class="progress-wrap" id="progressWrap" style="display:none;">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="progress-pct" id="progressPct">0%</span>
+        </div>
+        <div class="payment-methods-row" id="paymentMethodsRow" style="display:none;">
+          <span class="methods-label"><i class="fa-solid fa-credit-card"></i> طرق التبرع المتاحة:</span>
+          <div class="methods-badges" id="methodsBadges"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-btn">
+      <button class="donate-btn" id="donateBtn">تبرع الآن</button>
+      <button class="donate-btn delete-btn" id="deleteCaseBtn" style="display:none;">حذف الحالة</button>
+    </div>
+
+  </div>
+
+<script src="../Js/config.js"></script>
+<script src="../Js/تفاصيل الحاله.js"></script>
+<link rel="stylesheet" href="../css/chatbot.css">
+<script src="../Js/chatbot.js"></script>
+
+</body>
+</html>

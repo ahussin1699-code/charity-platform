@@ -1,0 +1,175 @@
+/* ===== Shared Sidebar Styles ===== */
+:root {
+    --sidebar-width: 260px;
+    --sidebar-bg-top: #2f6d3f;
+    --sidebar-bg-bottom: #0a2e0c;
+    --sidebar-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: linear-gradient(180deg, var(--sidebar-bg-top) 0%, var(--sidebar-bg-bottom) 100%);
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1100;
+    transition: var(--sidebar-transition);
+    box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar-header {
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    flex-shrink: 0;
+}
+
+.sidebar-header h2 {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+}
+
+.sidebar-header h2 i {
+    color: #dad8d3;
+    font-size: 1.4rem;
+}
+
+.sidebar-nav {
+    padding: 20px 0;
+    flex: 1;
+    overflow-y: visible;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li {
+    margin: 6px 12px;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 18px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    border-radius: 12px;
+    transition: var(--sidebar-transition);
+    font-weight: 600;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.sidebar-nav a i {
+    font-size: 1.1rem;
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.sidebar-nav a span {
+    flex: 1;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+    background: rgba(255,255,255,0.15);
+    color: white;
+}
+
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    flex-shrink: 0;
+}
+
+.logout-btn-sidebar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    background: rgba(255,68,68,0.1);
+    color: #ff6b6b;
+    border: 1px solid rgba(255,68,68,0.25);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    font-family: 'Cairo', sans-serif;
+    transition: var(--sidebar-transition);
+}
+
+.logout-btn-sidebar:hover {
+    background: #ff4444;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ===== Menu Toggle Button ===== */
+.menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 12px;
+    background: #2f6d3f;
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1300;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.menu-toggle:hover {
+    background: #3d8a50;
+    transform: scale(1.05);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(110%);
+        width: 260px;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .main-content {
+        margin-right: 0 !important;
+        max-width: 100vw;
+    }
+}
+
+/* إخفاء زر الإغلاق على الشاشات الكبيرة */
+.sidebar-close-btn {
+    display: none;
+}

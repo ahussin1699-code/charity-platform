@@ -1,0 +1,362 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    direction: rtl;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e8f5e9 100%);
+    min-height: 100vh;
+    color: #333;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ==================== Header ==================== */
+header {
+    background: #2f6d3f;
+    padding: 12px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+header .logo {
+    font-size: clamp(18px, 3vw, 24px);
+    font-weight: 800;
+    color: #f3e21d;
+}
+
+/* ---- hamburger ---- */
+.menu-btn {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.25); }
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.nav-item i {
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+}
+
+.nav-profile-img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #f3e21d;
+}
+
+/* ---- responsive header ---- */
+@media (max-width: 768px) {
+    header {
+        padding: 10px 15px;
+        margin-bottom: 20px;
+    }
+
+    .header-container {
+        flex-wrap: wrap;
+    }
+
+    .menu-btn {
+        display: flex;
+    }
+
+    .main-nav {
+        display: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        padding: 10px 0 8px;
+        border-top: 1px solid rgba(255,255,255,0.15);
+        margin-top: 8px;
+    }
+
+    .main-nav.active {
+        display: flex;
+    }
+
+    .nav-item {
+        flex-direction: row;
+        gap: 6px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 20px;
+        padding: 6px 12px;
+    }
+
+    .nav-item i { font-size: 0.95rem; margin-bottom: 0; }
+    .nav-item span { font-size: 0.78rem; }
+    .nav-profile-img { width: 20px; height: 20px; }
+}
+
+/* ================== Payment Container ================== */
+.payment-container {
+    background: white;
+    max-width: 600px;
+    margin: 20px auto 50px;
+    padding: 40px 30px;
+    border-radius: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.donor-info-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border: 1px solid #eee;
+}
+
+.section-subtitle {
+    color: #2f6d3f;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.page-title {
+    text-align: center;
+    color: #0b5e32;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.border-accent {
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #f4d03f, #0b5e32);
+    margin: 0 auto 40px;
+    border-radius: 10px;
+}
+
+/* ================== Payment Methods ================== */
+.payment-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.method-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    gap: 10px;
+}
+
+.method-card i {
+    font-size: 2rem;
+    color: #718096;
+}
+
+.method-card span {
+    font-weight: 700;
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+.method-card.active {
+    border-color: #0b5e32;
+    background-color: #f0fdf4;
+}
+
+.method-card.active i {
+    color: #0b5e32;
+}
+
+.method-card.active span {
+    color: #0b5e32;
+}
+
+/* ================== Forms ================== */
+.payment-form {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 0.95rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #0b5e32;
+    box-shadow: 0 0 0 4px rgba(11, 94, 50, 0.1);
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.field-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.pay-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #0b5e32, #10b981);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 10px 25px rgba(11, 94, 50, 0.2);
+}
+
+.pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(11, 94, 50, 0.3);
+}
+
+/* ================== Wallet Info ================== */
+.wallet-info {
+    background-color: #f7fafc;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 30px;
+    border: 1px dashed #cbd5e0;
+}
+
+.wallet-number {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #0b5e32;
+    letter-spacing: 2px;
+    margin: 15px 0;
+    background: white;
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.small-text {
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+/* ================== Utility ================== */
+.hidden {
+    display: none;
+}
+
+.status-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.status-success {
+    background-color: #def7ec;
+    color: #03543f;
+}
+
+.status-error {
+    background-color: #fde8e8;
+    color: #9b1c1c;
+}
+
+/* ================== Responsive ================== */
+@media (max-width: 480px) {
+    .payment-container {
+        margin: 15px;
+        padding: 25px 15px;
+        border-radius: 20px;
+    }
+
+    .payment-methods {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

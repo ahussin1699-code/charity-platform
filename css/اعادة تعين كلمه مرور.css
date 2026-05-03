@@ -1,0 +1,291 @@
+   :root {
+            --primary-color: #215732;
+            --secondary-color: #ffcc00;
+            --success-color: #2e7d32;
+            --error-color: #d32f2f;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .top-buttons {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .top-buttons button {
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .top-buttons button:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .reset-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        .instructions {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: right;
+            transition: border 0.3s;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        input[type="password"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(33, 87, 50, 0.2);
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #777;
+            font-size: 18px;
+        }
+
+        .password-strength {
+            height: 5px;
+            background-color: #eee;
+            border-radius: 5px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background-color 0.3s;
+        }
+
+        .strength-weak {
+            background-color: var(--error-color);
+            width: 25%;
+        }
+
+        .strength-medium {
+            background-color: #ff9800;
+            width: 50%;
+        }
+
+        .strength-strong {
+            background-color: var(--success-color);
+            width: 100%;
+        }
+
+        .password-requirements {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .requirement {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .requirement i {
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        .requirement.valid {
+            color: var(--success-color);
+        }
+
+        .requirement.invalid {
+            color: #999;
+        }
+
+        .error {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 8px;
+            text-align: right;
+            display: none;
+        }
+
+        .success {
+            color: var(--success-color);
+            font-size: 14px;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        button.reset-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            margin-top: 10px;
+        }
+
+        button.reset-btn:hover {
+            background-color: #1a4528;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        button.reset-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .login-link {
+            margin-top: 25px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #1a4528;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .reset-card {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .top-buttons {
+                position: relative;
+                top: 0;
+                left: 0;
+                justify-content: center;
+                margin: 0 0 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+
+            header {
+                font-size: 18px;
+                padding: 10px 0;
+            }
+        }

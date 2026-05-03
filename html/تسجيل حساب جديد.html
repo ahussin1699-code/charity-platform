@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل حساب جديد</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/تسجيل حساب جديد.css">
+    <style>
+       
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== الشريط الأخضر الأعلى ===== -->
+    <div class="header-bar">
+        منصة تبرعات خيرية 
+    </div>
+
+    <div class="form-container">
+        <h2>تسجيل حساب جديد</h2>
+
+        <!-- اختيار نوع الحساب -->
+        <div class="user-type-boxes">
+            <div class="user-type-box" data-type="beneficiary">مستفيد</div>
+            <div class="user-type-box" data-type="donor">متبرع</div>
+        </div>
+
+        <form id="registrationForm">
+            <input type="text" id="firstName" placeholder="الاسم الأول" required>
+            <input type="text" id="lastName" placeholder="الاسم الأخير" required>
+            <input type="text" id="contact" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
+            <input type="text" id="address" placeholder="العنوان" style="display:none;">
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="كلمة المرور" required oninput="validatePassword()">
+                <button type="button" class="toggle-pass" onclick="togglePass('password', this)" tabindex="-1">👁</button>
+            </div>
+            <div class="password-rules" id="passwordRules">
+                <span id="rule-len"  class="rule">✗ 8 أحرف على الأقل</span>
+                <span id="rule-upper" class="rule">✗ حرف كبير (A-Z)</span>
+                <span id="rule-num"  class="rule">✗ رقم واحد على الأقل</span>
+            </div>
+            <div class="password-wrapper">
+                <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور" required oninput="checkMatch()">
+                <button type="button" class="toggle-pass" onclick="togglePass('confirmPassword', this)" tabindex="-1">👁</button>
+            </div>
+            <div id="matchMsg" class="match-msg"></div>
+            <input type="date" id="birthDate" required>
+
+            <div class="gender-boxes" id="genderBoxes" style="display:none;">
+                <div class="gender-box" data-gender="male">ذكر</div>
+                <div class="gender-box" data-gender="female">أنثى</div>
+            </div>
+
+            <button type="button" onclick="register()">تسجيل</button>
+        </form>
+
+        <div class="login-link">
+            لديك حساب بالفعل؟ <a href="تسجيل الدخول .html">تسجيل الدخول</a>
+        </div>
+    </div>
+
+    <script src="../Js/config.js"></script>
+    <script src="../Js/تسجيل حساب جديد.js"></script>
+
+
+    <link rel="stylesheet" href="../css/chatbot.css">
+    <script src="../Js/chatbot.js"></script>
+</body>
+
+</html>
