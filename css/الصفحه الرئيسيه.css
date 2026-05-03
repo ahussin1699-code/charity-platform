@@ -891,11 +891,11 @@ footer .container {
     .step-card h3 { font-size: 0.75rem; }
     .step-card p  { font-size: 0.68rem; }
 
-    /* الحالات المكتملة — عمود واحد */
+    /* الحالات المكتملة — 2 في صف */
     .completed-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
-    .completed-card img { height: 160px; }
+    .completed-card img { height: 110px; }
 
     /* شهادات — عمود واحد */
     .testimonials-grid {
