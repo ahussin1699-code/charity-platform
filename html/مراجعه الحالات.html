@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -10,15 +10,6 @@
     />
     <link rel="stylesheet" href="../css/مراجعة الحالات.css" />
     <link rel="stylesheet" href="../css/sidebar-shared.css" />
-    <style>
-      .nav-badge {
-        display: inline-flex; align-items: center; justify-content: center;
-        background: #e74c3c; color: #fff; font-size: 0.68rem; font-weight: 700;
-        min-width: 18px; height: 18px; border-radius: 10px; padding: 0 5px;
-        margin-right: auto; margin-left: 4px;
-      }
-      .nav-badge:empty { display: none; }
-    </style>
     <style></style>
   </head>
   <body>
@@ -46,7 +37,6 @@
           <li><a href="مراجعه الحالات.html" class="active"><i class="fas fa-hands-helping"></i> <span>المستفيدون</span> <span class="nav-badge" id="badge-cases"></span></a></li>
           <li><a href="مراجعه التبرعات.html"><i class="fas fa-hand-holding-usd"></i> <span>مراجعة التبرعات</span> <span class="nav-badge" id="badge-donations"></span></a></li>
           <li><a href="الاشعارات.html"><i class="fas fa-bell"></i> <span>الاشعارات</span> <span class="nav-badge" id="badge-notifs"></span></a></li>
-          <li><a href="اضافة حاله جديده.html"><i class="fas fa-plus-circle"></i> <span>إضافة حالة</span></a></li>
           <li><a href="اضافه حاله العميل .html"><i class="fas fa-user-plus"></i> <span>إضافة حالة عميل</span></a></li>
           <li><a href="التقارير الطبيه.html"><i class="fas fa-file-medical"></i> <span>التقارير الطبية</span></a></li>
         </ul>
@@ -109,7 +99,7 @@
           </div>
           <button
             class="btn-primary"
-            onclick="window.location.href = 'اضافة حاله جديده.html'"
+            onclick="window.location.href = 'اضافه حاله العميل .html'"
           >
             <i class="fas fa-plus"></i> إضافة حالة جديدة
           </button>
@@ -162,34 +152,6 @@
   
     <link rel="stylesheet" href="../css/chatbot.css">
     <script src="../Js/chatbot.js"></script>
-    (async function loadSidebarBadges() {
-      const sb = createSupabaseClient();
-      if (!sb) return;
-
-      // حالات قيد المراجعة
-      const { count: pendingCases } = await sb.from('cases')
-        .select('*', { count: 'exact', head: true })
-        .or('status.eq.قيد المراجعة,status.eq.مرفوض من الطبيب,status.eq.موافق عليها من الطبيب');
-
-      // تبرعات قيد المراجعة
-      const { count: pendingDonations } = await sb.from('donations')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'قيد المراجعة');
-
-      // إشعارات غير مقروءة
-      const { count: unreadNotifs } = await sb.from('notifications')
-        .select('*', { count: 'exact', head: true })
-        .eq('is_read', false);
-
-      const setBadge = (id, count) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = count > 0 ? (count > 99 ? '99+' : count) : '';
-      };
-
-      setBadge('badge-cases',     pendingCases    || 0);
-      setBadge('badge-donations', pendingDonations || 0);
-      setBadge('badge-notifs',    unreadNotifs    || 0);
-    })();
-    </script>
+    <script src="../Js/sidebar-badges.js"></script>
 </body>
 </html>

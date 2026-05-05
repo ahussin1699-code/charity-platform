@@ -16,7 +16,7 @@
     right: 0;
     z-index: 1100;
     transition: var(--sidebar-transition);
-    box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -25,7 +25,7 @@
 .sidebar-header {
     padding: 30px 20px;
     text-align: center;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     flex-shrink: 0;
 }
 
@@ -66,7 +66,7 @@
     align-items: center;
     gap: 14px;
     padding: 13px 18px;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     border-radius: 12px;
     transition: var(--sidebar-transition);
@@ -88,13 +88,13 @@
 
 .sidebar-nav a:hover,
 .sidebar-nav a.active {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: white;
 }
 
 .sidebar-footer {
     padding: 16px;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     flex-shrink: 0;
 }
 
@@ -105,9 +105,9 @@
     gap: 10px;
     width: 100%;
     padding: 12px;
-    background: rgba(255,68,68,0.1);
+    background: rgba(255, 68, 68, 0.1);
     color: #ff6b6b;
-    border: 1px solid rgba(255,68,68,0.25);
+    border: 1px solid rgba(255, 68, 68, 0.25);
     border-radius: 12px;
     cursor: pointer;
     font-weight: 700;
@@ -136,7 +136,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1300;
     cursor: pointer;
     font-size: 1.2rem;
@@ -172,4 +172,32 @@
 /* إخفاء زر الإغلاق على الشاشات الكبيرة */
 .sidebar-close-btn {
     display: none;
+}
+
+/* ===== Nav Badges ===== */
+.nav-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e74c3c;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 10px;
+    padding: 0 5px;
+    margin-right: auto;
+    margin-left: 4px;
+    line-height: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-badge:empty {
+    display: none;
+}
+
+/* إخفاء التنبيهات للعنصر النشط (عند دخول الصفحة) */
+.sidebar-nav a.active .nav-badge {
+    display: none !important;
 }

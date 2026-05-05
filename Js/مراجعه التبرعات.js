@@ -19,15 +19,21 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (!sb) return;
         try {
             const { data: { user } } = await sb.auth.getUser();
-            if (!user) return;
+            if (!user) {
+                const nameEl = document.getElementById('adminHeaderName');
+                if (nameEl) nameEl.textContent = "غير مسجل";
+                return;
+            }
 
-            const { data: userData } = await sb
+            const { data: userData, error: userErr } = await sb
                 .from('users')
-                .select('name, profile_image')
+                .select('name, profile_image, user_type')
                 .eq('email', user.email)
                 .maybeSingle();
 
-            const adminName = userData?.name || user.user_metadata?.full_name || "المسؤول";
+            if (userErr) console.warn("User data fetch error:", userErr.message);
+
+            const adminName = userData?.name || user.user_metadata?.full_name || user.email || "المسؤول";
             const adminImg = userData?.profile_image || localStorage.getItem(`profileImage_${user.id}`) || "../images/default-avatar.png";
 
             const nameEl = document.getElementById('adminHeaderName');
@@ -35,13 +41,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (nameEl) nameEl.textContent = adminName;
             if (imgEl) imgEl.src = adminImg;
-            if (imgEl) {
-                imgEl.style.cursor = 'pointer';
-                imgEl.addEventListener('click', function () {
-                    window.location.href = "الصفحه الشخصية.html";
-                });
-            }
-
+            
             // التحقق من نوع المستخدم لإخفاء الشريط الجانبي إذا كان طبيباً
             if (userData?.user_type === 'طبيب') {
                 const sidebar = document.getElementById('sidebar');
@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         } catch (error) {
             console.error("Error loading admin header info:", error);
+            const nameEl = document.getElementById('adminHeaderName');
+            if (nameEl) nameEl.textContent = "خطأ في التحميل";
         }
     }
 
@@ -65,62 +67,109 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         tbody.innerHTML = '<tr><td colspan="7">جاري تحميل بيانات التبرعات...</td></tr>';
 
-        const { data, error } = await sb
-            .from('donations')
-            .select('*')
-            .order('created_at', { ascending: false });
+        try {
+            const { data, error } = await sb
+                .from('donations')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-        if (error) {
-            console.error('خطأ في جلب التبرعات:', error);
-            tbody.innerHTML = '<tr><td colspan="7">حدث خطأ في تحميل بيانات التبرعات</td></tr>';
-            return;
-        }
+            if (error) throw error;
 
-        if (!data || data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7">لا توجد تبرعات حتى الآن</td></tr>';
-            return;
-        }
-
-        tbody.innerHTML = '';
-
-        data.forEach((row, index) => {
-            const tr = document.createElement('tr');
-
-            const donorName = row.donor_name || 'غير معروف';
-            const caseName = row.case_name || '';
-            const amount = row.amount != null ? row.amount + ' جنيه' : '';
-            const status = row.status || '';
-            const createdAt = row.created_at ? new Date(row.created_at) : null;
-            const dateStr = createdAt ? createdAt.toLocaleDateString('ar-EG') : '';
-
-            tr.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${donorName}</td>
-                <td>${caseName}</td>
-                <td class="amount">${amount}</td>
-                <td>${dateStr}</td>
-                <td><span class="status ${status === 'مكتمل' ? 'status-approved' : 'status-pending'}">${status}</span></td>
-                <td class="actions">
-                    <button class="view-btn"><i class="fas fa-eye"></i> عرض</button>
-                </td>
-            `;
-
-            const viewBtn = tr.querySelector('.view-btn');
-            if (viewBtn) {
-                viewBtn.addEventListener('click', () => {
-                    if (row.case_id) {
-                        window.location.href = "تفاصيل الحاله.html?id=" + encodeURIComponent(row.case_id);
-                    } else {
-                        alert('لا توجد حالة مرتبطة بهذا التبرع');
-                    }
-                });
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7">لا توجد تبرعات حتى الآن</td></tr>';
+                return;
             }
 
-            tbody.appendChild(tr);
-        });
+            tbody.innerHTML = '';
 
+            data.forEach((row, index) => {
+                const tr = document.createElement('tr');
+
+                const donorName = row.donor_name || 'غير معروف';
+                const caseName = row.case_name || '';
+                const amountValue = row.amount || 0;
+                const amount = amountValue + ' جنيه';
+                const status = row.status || 'قيد المراجعة';
+                const createdAt = row.created_at ? new Date(row.created_at) : null;
+                const dateStr = createdAt ? createdAt.toLocaleDateString('ar-EG') : '';
+
+                let statusClass = 'status-pending';
+                if (status === 'مكتمل' || status === 'مقبول') statusClass = 'status-approved';
+                if (status === 'مرفوض') statusClass = 'status-rejected';
+
+                let actionButtons = `
+                <button class="view-btn" title="عرض الحالة"><i class="fas fa-eye"></i></button>
+            `;
+
+            if (status === 'قيد المراجعة') {
+                actionButtons += `
+                    <button class="approve-btn" title="موافقة"><i class="fas fa-check"></i></button>
+                    <button class="reject-btn" title="رفض"><i class="fas fa-times"></i></button>
+                `;
+            }
+
+            // تأكد من ظهور زر الإيصال إذا كان هناك مرفق
+            if (row.attachment_url) {
+                actionButtons += `
+                    <a href="${row.attachment_url}" target="_blank" class="receipt-btn" title="عرض الإيصال">
+                        <i class="fas fa-receipt"></i> إيصال
+                    </a>
+                `;
+            }
+
+            tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${donorName}</td>
+                    <td>${caseName}</td>
+                    <td class="amount">${amount}</td>
+                    <td>${dateStr}</td>
+                    <td><span class="status ${statusClass}">${status}</span></td>
+                    <td class="actions">
+                        ${actionButtons}
+                    </td>
+                `;
+
+                // الأحداث
+                const viewBtn = tr.querySelector('.view-btn');
+                if (viewBtn) {
+                    viewBtn.addEventListener('click', () => {
+                        if (row.case_id) {
+                            window.location.href = "تفاصيل الحاله.html?id=" + encodeURIComponent(row.case_id);
+                        } else {
+                            alert('لا توجد حالة مرتبطة بهذا التبرع');
+                        }
+                    });
+                }
+
+                const approveBtn = tr.querySelector('.approve-btn');
+                if (approveBtn) {
+                    approveBtn.addEventListener('click', () => approveDonation(row.id, row.case_id, amountValue));
+                }
+
+                const rejectBtn = tr.querySelector('.reject-btn');
+                if (rejectBtn) {
+                    rejectBtn.addEventListener('click', () => rejectDonation(row.id));
+                }
+
+                tbody.appendChild(tr);
+            });
+
+            // تفعيل البحث والتأثيرات بعد تحميل البيانات
+            setupTableFeatures();
+
+        } catch (error) {
+            console.error('خطأ في جلب التبرعات:', error);
+            tbody.innerHTML = `<tr><td colspan="7">حدث خطأ في تحميل البيانات: ${error.message}</td></tr>`;
+        }
+    }
+
+    function setupTableFeatures() {
         if (searchInput) {
-            searchInput.addEventListener('input', function() {
+            // إزالة المستمعات القديمة لتجنب التكرار
+            const newSearchInput = searchInput.cloneNode(true);
+            searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+            
+            newSearchInput.addEventListener('input', function() {
                 const term = this.value.toLowerCase();
                 const rows = tbody.querySelectorAll('tr');
                 rows.forEach(r => {
@@ -143,6 +192,100 @@ document.addEventListener('DOMContentLoaded', async function() {
                 this.style.boxShadow = '';
             });
         });
+    }
+
+    // --- وظائف الموافقة والرفض ---
+    async function approveDonation(donationId, caseId, amount) {
+        if (!confirm('هل أنت متأكد من الموافقة على هذا التبرع؟')) return;
+
+        try {
+            // 1. جلب بيانات الحالة
+            let caseData, caseFetchErr;
+            
+            // محاولة جلب البيانات مع beneficiary_id، إذا فشل نجرب بدونه
+            const firstAttempt = await sb
+                .from('cases')
+                .select('remaining_amount, name, beneficiary_id')
+                .eq('id', caseId)
+                .single();
+            
+            if (firstAttempt.error && firstAttempt.error.message.includes('beneficiary_id')) {
+                const secondAttempt = await sb
+                    .from('cases')
+                    .select('remaining_amount, name')
+                    .eq('id', caseId)
+                    .single();
+                caseData = secondAttempt.data;
+                caseFetchErr = secondAttempt.error;
+            } else {
+                caseData = firstAttempt.data;
+                caseFetchErr = firstAttempt.error;
+            }
+            
+            if (caseFetchErr) throw caseFetchErr;
+
+            // 2. تحديث حالة التبرع
+            const { error: donationErr } = await sb
+                .from('donations')
+                .update({ status: 'مكتمل' })
+                .eq('id', donationId);
+            
+            if (donationErr) throw donationErr;
+
+            // 3. تحديث المبلغ المتبقي في الحالة
+            const newRemaining = (caseData.remaining_amount || 0) - amount;
+            const { error: updateErr } = await sb
+                .from('cases')
+                .update({ remaining_amount: newRemaining })
+                .eq('id', caseId);
+            
+            if (updateErr) throw updateErr;
+
+            // 4. إرسال إشعار للمستفيد
+            if (caseData.beneficiary_id) {
+                const { data: beneficiary } = await sb
+                    .from('beneficiaries')
+                    .select('user_id')
+                    .eq('id', caseData.beneficiary_id)
+                    .single();
+
+                if (beneficiary && beneficiary.user_id) {
+                    await sb.from('notifications').insert({
+                        title: 'تم تأكيد تبرع جديد!',
+                        message: `تمت الموافقة على تبرع بمبلغ ${amount} جنيه لحالتك: ${caseData.name}.`,
+                        type: 'user',
+                        is_read: false,
+                        user_id: beneficiary.user_id,
+                        created_at: new Date().toISOString()
+                    });
+                }
+            }
+
+            alert('تمت الموافقة على التبرع بنجاح وتحديث بيانات الحالة.');
+            loadDonations(); // إعادة تحميل الجدول
+        } catch (error) {
+            console.error('Error approving donation:', error);
+            alert('حدث خطأ أثناء الموافقة: ' + error.message);
+        }
+    }
+
+    async function rejectDonation(donationId) {
+        if (!confirm('هل أنت متأكد من رفض هذا التبرع؟')) return;
+
+        try {
+            const { error } = await sb
+                .from('donations')
+                .update({ status: 'مرفوض' })
+                .eq('id', donationId);
+            
+            if (error) throw error;
+            
+            alert('تم رفض التبرع بنجاح.');
+            loadDonations(); // إعادة تحميل الجدول
+        } catch (error) {
+            console.error('Error rejecting donation:', error);
+            alert('حدث خطأ أثناء رفض التبرع.');
+        }
     }
 
     const logoutBtnSidebar = document.getElementById("sidebarLogoutBtn");

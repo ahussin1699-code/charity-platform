@@ -1,0 +1,15 @@
+    .completed-card-v { border-radius:16px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,0.09); background:#fff; }
+    .completed-card-v img { width:100%; height:220px; object-fit:cover; }
+    .completed-card-v .info { padding:18px 20px; }
+    .completed-badge-v { background:#e9f5ec; color:#2f6d3f; font-size:0.82rem; font-weight:700; padding:4px 12px; border-radius:20px; display:inline-block; margin-bottom:10px; }
+    .completed-card-v h4 { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
+    .completed-card-v p  { font-size:0.88rem; color:#666; }
+    #completedCasesGridView { overflow: visible !important; }
+    @media (max-width: 768px) {
+      #completedCasesGridView { grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; }
+      .completed-card-v img { height: 100px; }
+      .completed-card-v .info { padding: 8px; }
+      .completed-card-v h4 { font-size: 0.78rem; }
+      .completed-card-v p  { font-size: 0.72rem; }
+      .completed-badge-v { font-size: 0.68rem; padding: 2px 6px; }
+    }

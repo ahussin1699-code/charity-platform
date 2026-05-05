@@ -411,15 +411,10 @@ window.doctorDecision = async function (caseId, decision) {
     const msg  = `${icon} الطبيب ${decision === 'approve' ? 'وافق على' : 'رفض'} الحالة`;
 
     try {
-        const { data: adminUser } = await sb.from('users').select('id').eq('email', ADMIN_EMAIL).maybeSingle();
-        await sb.from('notifications').insert([{
-            message: msg, title: 'قرار الطبيب', case_id: caseId,
-            type: decision === 'approve' ? 'case_approved_by_doctor' : 'case_rejected_by_doctor',
-            is_read: false, user_id: adminUser?.id || null,
-            created_at: new Date().toISOString()
-        }]);
+        await notifyAllAdmins('قرار الطبيب', msg,
+            decision === 'approve' ? 'case_approved_by_doctor' : 'case_rejected_by_doctor'
+        );
     } catch(e) { console.warn('notification error:', e.message); }
-
     // رسالة في الشات الخاص
     if (currentRoomId) {
         try {

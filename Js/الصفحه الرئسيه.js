@@ -8,22 +8,21 @@ async function checkUser() {
   if (!user) {
     window.location.href = "تسجيل الدخول .html";
   } else {
+    // استخدام التحقق الموحد من الأدمن
+    const isAdmin = await checkIfAdmin(user);
+
     const userName =
       (user.user_metadata &&
         (user.user_metadata.full_name || user.user_metadata.name)) ||
       user.email;
     const userEmailEl = document.getElementById("userEmail");
     if (userEmailEl) {
-      userEmailEl.innerText = "هلا (" + userName + ")";
+      if (isAdmin) {
+        userEmailEl.innerText = "هلا بالمسؤول (" + userName + ")";
+      } else {
+        userEmailEl.innerText = "هلا (" + userName + ")";
+      }
     }
-
-    const metaIsAdmin =
-      user.user_metadata &&
-      (user.user_metadata.is_admin === true ||
-        user.user_metadata.role === "admin");
-    const emailIsAdmin =
-      user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-    const isAdmin = !!(metaIsAdmin || emailIsAdmin);
 
     const isBeneficiary =
       user.user_metadata &&
@@ -62,11 +61,7 @@ async function checkUser() {
         addCaseLink.style.display = "flex";
         addCaseLink.onclick = function (e) {
           e.preventDefault();
-          if (isAdmin) {
-            window.location.href = "اضافة حاله جديده.html";
-          } else {
-            window.location.href = "اضافه حاله العميل .html";
-          }
+          window.location.href = "اضافه حاله العميل .html";
         };
       } else {
         addCaseLink.style.display = "none";
@@ -119,9 +114,9 @@ if (menuBtn && mainNav) {
   });
 }
 
-function donate(name) {
+function donate(id) {
   window.location.href =
-    "صفحه التبرع.html?name=" + encodeURIComponent(name);
+    "صفحة الدفع.html?id=" + encodeURIComponent(id);
 }
 
 function getFallbackImageHome() {

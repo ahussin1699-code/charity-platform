@@ -56,7 +56,40 @@ window.addEventListener('load', () => {
     checkUserAndImage();
     checkAuthState();
     loadRecentCases();
+    loadCompletedCases();
 });
+
+async function loadCompletedCases() {
+    const grid = document.getElementById('completedCasesGridView');
+    if (!grid || !sb) return;
+
+    const { data, error } = await sb.from('cases')
+      .select('id,name,type,image_url,required_amount')
+      .eq('remaining_amount', 0)
+      .eq('status', 'مقبول')
+      .order('created_at', { ascending: false })
+      .limit(3);
+
+    if (error) {
+        console.error("Error loading completed cases:", error);
+        return;
+    }
+
+    if (!data || data.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:20px;">لا توجد حالات مكتملة بعد</div>';
+      return;
+    }
+
+    grid.innerHTML = data.map(c => `
+      <div class="completed-card-v">
+        <img src="${c.image_url || '../صور المشروع/تبرع.jpg'}" alt="${c.name}" onerror="this.src='../صور المشروع/تبرع.jpg'">
+        <div class="info">
+          <span class="completed-badge-v"><i class="fa-solid fa-circle-check"></i> مكتملة</span>
+          <h4>${c.name || 'حالة'}</h4>
+          <p>${c.type || 'إنسانية'} — تم جمع ${(c.required_amount || 0).toLocaleString('ar-EG')} جنيه</p>
+        </div>
+      </div>`).join('');
+}
 
 async function loadRecentCases() {
     if (!sb) return;

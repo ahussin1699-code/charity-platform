@@ -1,113 +1,152 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>الإشعارات - تبرعات خيرية</title>
-    <link rel="stylesheet" href="../css/الاشعارات.css">
-    <link rel="stylesheet" href="../css/sidebar-shared.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="../css/الاشعارات.css" />
+    <link rel="stylesheet" href="../css/sidebar-shared.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <!-- المحتوى الرئيسي -->
     <div class="main-content">
-        <div class="container">
-            <header>
-                <div class="header-content">
-                    <button class="menu-toggle" id="menuToggle" style="display:none;">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <h1><i class="fas fa-bell"></i> الإشعارات</h1>
-                    <div class="admin-profile-box">
-                        <span id="adminHeaderName">جاري التحميل...</span>
-                        <img id="adminHeaderImg" src="../images/default-avatar.png" alt="صورة المسؤول">
-                    </div>
-                </div>
+      <div class="container">
+        <header>
+          <div class="header-content">
+            <button class="menu-toggle" id="menuToggle" style="display: none">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h1><i class="fas fa-bell"></i> الإشعارات</h1>
+            <div class="admin-profile-box">
+              <span id="adminHeaderName">جاري التحميل...</span>
+              <img
+                id="adminHeaderImg"
+                src="../images/default-avatar.png"
+                alt="صورة المسؤول"
+              />
+            </div>
+          </div>
 
-                <!-- القائمة الجانبية -->
-                <div class="side-drawer" id="mobileNav">
-                    <div class="side-drawer-header">
-                        <span>تبرعات خيرية</span>
-                        <button class="side-drawer-close" id="drawerClose">
-                            <i class="fas fa-xmark"></i>
-                        </button>
-                    </div>
-                    <nav>
-                        <a href="الصفحه الرئسيه.html"><i class="fas fa-home"></i> الصفحة الرئيسية</a>
-                        <a href="لوحه التحكم .html"><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a>
-                        <a href="ادارة المستخدمين.html"><i class="fas fa-users"></i> إدارة المستخدمين</a>
-                        <a href="مراجعه الحالات.html"><i class="fas fa-hands-helping"></i> المستفيدون</a>
-                        <a href="مراجعه التبرعات.html"><i class="fas fa-hand-holding-usd"></i> مراجعة التبرعات</a>
-                        <a href="الاشعارات.html" class="active"><i class="fas fa-bell"></i> الإشعارات</a>
-                        <a href="اضافة حاله جديده.html"><i class="fas fa-plus-circle"></i> إضافة حالة</a>
-                        <a href="اضافه حاله العميل .html"><i class="fas fa-user-plus"></i> إضافة حالة عميل</a>
-                        <a href="التقارير الطبيه.html"><i class="fas fa-file-medical"></i> التقارير الطبية</a>
-                    </nav>
-                </div>
-                <div class="side-drawer-overlay" id="drawerOverlay"></div>
-            </header>
+          <!-- القائمة الجانبية -->
+          <div class="side-drawer" id="mobileNav">
+            <div class="side-drawer-header">
+              <span>تبرعات خيرية</span>
+              <button class="side-drawer-close" id="drawerClose">
+                <i class="fas fa-xmark"></i>
+              </button>
+            </div>
+            <nav>
+              <a href="الصفحه الرئسيه.html"
+                ><i class="fas fa-home"></i> الصفحة الرئيسية</a
+              >
+              <a href="لوحه التحكم .html"
+                ><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a
+              >
+              <a href="ادارة المستخدمين.html"
+                ><i class="fas fa-users"></i> إدارة المستخدمين</a
+              >
+              <a href="مراجعه الحالات.html"
+                ><i class="fas fa-hands-helping"></i> المستفيدون
+                <span class="nav-badge" id="badge-cases"></span
+              ></a>
+              <a href="مراجعه التبرعات.html"
+                ><i class="fas fa-hand-holding-usd"></i> مراجعة التبرعات
+                <span class="nav-badge" id="badge-donations"></span
+              ></a>
+              <a href="الاشعارات.html" class="active"
+                ><i class="fas fa-bell"></i> الإشعارات
+                <span class="nav-badge" id="badge-notifs"></span
+              ></a>
+              <a href="اضافه حاله العميل .html"
+                ><i class="fas fa-user-plus"></i> إضافة حالة عميل</a
+              >
+              <a href="التقارير الطبيه.html"
+                ><i class="fas fa-file-medical"></i> التقارير الطبية</a
+              >
+            </nav>
+          </div>
+          <div class="side-drawer-overlay" id="drawerOverlay"></div>
+        </header>
 
-            <div class="notifications-container">
-                <!-- محتوى الإشعارات -->
-                <div class="notifications-content">
-                    <div class="notifications-header">
-                        <h2><i class="fas fa-bell"></i> الإشعارات الحديثة</h2>
-                        <div class="notifications-actions">
-                            <button class="btn btn-primary" id="markAllRead">
-                                <i class="fas fa-check-double"></i> تعيين الكل كمقروء
-                            </button>
-                            <button class="btn btn-danger" id="deleteAll">
-                                <i class="fas fa-trash"></i> حذف الكل
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="notifications-list" id="notificationsList">
-                        <div style="text-align:center;padding:30px;color:#888;">
-                            <i class="fas fa-spinner fa-spin" style="font-size:2rem;"></i>
-                            <p style="margin-top:10px;">جاري تحميل الإشعارات...</p>
-                        </div>
-                    </div>
-
-                    <div class="empty-state" id="emptyState" style="display: none;">
-                        <i class="far fa-bell-slash"></i>
-                        <h3>لا توجد إشعارات</h3>
-                        <p>ليس لديك أي إشعارات لعرضها حالياً</p>
-                    </div>
-                </div>
+        <div class="notifications-container">
+          <!-- محتوى الإشعارات -->
+          <div class="notifications-content">
+            <div class="notifications-header">
+              <h2><i class="fas fa-bell"></i> الإشعارات الحديثة</h2>
+              <div class="notifications-actions">
+                <button class="btn btn-primary" id="markAllRead">
+                  <i class="fas fa-check-double"></i> تعيين الكل كمقروء
+                </button>
+                <button class="btn btn-danger" id="deleteAll">
+                  <i class="fas fa-trash"></i> حذف الكل
+                </button>
+              </div>
             </div>
 
-            <footer>
-                <p>جميع الحقوق محفوظة &copy; 2025 - منصة التبرعات الخيرية</p>
-            </footer>
+            <div class="notifications-list" id="notificationsList">
+              <div style="text-align: center; padding: 30px; color: #888">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem"></i>
+                <p style="margin-top: 10px">جاري تحميل الإشعارات...</p>
+              </div>
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none">
+              <i class="far fa-bell-slash"></i>
+              <h3>لا توجد إشعارات</h3>
+              <p>ليس لديك أي إشعارات لعرضها حالياً</p>
+            </div>
+          </div>
         </div>
+
+        <footer>
+          <p>جميع الحقوق محفوظة &copy; 2025 - منصة التبرعات الخيرية</p>
+        </footer>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../Js/config.js"></script>
     <script src="../Js/الاشعارات.js"></script>
     <script src="../Js/notification-badge.js"></script>
+    <script src="../Js/sidebar-badges.js"></script>
     <script>
-      (function(){
-        var btn     = document.getElementById("menuToggle");
-        var drawer  = document.getElementById("mobileNav");
+      (function () {
+        var btn = document.getElementById("menuToggle");
+        var drawer = document.getElementById("mobileNav");
         var overlay = document.getElementById("drawerOverlay");
-        var closeBtn= document.getElementById("drawerClose");
+        var closeBtn = document.getElementById("drawerClose");
 
-        function open()  { drawer.classList.add("active");  overlay.classList.add("active"); btn.querySelector("i").className="fas fa-bars"; }
-        function close() { drawer.classList.remove("active"); overlay.classList.remove("active"); btn.querySelector("i").className="fas fa-bars"; }
+        function open() {
+          drawer.classList.add("active");
+          overlay.classList.add("active");
+          btn.querySelector("i").className = "fas fa-bars";
+        }
+        function close() {
+          drawer.classList.remove("active");
+          overlay.classList.remove("active");
+          btn.querySelector("i").className = "fas fa-bars";
+        }
 
-        if(btn)     btn.addEventListener("click", function(){ drawer.classList.contains("active") ? close() : open(); });
-        if(closeBtn) closeBtn.addEventListener("click", close);
-        if(overlay)  overlay.addEventListener("click", close);
+        if (btn)
+          btn.addEventListener("click", function () {
+            drawer.classList.contains("active") ? close() : open();
+          });
+        if (closeBtn) closeBtn.addEventListener("click", close);
+        if (overlay) overlay.addEventListener("click", close);
       })();
     </script>
 
-    <link rel="stylesheet" href="../css/chatbot.css">
+    <link rel="stylesheet" href="../css/chatbot.css" />
     <script src="../Js/chatbot.js"></script>
-</body>
+  </body>
 </html>

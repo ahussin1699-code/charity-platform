@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DFD — منصة تبرعات خيرية</title>
+<title>DFD — منصة تبرعات خيرية (v2 النهائي)</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #f5f7ff; font-family: 'Segoe UI', Tahoma, sans-serif; direction: rtl; padding: 20px; }
   h2 { text-align: center; color: #3b5fc0; margin: 18px 0 10px; font-size: 1.3rem; }
+  .subtitle { text-align:center; color:#666; font-size:.85rem; margin-bottom:14px; }
   .controls { text-align: center; margin: 10px 0 18px; }
   button {
     padding: 9px 22px; margin: 4px; background: #3b5fc0;
@@ -16,12 +17,25 @@
   button:hover { background: #2a4aaa; }
   .svg-wrap { overflow-x: auto; background: #fff; border: 1px solid #dde; border-radius: 8px; padding: 10px; }
   hr { margin: 36px 0; border-color: #ccd; }
+  .legend-box { background:#fff; border:1px solid #dde; border-radius:8px; padding:14px 20px; margin:10px auto 18px; max-width:700px; font-size:.85rem; color:#333; }
+  .legend-box span { display:inline-block; margin-left:18px; }
+  .leg-entity { background:#3b5fc0; color:#fff; padding:2px 8px; border-radius:3px; }
+  .leg-proc   { background:#d6e0f7; border:1px solid #3b5fc0; padding:2px 8px; border-radius:3px; }
+  .leg-store  { background:#d6e0f7; border:1px solid #3b5fc0; padding:2px 8px; border-radius:3px; }
 </style>
 </head>
 <body>
 
 <!-- ========== DFD LEVEL 0 ========== -->
-<h2>DFD Level 0 — منصة تبرعات خيرية</h2>
+<h2>DFD Level 0 — منصة تبرعات خيرية (النسخة النهائية)</h2>
+<p class="subtitle">مخطط السياق — يوضح تدفق البيانات بين الجهات الخارجية والنظام</p>
+<div class="legend-box">
+  <span><span class="leg-entity">■</span> جهة خارجية (Entity)</span>
+  <span><span class="leg-proc">■</span> عملية (Process)</span>
+  <span><span class="leg-store">■</span> مخزن بيانات (Data Store)</span>
+  <span>← تدفق بيانات خارج النظام</span>
+  <span>→ تدفق بيانات داخل النظام</span>
+</div>
 <div class="controls">
   <button onclick="dlSVG('svgL0','DFD-Level0.svg')">⬇️ تحميل Level 0 SVG</button>
 </div>
@@ -29,7 +43,8 @@
 
 <!-- ========== DFD LEVEL 1 ========== -->
 <hr>
-<h2>DFD Level 1 — منصة تبرعات خيرية</h2>
+<h2>DFD Level 1 — منصة تبرعات خيرية (النسخة النهائية)</h2>
+<p class="subtitle">يوضح العمليات التفصيلية داخل النظام وتدفق البيانات بين كل عملية ومخزن البيانات المرتبط بها</p>
 <div class="controls">
   <button onclick="dlSVG('svgL1','DFD-Level1.svg')">⬇️ تحميل Level 1 SVG</button>
 </div>
@@ -49,19 +64,6 @@ function svgText(x,y,txt,size,bold,fill,anchor='middle',dy=0){
     font-size="${size}" font-weight="${bold?'bold':'normal'}" fill="${fill}"
     font-family="'Segoe UI',Tahoma,sans-serif">${txt}</text>`;
 }
-// Process box: top half dark, bottom half light
-function svgProcess(x,y,w,h,num,label){
-  const half=Math.round(h*0.42);
-  let s = svgRect(x,y,w,half,C.dark,C.dark,0,0);
-  s += svgRect(x,y+half,w,h-half,C.light,C.dark,0,1.8);
-  s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="${C.dark}" stroke-width="2"/>`;
-  s += svgText(x+w/2, y+half/2, num, 15, true, C.white);
-  // wrap label
-  const lines = wrapAr(label, 18);
-  const lh = 14, startY = y+half+(h-half)/2 - (lines.length-1)*lh/2;
-  lines.forEach((l,i)=>{ s += svgText(x+w/2, startY+i*lh, l, 11, false, C.dark); });
-  return s;
-}
 function svgEntity(x,y,w,h,label){
   let s = svgRect(x,y,w,h,C.dark,C.dark,4,0);
   const lines = wrapAr(label,14);
@@ -74,16 +76,6 @@ function svgStore(x,y,w,h,label){
   const lines = wrapAr(label,22);
   const lh=13, startY=y+h/2-(lines.length-1)*lh/2;
   lines.forEach((l,i)=>{ s += svgText(x+w/2, startY+i*lh, l, 10.5, false, C.dark); });
-  return s;
-}
-// Simple arrow with label
-function svgArrow(x1,y1,x2,y2,label,lside='top',markerId='ah'){
-  const angle = Math.atan2(y2-y1,x2-x1);
-  const mx=(x1+x2)/2, my=(y1+y2)/2;
-  const off = lside==='top'?-9:12;
-  const px=-Math.sin(angle)*off, py=Math.cos(angle)*off;
-  let s=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C.arrow}" stroke-width="1.6" marker-end="url(#${markerId})"/>`;
-  if(label) s+=svgText(mx+px, my+py, label, 9.5, false, C.text);
   return s;
 }
 function wrapAr(str, maxLen){
@@ -102,69 +94,77 @@ function dlSVG(id,name){
 }
 
 // =====================================================================
-//  DFD LEVEL 0
+//  DFD LEVEL 0  — النسخة النهائية
 // =====================================================================
 function buildL0(){
-  // كبّرنا الـ canvas عشان في مساحة كافية للنصوص
-  const W=1600, H=1200;
-  // System box في المنتصف
-  const SX=480, SY=280, SW=640, SH=500;
-  const SHalf=Math.round(SH*0.38);
-  // Entity sizes
-  const EW=130, EH=54;
+  const W=1700, H=1300;
+  const SX=500, SY=300, SW=700, SH=560;
+  const SHalf=Math.round(SH*0.35);
+  const EW=145, EH=58;
 
-  // Entity positions — بعيدة عن النظام بما يكفي للنصوص
-  const donor = {x:30,        y:SY+SH/2-EH/2};   // يسار
-  const sup   = {x:W-EW-30,   y:SY+SH/2-EH/2};   // يمين
-  const doc   = {x:W/2-EW/2,  y:40};              // أعلى
-  const ben   = {x:W/2-EW/2,  y:H-EH-40};         // أسفل
+  // مواضع الجهات الخارجية
+  const donor = {x:20,        y:SY+SH/2-EH/2};
+  const sup   = {x:W-EW-20,   y:SY+SH/2-EH/2};
+  const doc   = {x:W/2-EW/2,  y:30};
+  const ben   = {x:W/2-EW/2,  y:H-EH-30};
 
-  // ---- بيانات الأسهم ----
-  // كل سهم أفقي له STEP_H=38px بين سطر وسطر (كافي للنص فوق وتحت)
-  const STEP_H = 38;
-  const arrowStartY = SY + 30;
+  const STEP = 40;
+  const startY = SY + 28;
 
+  // أسهم المتبرع (يسار النظام)
   const donorArrows = [
-    {dir:'out', label:'إنشاء حساب'},
-    {dir:'in',  label:'تأكيد البيانات'},
-    {dir:'out', label:'تسجيل الدخول'},
-    {dir:'in',  label:'تأكيد الجلسة'},
-    {dir:'in',  label:'عرض البيانات'},
-    {dir:'out', label:'تصفح الحالات'},
-    {dir:'out', label:'اختيار حالة'},
-    {dir:'in',  label:'تفاصيل الحالة'},
-    {dir:'out', label:'إجراء التبرع'},
-    {dir:'in',  label:'تأكيد التبرع'},
-  ];
-  const supArrows = [
-    {dir:'out', label:'تسجيل البيانات'},
+    {dir:'out', label:'إنشاء حساب جديد'},
     {dir:'in',  label:'تأكيد التسجيل'},
-    {dir:'out', label:'إدارة المستخدمين'},
-    {dir:'in',  label:'عرض طلبات المستفيد'},
-    {dir:'out', label:'مراجعة الطلبات'},
-    {dir:'in',  label:'إرسال بيانات للطبيب'},
-    {dir:'out', label:'تأكيد القبول أو الرفض'},
-    {dir:'in',  label:'عرض التبرعات'},
-    {dir:'out', label:'إدارة الحالات'},
-    {dir:'in',  label:'الإشعارات'},
+    {dir:'out', label:'بريد + كلمة مرور'},
+    {dir:'in',  label:'تأكيد الجلسة'},
+    {dir:'out', label:'تصفح الحالات المقبولة'},
+    {dir:'in',  label:'قائمة الحالات'},
+    {dir:'out', label:'معرّف الحالة (ID)'},
+    {dir:'in',  label:'تفاصيل + مبلغ متبقي'},
+    {dir:'out', label:'اسم + هاتف + مبلغ + دفع'},
+    {dir:'in',  label:'تأكيد التبرع'},
+    {dir:'out', label:'تقييم المنصة (نجوم)'},
+    {dir:'in',  label:'تأكيد حفظ التقييم'},
   ];
 
-  // الأسهم العمودية: dx بين كل سهم 55px عشان النصوص ما تتداخل
-  const docArrows = [
-    {dx:-110, dir:'out', label:'إنشاء حساب'},
-    {dx: -55, dir:'in',  label:'تأكيد البيانات'},
-    {dx:   0, dir:'out', label:'تسجيل الدخول'},
-    {dx:  55, dir:'in',  label:'تأكيد التسجيل'},
-    {dx: 110, dir:'in',  label:'المستندات الطبية'},
+  // أسهم المشرف (يمين النظام)
+  const supArrows = [
+    {dir:'out', label:'بريد + كلمة مرور'},
+    {dir:'in',  label:'تأكيد الجلسة'},
+    {dir:'out', label:'قبول / رفض الحالة'},
+    {dir:'in',  label:'بيانات الحالات المعلقة'},
+    {dir:'out', label:'تعيين طبيب + تخصص'},
+    {dir:'in',  label:'تأكيد تعيين الطبيب'},
+    {dir:'out', label:'اختيار تخصص + إرسال'},
+    {dir:'in',  label:'تأكيد إرسال للطبيب'},
+    {dir:'out', label:'فتح محادثة مع طبيب'},
+    {dir:'in',  label:'رسائل الغرفة الخاصة'},
+    {dir:'out', label:'قراءة / حذف إشعار'},
+    {dir:'in',  label:'إشعارات موجهة لكل مشرف على حدة'},
+    {dir:'out', label:'إدارة المستخدمين'},
+    {dir:'in',  label:'بيانات التبرعات'},
   ];
+
+  // أسهم الطبيب (أعلى النظام)
+  const docArrows = [
+    {dx:-165, dir:'out', label:'بريد + كلمة مرور'},
+    {dx:-110, dir:'in',  label:'تأكيد الجلسة'},
+    {dx: -55, dir:'in',  label:'حالة في غرفته الخاصة'},
+    {dx:   0, dir:'out', label:'رسالة / ملف طبي'},
+    {dx:  55, dir:'in',  label:'تأكيد الإرسال'},
+    {dx: 110, dir:'out', label:'قرار موافقة / رفض'},
+    {dx: 165, dir:'in',  label:'إشعار موجه للطبيب'},
+  ];
+
+  // أسهم المستفيد (أسفل النظام)
   const benArrows = [
-    {dx:-140, dir:'out', label:'إنشاء حساب'},
-    {dx: -90, dir:'in',  label:'تأكيد البيانات'},
-    {dx: -40, dir:'out', label:'بيانات التسجيل'},
-    {dx:  10, dir:'in',  label:'تأكيد البيانات'},
-    {dx:  60, dir:'out', label:'طلب تبرع'},
-    {dx: 110, dir:'in',  label:'قبول أو رفض الطلب'},
-    {dx: 160, dir:'out', label:'رفع مستندات إثبات'},
+    {dx:-165, dir:'out', label:'إنشاء حساب مستفيد'},
+    {dx:-110, dir:'in',  label:'تأكيد التسجيل'},
+    {dx: -55, dir:'out', label:'بيانات الحالة + صورة'},
+    {dx:   0, dir:'in',  label:'تأكيد إضافة الحالة'},
+    {dx:  55, dir:'out', label:'بريد + كلمة مرور'},
+    {dx: 110, dir:'in',  label:'تأكيد الجلسة'},
+    {dx: 165, dir:'in',  label:'إشعار قبول / رفض الحالة'},
   ];
 
   let s = `<svg id="svgL0" xmlns="http://www.w3.org/2000/svg"
@@ -179,78 +179,71 @@ function buildL0(){
     </marker>
   </defs>`;
 
-  // مستطيل النظام
+  // صندوق النظام
   s += svgRect(SX,SY,SW,SHalf,C.dark,C.dark,0,0);
   s += svgRect(SX,SY+SHalf,SW,SH-SHalf,C.light,C.dark,0,2.5);
   s += `<rect x="${SX}" y="${SY}" width="${SW}" height="${SH}" fill="none" stroke="${C.dark}" stroke-width="2.5"/>`;
-  s += svgText(SX+SW/2, SY+SHalf/2, '0', 60, true, C.white);
-  s += svgText(SX+SW/2, SY+SHalf+(SH-SHalf)/2, 'تبرعات خيرية', 26, true, C.dark);
+  s += svgText(SX+SW/2, SY+SHalf/2, '0', 55, true, C.white);
+  s += svgText(SX+SW/2, SY+SHalf+(SH-SHalf)*0.35, 'منصة تبرعات خيرية', 22, true, C.dark);
+  s += svgText(SX+SW/2, SY+SHalf+(SH-SHalf)*0.65, 'نظام إدارة الحالات والتبرعات', 13, false, '#555');
 
-  // الـ Entities
+  // الجهات الخارجية
   s += svgEntity(donor.x, donor.y, EW, EH, 'متبرع');
   s += svgEntity(sup.x,   sup.y,   EW, EH, 'مشرف');
-  s += svgEntity(doc.x,   doc.y,   EW, EH, 'الطبيب');
-  s += svgEntity(ben.x,   ben.y,   EW, EH, 'المستفيد');
+  s += svgEntity(doc.x,   doc.y,   EW, EH, 'طبيب');
+  s += svgEntity(ben.x,   ben.y,   EW, EH, 'مستفيد');
 
-  // ---- أسهم المتبرع (يسار) ----
-  // النص فوق السهم للـ out، وتحته للـ in — مع مسافة 14px
+  // أسهم المتبرع
   donorArrows.forEach((a,i)=>{
-    const yy = arrowStartY + i*STEP_H;
-    if(yy > SY+SH-10) return;
-    const x1 = donor.x+EW, x2 = SX;
-    const mx = (x1+x2)/2;
+    const yy = startY + i*STEP;
+    if(yy > SY+SH-8) return;
+    const x1=donor.x+EW, x2=SX, mx=(x1+x2)/2;
     if(a.dir==='out'){
-      s += `<line x1="${x1}" y1="${yy}" x2="${x2-2}" y2="${yy}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
-      s += svgText(mx, yy-9, a.label, 10, false, C.text);
+      s+=`<line x1="${x1}" y1="${yy}" x2="${x2-2}" y2="${yy}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
+      s+=svgText(mx, yy-9, a.label, 9.5, false, C.text);
     } else {
-      s += `<line x1="${x2}" y1="${yy}" x2="${x1+2}" y2="${yy}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
-      s += svgText(mx, yy+14, a.label, 10, false, C.text);
+      s+=`<line x1="${x2}" y1="${yy}" x2="${x1+2}" y2="${yy}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
+      s+=svgText(mx, yy+13, a.label, 9.5, false, C.text);
     }
   });
 
-  // ---- أسهم المشرف (يمين) ----
+  // أسهم المشرف
   supArrows.forEach((a,i)=>{
-    const yy = arrowStartY + i*STEP_H;
-    if(yy > SY+SH-10) return;
-    const x1 = SX+SW, x2 = sup.x;
-    const mx = (x1+x2)/2;
+    const yy = startY + i*STEP;
+    if(yy > SY+SH-8) return;
+    const x1=SX+SW, x2=sup.x, mx=(x1+x2)/2;
     if(a.dir==='out'){
-      s += `<line x1="${x1}" y1="${yy}" x2="${x2-2}" y2="${yy}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
-      s += svgText(mx, yy-9, a.label, 10, false, C.text);
+      s+=`<line x1="${x1}" y1="${yy}" x2="${x2-2}" y2="${yy}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
+      s+=svgText(mx, yy-9, a.label, 9.5, false, C.text);
     } else {
-      s += `<line x1="${x2}" y1="${yy}" x2="${x1+2}" y2="${yy}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
-      s += svgText(mx, yy+14, a.label, 10, false, C.text);
+      s+=`<line x1="${x2}" y1="${yy}" x2="${x1+2}" y2="${yy}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
+      s+=svgText(mx, yy+13, a.label, 9.5, false, C.text);
     }
   });
 
-  // ---- أسهم الطبيب (أعلى) ----
-  // النص على يمين السهم للـ out، ويسار للـ in
+  // أسهم الطبيب (عمودية من أعلى)
   const docMidX = doc.x+EW/2;
   docArrows.forEach(a=>{
-    const xx = docMidX+a.dx;
-    const y1 = doc.y+EH, y2 = SY;
-    const my = (y1+y2)/2;
+    const xx=docMidX+a.dx, y1=doc.y+EH, y2=SY, my=(y1+y2)/2;
     if(a.dir==='out'){
-      s += `<line x1="${xx}" y1="${y1}" x2="${xx}" y2="${y2-2}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
-      s += svgText(xx+6, my, a.label, 10, false, C.text, 'start');
+      s+=`<line x1="${xx}" y1="${y1}" x2="${xx}" y2="${y2-2}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
+      s+=svgText(xx+7, my, a.label, 9.5, false, C.text, 'start');
     } else {
-      s += `<line x1="${xx}" y1="${y2}" x2="${xx}" y2="${y1+2}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
-      s += svgText(xx-6, my, a.label, 10, false, C.text, 'end');
+      s+=`<line x1="${xx}" y1="${y2}" x2="${xx}" y2="${y1+2}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
+      s+=svgText(xx-7, my, a.label, 9.5, false, C.text, 'end');
     }
   });
 
-  // ---- أسهم المستفيد (أسفل) ----
+  // أسهم المستفيد (عمودية من أسفل)
   const benMidX = ben.x+EW/2;
   benArrows.forEach(a=>{
-    const xx = benMidX+a.dx;
-    const y1 = ben.y, y2 = SY+SH;
-    const my = (y1+y2)/2;
+    const xx=benMidX+a.dx, y1=ben.y, y2=SY+SH, my=(y1+y2)/2;
     if(a.dir==='out'){
-      s += `<line x1="${xx}" y1="${y1}" x2="${xx}" y2="${y2+2}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
-      s += svgText(xx+6, my, a.label, 10, false, C.text, 'start');
+      s+=`<line x1="${xx}" y1="${y1}" x2="${xx}" y2="${y2+2}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
+      s+=svgText(xx+7, my, a.label, 9.5, false, C.text, 'start');
     } else {
-      s += `<line x1="${xx}" y1="${y2}" x2="${xx}" y2="${y1-2}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
-      s += svgText(xx-6, my, a.label, 10, false, C.text, 'end');
+      s+=`<line x1="${xx}" y1="${y2}" x2="${xx}" y2="${y1-2}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
+      s+=svgText(xx-7, my, a.label, 9.5, false, C.text, 'end');
     }
   });
 
@@ -259,37 +252,224 @@ function buildL0(){
 }
 
 // =====================================================================
-//  DFD LEVEL 1
+//  DFD LEVEL 1  — النسخة النهائية الشاملة (كل النصوص عربي)
 // =====================================================================
 const rows1 = [
-  { num:'1',  proc:'تسجيل الحساب',          el:'متبرع / مستفيد',               ds:'D1 — قاعدة المستخدمين',      a1:'بيانات التسجيل',                   a2:'حفظ بيانات المستخدم',        a3:'تأكيد التسجيل' },
-  { num:'2',  proc:'تسجيل الدخول',           el:'متبرع / مستفيد / مشرف / طبيب', ds:'D1 — قاعدة المستخدمين',      a1:'بريد + كلمة مرور',                 a2:'بيانات المستخدم',            a3:'تأكيد الجلسة' },
-  { num:'3',  proc:'إدارة الملف الشخصي',    el:'متبرع / مستفيد',               ds:'D1 — قاعدة المستخدمين',      a1:'تعديل البيانات / الصورة',          a2:'تحديث البيانات',             a3:'تأكيد الحفظ' },
-  { num:'4',  proc:'إضافة حالة',             el:'مستفيد / مشرف',                ds:'D2 — قاعدة الحالات',         a1:'بيانات الحالة + صورة',             a2:'حفظ الحالة (قيد المراجعة)', a3:'تأكيد الإضافة' },
-  { num:'5',  proc:'مراجعة الحالات',         el:'مشرف',                         ds:'D2 — قاعدة الحالات',         a1:'قرار القبول / الرفض',              a2:'تحديث الحالة (مقبول)',       a3:'بيانات الحالة' },
-  { num:'6',  proc:'عرض الحالات',            el:'متبرع',                        ds:'D2 — قاعدة الحالات',         a1:'طلب تصفح / بحث / تصفية',          a2:'الحالات المقبولة',           a3:'قائمة الحالات' },
-  { num:'7',  proc:'تفاصيل الحالة',          el:'متبرع',                        ds:'D2 — قاعدة الحالات',         a1:'معرّف الحالة (ID)',                a2:'بيانات الحالة الكاملة',      a3:'تفاصيل + مبلغ متبقي' },
-  { num:'8',  proc:'عملية التبرع',           el:'متبرع',                        ds:'D3 — قاعدة التبرعات',        a1:'اسم + هاتف + مبلغ + طريقة دفع',   a2:'حفظ سجل التبرع',             a3:'تأكيد التبرع' },
-  { num:'9',  proc:'معالجة الدفع',           el:'متبرع',                        ds:'D2 — قاعدة الحالات',         a1:'بيانات البطاقة / إيصال المحفظة',  a2:'تحديث remaining_amount',     a3:'تأكيد الدفع' },
-  { num:'10', proc:'رفع الإيصال',            el:'متبرع',                        ds:'D4 — Supabase Storage',      a1:'ملف الإيصال',                      a2:'رفع الملف',                  a3:'رابط الإيصال' },
-  { num:'11', proc:'إرسال الإشعارات',        el:'النظام (تلقائي)',               ds:'D5 — قاعدة الإشعارات',       a1:'حدث جديد (تبرع / حالة)',           a2:'حفظ الإشعار',                a3:'إشعار للمشرف' },
-  { num:'12', proc:'إدارة الإشعارات',        el:'مشرف',                         ds:'D5 — قاعدة الإشعارات',       a1:'قراءة / حذف إشعار',                a2:'تحديث is_read',              a3:'قائمة الإشعارات' },
-  { num:'13', proc:'إدارة المستخدمين',       el:'مشرف',                         ds:'D1 — قاعدة المستخدمين',      a1:'تغيير الحالة / الدور',             a2:'تحديث user_type / status',   a3:'بيانات المستخدمين' },
-  { num:'14', proc:'مراجعة التبرعات',        el:'مشرف',                         ds:'D3 — قاعدة التبرعات',        a1:'طلب عرض التبرعات',                 a2:'سجلات التبرعات',             a3:'قائمة التبرعات' },
-  { num:'15', proc:'لوحة التحكم',            el:'مشرف',                         ds:'D2 — قاعدة الحالات',         a1:'طلب الإحصائيات',                   a2:'بيانات الحالات',             a3:'إجمالي / نشط / مكتمل' },
-  { num:'16', proc:'تسجيل المستفيد',         el:'مستفيد',                       ds:'D1 — قاعدة المستخدمين',      a1:'بيانات التسجيل + العنوان + الجنس', a2:'حفظ بيانات المستفيد',        a3:'تأكيد التسجيل' },
-  { num:'17', proc:'مراجعة طلبات المستفيد',  el:'مشرف',                         ds:'D1 — قاعدة المستخدمين',      a1:'قبول / رفض طلب التسجيل',           a2:'تحديث الحالة',               a3:'طلبات المستفيدين' },
-  { num:'18', proc:'التقارير الطبية',        el:'طبيب',                         ds:'D6 — قاعدة الرسائل الطبية', a1:'رسالة / ملف طبي',                  a2:'حفظ الرسالة',                a3:'تأكيد الإرسال' },
-  { num:'19', proc:'إدارة الحالات',          el:'مشرف',                         ds:'D2 — قاعدة الحالات',         a1:'تعديل / حذف حالة',                 a2:'تحديث / حذف',                a3:'بيانات الحالة' },
-  { num:'20', proc:'الشات بوت الذكي',        el:'متبرع / مستفيد',               ds:'D7 — Gemini AI API',         a1:'رسالة المستخدم',                   a2:'طلب Gemini API',             a3:'رد الذكاء الاصطناعي' },
+  // ===== المصادقة والحسابات =====
+  {
+    num:'1', proc:'تسجيل الحساب',
+    el:'متبرع / مستفيد',
+    ds:'م1 — جدول المستخدمين',
+    a1:'الاسم + البريد الإلكتروني أو الهاتف + كلمة المرور + نوع الحساب',
+    a2:'حفظ بيانات المستخدم الجديد في قاعدة البيانات',
+    a3:'تأكيد التسجيل وبدء الجلسة'
+  },
+  {
+    num:'2', proc:'تسجيل الدخول والمصادقة',
+    el:'متبرع / مستفيد / مشرف / طبيب',
+    ds:'م1 — جدول المستخدمين',
+    a1:'البريد الإلكتروني أو رقم الهاتف + كلمة المرور',
+    a2:'التحقق من البيانات وجلب نوع المستخدم وحالة الحساب',
+    a3:'رمز الجلسة + توجيه المستخدم للصفحة المناسبة حسب نوعه'
+  },
+  {
+    num:'3', proc:'إدارة الملف الشخصي',
+    el:'متبرع / مستفيد / طبيب',
+    ds:'م1 — جدول المستخدمين',
+    a1:'تعديل الاسم أو رقم الهاتف أو الصورة الشخصية',
+    a2:'تحديث بيانات المستخدم في قاعدة البيانات',
+    a3:'تأكيد حفظ التغييرات'
+  },
+  // ===== الحالات =====
+  {
+    num:'4', proc:'إضافة حالة (مستفيد)',
+    el:'مستفيد',
+    ds:'م2 — جدول الحالات',
+    a1:'الاسم + الوصف + النوع + المبلغ المطلوب + الصورة + بيانات التواصل',
+    a2:'حفظ الحالة بحالة "قيد المراجعة" في قاعدة البيانات',
+    a3:'تأكيد الإضافة + إرسال إشعار لجميع المشرفين'
+  },
+  {
+    num:'5', proc:'إضافة حالة (مشرف)',
+    el:'مشرف',
+    ds:'م2 — جدول الحالات',
+    a1:'بيانات الحالة الكاملة + رفع الصورة على خادم التخزين',
+    a2:'حفظ الحالة بحالة "مقبول" مباشرة دون مراجعة',
+    a3:'تأكيد النشر الفوري للحالة'
+  },
+  {
+    num:'6', proc:'مراجعة الحالات والموافقة',
+    el:'مشرف',
+    ds:'م2 — جدول الحالات',
+    a1:'قرار القبول أو الرفض على الحالة',
+    a2:'تحديث حالة الكيس إلى "مقبول" أو "مرفوض"',
+    a3:'بيانات الحالات المعلقة + إرسال إشعار للمستفيد صاحب الحالة'
+  },
+  {
+    num:'7', proc:'عرض الحالات للمتبرعين',
+    el:'متبرع',
+    ds:'م2 — جدول الحالات',
+    a1:'طلب تصفح أو بحث بالاسم أو تصفية حسب النوع',
+    a2:'جلب الحالات المقبولة التي لم يكتمل جمع مبلغها بعد',
+    a3:'قائمة الحالات المقبولة مع شريط التقدم'
+  },
+  {
+    num:'8', proc:'عرض تفاصيل الحالة',
+    el:'متبرع',
+    ds:'م2 — جدول الحالات',
+    a1:'رقم تعريف الحالة المختارة',
+    a2:'جلب كافة بيانات الحالة من قاعدة البيانات',
+    a3:'الوصف الكامل + المبلغ المطلوب + المبلغ المتبقي + شريط التقدم'
+  },
+  {
+    num:'9', proc:'تعديل أو حذف الحالة',
+    el:'مشرف',
+    ds:'م2 — جدول الحالات',
+    a1:'بيانات التعديل أو طلب الحذف',
+    a2:'تحديث بيانات الحالة أو حذفها من قاعدة البيانات',
+    a3:'تأكيد التعديل أو الحذف'
+  },
+  // ===== التبرعات والدفع =====
+  {
+    num:'10', proc:'عملية التبرع المباشر للحالة',
+    el:'متبرع',
+    ds:'م3 — جدول التبرعات',
+    a1:'الاسم + رقم الهاتف + المبلغ + طريقة الدفع (فيزا أو محفظة)',
+    a2:'حفظ سجل التبرع في قاعدة البيانات مرتبطاً برقم الحالة',
+    a3:'تأكيد التبرع + نافذة تقييم المنصة'
+  },
+  {
+    num:'11', proc:'معالجة الدفع بالفيزا',
+    el:'متبرع',
+    ds:'م2 — جدول الحالات',
+    a1:'بيانات البطاقة البنكية (الرقم + تاريخ الانتهاء + رمز الأمان)',
+    a2:'خصم المبلغ من المبلغ المتبقي للحالة في قاعدة البيانات',
+    a3:'تأكيد الدفع + تحديث شريط التقدم'
+  },
+  {
+    num:'12', proc:'معالجة الدفع بالمحفظة الإلكترونية',
+    el:'متبرع',
+    ds:'م4 — خادم التخزين',
+    a1:'صورة إيصال التحويل البنكي',
+    a2:'رفع صورة الإيصال على خادم التخزين وحفظ الرابط',
+    a3:'رابط الإيصال + حالة التبرع "قيد المراجعة"'
+  },
+  {
+    num:'13', proc:'تقييم المنصة بعد التبرع',
+    el:'متبرع',
+    ds:'م8 — جدول التقييمات',
+    a1:'عدد النجوم من 1 إلى 5 + تعليق اختياري',
+    a2:'حفظ التقييم في جدول التقييمات',
+    a3:'تأكيد حفظ التقييم'
+  },
+  // ===== الإشعارات الموجهة =====
+  {
+    num:'14', proc:'إرسال إشعار للمشرفين',
+    el:'النظام تلقائياً',
+    ds:'م5 — جدول الإشعارات',
+    a1:'حدث جديد (تبرع جديد أو حالة جديدة أو قرار طبيب)',
+    a2:'جلب أرقام تعريف جميع المشرفين ثم حفظ إشعار خاص لكل مشرف',
+    a3:'إشعار خاص لكل مشرف مرتبط برقمه التعريفي'
+  },
+  {
+    num:'15', proc:'إرسال إشعار للمستفيد',
+    el:'النظام تلقائياً',
+    ds:'م5 — جدول الإشعارات',
+    a1:'قرار قبول أو رفض الحالة',
+    a2:'جلب رقم تعريف المستفيد صاحب الحالة وحفظ إشعار خاص له',
+    a3:'إشعار قبول أو رفض يظهر للمستفيد فقط'
+  },
+  {
+    num:'16', proc:'إرسال إشعار للطبيب',
+    el:'النظام تلقائياً',
+    ds:'م5 — جدول الإشعارات',
+    a1:'إرسال حالة لتخصص طبي معين',
+    a2:'جلب أرقام تعريف أطباء التخصص المطلوب وحفظ إشعار لكل منهم',
+    a3:'إشعار يظهر لأطباء التخصص المحدد فقط'
+  },
+  {
+    num:'17', proc:'إدارة الإشعارات',
+    el:'مشرف / طبيب / مستفيد',
+    ds:'م5 — جدول الإشعارات',
+    a1:'قراءة إشعار أو تعيينه كمقروء أو حذفه',
+    a2:'تحديث حالة الإشعار إلى "مقروء" أو حذفه من قاعدة البيانات',
+    a3:'قائمة الإشعارات الخاصة بالمستخدم الحالي فقط'
+  },
+  // ===== المحادثة الطبية =====
+  {
+    num:'18', proc:'تعيين طبيب بتخصص',
+    el:'مشرف',
+    ds:'م1 — جدول المستخدمين',
+    a1:'رقم تعريف المستخدم + التخصص الطبي المختار',
+    a2:'تحديث نوع المستخدم إلى "طبيب" وحفظ تخصصه',
+    a3:'تأكيد التعيين وتحديث بيانات المستخدم'
+  },
+  {
+    num:'19', proc:'إرسال حالة للطبيب المختص',
+    el:'مشرف',
+    ds:'م6 — جدول رسائل الطبيب',
+    a1:'رقم الحالة + التخصص الطبي المطلوب',
+    a2:'حفظ رسالة تحتوي بيانات الحالة في غرفة المحادثة الخاصة بالطبيب',
+    a3:'تأكيد الإرسال + تحديث حالة الكيس إلى "قيد المراجعة الطبية"'
+  },
+  {
+    num:'20', proc:'المحادثة الطبية الخاصة',
+    el:'مشرف / طبيب',
+    ds:'م6 — جدول رسائل الطبيب',
+    a1:'رسالة نصية أو ملف طبي + رقم غرفة المحادثة',
+    a2:'حفظ الرسالة في غرفة المحادثة الخاصة بالطبيب',
+    a3:'رسائل الغرفة الخاصة بالطبيب فقط (لا يراها أحد غيره والمشرف)'
+  },
+  {
+    num:'21', proc:'قرار الطبيب على الحالة',
+    el:'طبيب',
+    ds:'م2 — جدول الحالات',
+    a1:'قرار الموافقة أو الرفض + رقم الحالة',
+    a2:'تحديث حالة الكيس إلى "موافق عليها من الطبيب" أو "مرفوض من الطبيب"',
+    a3:'تأكيد القرار + إرسال إشعار لجميع المشرفين'
+  },
+  // ===== لوحة التحكم والإدارة =====
+  {
+    num:'22', proc:'لوحة التحكم والإحصائيات',
+    el:'مشرف',
+    ds:'م2 — جدول الحالات',
+    a1:'طلب عرض الإحصائيات',
+    a2:'جلب إجمالي الحالات والتبرعات والمستخدمين من قاعدة البيانات',
+    a3:'إجمالي الحالات + النشطة + المكتملة + إجمالي التبرعات'
+  },
+  {
+    num:'23', proc:'إدارة المستخدمين',
+    el:'مشرف',
+    ds:'م1 — جدول المستخدمين',
+    a1:'تغيير حالة الحساب (نشط / محظور) أو تغيير الدور',
+    a2:'تحديث حالة المستخدم أو نوعه في قاعدة البيانات',
+    a3:'بيانات المستخدمين المحدثة'
+  },
+  {
+    num:'24', proc:'مراجعة التبرعات',
+    el:'مشرف',
+    ds:'م3 — جدول التبرعات',
+    a1:'طلب عرض قائمة التبرعات',
+    a2:'جلب جميع التبرعات مرتبة من الأحدث للأقدم',
+    a3:'قائمة التبرعات مع اسم المتبرع والمبلغ وطريقة الدفع والحالة'
+  },
+  // ===== الشات بوت =====
+  {
+    num:'25', proc:'الشات بوت الذكي',
+    el:'متبرع / مستفيد / زائر',
+    ds:'م7 — واجهة الذكاء الاصطناعي',
+    a1:'رسالة المستخدم + سياق النظام',
+    a2:'إرسال الرسالة لواجهة الذكاء الاصطناعي (جيميني) والحصول على رد',
+    a3:'رد الذكاء الاصطناعي + أزرار تنقل مقترحة'
+  },
 ];
 
 function buildL1(){
-  const EW=200, EH=54, PW=210, PH=70, DW=260, DH=54;
-  const GAP=80, LPAD=32, ROW_GAP=48;
+  const EW=210, EH=56, PW=220, PH=72, DW=280, DH=56;
+  const GAP=85, LPAD=32, ROW_GAP=50;
   const ROW_H = PH + ROW_GAP;
   const TW = LPAD + EW + GAP + PW + GAP + DW + LPAD;
-  const TH = 80 + rows1.length * ROW_H + 20;
+  const TH = 90 + rows1.length * ROW_H + 20;
   const xE=LPAD, xP=xE+EW+GAP, xD=xP+PW+GAP;
 
   let s = `<svg id="svgL1" xmlns="http://www.w3.org/2000/svg"
@@ -304,22 +484,43 @@ function buildL1(){
     </marker>
   </defs>`;
 
-  // Header row labels
-  s += svgText(xE+EW/2,   42, 'الجهة الخارجية',  13, true, C.dark);
-  s += svgText(xP+PW/2,   42, 'العملية (Process)',13, true, C.dark);
-  s += svgText(xD+DW/2,   42, 'مخزن البيانات',   13, true, C.dark);
+  // رؤوس الأعمدة
+  s += svgText(xE+EW/2,   45, 'الجهة الخارجية',   13, true, C.dark);
+  s += svgText(xP+PW/2,   45, 'العملية',           13, true, C.dark);
+  s += svgText(xD+DW/2,   45, 'مخزن البيانات',    13, true, C.dark);
+
+  // خط فاصل تحت الرؤوس
+  s += `<line x1="${LPAD}" y1="58" x2="${TW-LPAD}" y2="58" stroke="#3b5fc0" stroke-width="1.5"/>`;
+
+  // تجميع الصفوف في مجموعات بألوان مختلفة
+  const groups = {
+    '1':'#e8f0fe','2':'#e8f0fe','3':'#e8f0fe',
+    '4':'#e8f5e9','5':'#e8f5e9','6':'#e8f5e9','7':'#e8f5e9','8':'#e8f5e9','9':'#e8f5e9',
+    '10':'#fff3e0','11':'#fff3e0','12':'#fff3e0','13':'#fff3e0',
+    '14':'#fce4ec','15':'#fce4ec','16':'#fce4ec','17':'#fce4ec',
+    '18':'#f3e5f5','19':'#f3e5f5','20':'#f3e5f5','21':'#f3e5f5',
+    '22':'#e0f7fa','23':'#e0f7fa','24':'#e0f7fa',
+    '25':'#f9fbe7',
+  };
 
   rows1.forEach((r,i)=>{
-    const Y   = 60 + i*ROW_H;
-    const midY= Y + PH/2;
-    const eY  = Y + (PH-EH)/2;
-    const dY  = Y + (PH-DH)/2;
-    const half= Math.round(PH*0.42);
+    const Y    = 65 + i*ROW_H;
+    const midY = Y + PH/2;
+    const eY   = Y + (PH-EH)/2;
+    const dY   = Y + (PH-DH)/2;
+    const half = Math.round(PH*0.40);
+    const bg   = groups[r.num] || '#fff';
+
+    // خلفية الصف
+    s += svgRect(LPAD, Y-4, TW-LPAD*2, PH+8, bg, 'none', 4, 0);
 
     // Entity
-    s += svgEntity(xE, eY, EW, EH, r.el);
+    s += svgRect(xE, eY, EW, EH, C.dark, C.dark, 4, 0);
+    const eLines = wrapAr(r.el, 16);
+    const elh=13, eStartY=eY+EH/2-(eLines.length-1)*elh/2;
+    eLines.forEach((l,j)=>{ s += svgText(xE+EW/2, eStartY+j*elh, l, 10.5, true, C.white); });
 
-    // Process
+    // Process (رقم في الأعلى + اسم في الأسفل)
     s += svgRect(xP, Y, PW, half, C.dark, C.dark, 0, 0);
     s += svgRect(xP, Y+half, PW, PH-half, C.light, C.dark, 0, 1.8);
     s += `<rect x="${xP}" y="${Y}" width="${PW}" height="${PH}" fill="none" stroke="${C.dark}" stroke-width="2"/>`;
@@ -329,25 +530,31 @@ function buildL1(){
     pLines.forEach((l,j)=>{ s += svgText(xP+PW/2, pStartY+j*plh, l, 11, false, C.dark); });
 
     // Data Store
-    s += svgStore(xD, dY, DW, DH, r.ds);
+    s += svgRect(xD, dY, DW, DH, C.light, C.dark, 3, 1.8);
+    const dsLines = wrapAr(r.ds, 24);
+    const dslh=13, dsStartY=dY+DH/2-(dsLines.length-1)*dslh/2;
+    dsLines.forEach((l,j)=>{ s += svgText(xD+DW/2, dsStartY+j*dslh, l, 10.5, false, C.dark); });
 
-    // Arrow 1: Entity → Process (top lane)
-    const y1 = midY - 12;
+    // سهم 1: Entity → Process
+    const y1 = midY - 13;
     s += `<line x1="${xE+EW}" y1="${y1}" x2="${xP-2}" y2="${y1}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
-    s += svgText((xE+EW+xP)/2, y1-10, r.a1, 10, false, C.text);
+    const a1Lines = wrapAr(r.a1, 22);
+    a1Lines.forEach((l,j)=>{ s += svgText((xE+EW+xP)/2, y1-10-(a1Lines.length-1-j)*11, l, 9, false, C.text); });
 
-    // Arrow 2: Process → DataStore (top lane)
+    // سهم 2: Process → DataStore
     s += `<line x1="${xP+PW}" y1="${y1}" x2="${xD-2}" y2="${y1}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah)"/>`;
-    s += svgText((xP+PW+xD)/2, y1-10, r.a2, 10, false, C.text);
+    const a2Lines = wrapAr(r.a2, 26);
+    a2Lines.forEach((l,j)=>{ s += svgText((xP+PW+xD)/2, y1-10-(a2Lines.length-1-j)*11, l, 9, false, C.text); });
 
-    // Arrow 3: DataStore → Process (bottom lane — response)
-    const y3 = midY + 12;
+    // سهم 3: DataStore → Process (رد)
+    const y3 = midY + 13;
     s += `<line x1="${xD}" y1="${y3}" x2="${xP+PW+2}" y2="${y3}" stroke="${C.arrow}" stroke-width="1.5" marker-end="url(#ah2)"/>`;
-    s += svgText((xP+PW+xD)/2, y3+15, r.a3, 10, false, C.text);
+    const a3Lines = wrapAr(r.a3, 26);
+    a3Lines.forEach((l,j)=>{ s += svgText((xP+PW+xD)/2, y3+13+j*11, l, 9, false, C.text); });
 
-    // Separator
+    // فاصل بين الصفوف
     if(i < rows1.length-1)
-      s += `<line x1="${LPAD}" y1="${Y+PH+ROW_GAP/2}" x2="${TW-LPAD}" y2="${Y+PH+ROW_GAP/2}" stroke="#ccd" stroke-width="0.8"/>`;
+      s += `<line x1="${LPAD}" y1="${Y+PH+ROW_GAP/2}" x2="${TW-LPAD}" y2="${Y+PH+ROW_GAP/2}" stroke="#ccd" stroke-width="0.7"/>`;
   });
 
   s += `</svg>`;

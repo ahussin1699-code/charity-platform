@@ -1,18 +1,20 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>إدارة المستخدمين</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../css/ادارة المستخدمين.css">
-    <link rel="stylesheet" href="../css/sidebar-shared.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/ادارة المستخدمين.css" />
+    <link rel="stylesheet" href="../css/sidebar-shared.css" />
+  </head>
 
-<body>
+  <body>
     <!-- زر القائمة للموبايل -->
     <button class="menu-toggle" id="menuToggle">
       <i class="fas fa-bars"></i>
@@ -29,15 +31,51 @@
 
       <nav class="sidebar-nav">
         <ul>
-          <li><a href="الصفحه الرئسيه.html"><i class="fas fa-home"></i> <span>الصفحة الرئيسية</span></a></li>
-          <li><a href="لوحه التحكم .html"><i class="fas fa-tachometer-alt"></i> <span>لوحة التحكم</span></a></li>
-          <li><a href="ادارة المستخدمين.html" class="active"><i class="fas fa-users"></i> <span>إدارة المستخدمين</span></a></li>
-          <li><a href="مراجعه الحالات.html"><i class="fas fa-hands-helping"></i> <span>المستفيدون</span></a></li>
-          <li><a href="مراجعه التبرعات.html"><i class="fas fa-hand-holding-usd"></i> <span>مراجعة التبرعات</span></a></li>
-          <li><a href="الاشعارات.html"><i class="fas fa-bell"></i> <span>الاشعارات</span></a></li>
-          <li><a href="اضافة حاله جديده.html"><i class="fas fa-plus-circle"></i> <span>إضافة حالة</span></a></li>
-          <li><a href="اضافه حاله العميل .html"><i class="fas fa-user-plus"></i> <span>إضافة حالة عميل</span></a></li>
-          <li><a href="التقارير الطبيه.html"><i class="fas fa-file-medical"></i> <span>التقارير الطبية</span></a></li>
+          <li>
+            <a href="الصفحه الرئسيه.html"
+              ><i class="fas fa-home"></i> <span>الصفحة الرئيسية</span></a
+            >
+          </li>
+          <li>
+            <a href="لوحه التحكم .html"
+              ><i class="fas fa-tachometer-alt"></i> <span>لوحة التحكم</span></a
+            >
+          </li>
+          <li>
+            <a href="ادارة المستخدمين.html" class="active"
+              ><i class="fas fa-users"></i> <span>إدارة المستخدمين</span></a
+            >
+          </li>
+          <li>
+            <a href="مراجعه الحالات.html"
+              ><i class="fas fa-hands-helping"></i> <span>المستفيدون</span>
+              <span class="nav-badge" id="badge-cases"></span
+            ></a>
+          </li>
+          <li>
+            <a href="مراجعه التبرعات.html"
+              ><i class="fas fa-hand-holding-usd"></i>
+              <span>مراجعة التبرعات</span>
+              <span class="nav-badge" id="badge-donations"></span
+            ></a>
+          </li>
+          <li>
+            <a href="الاشعارات.html"
+              ><i class="fas fa-bell"></i> <span>الاشعارات</span>
+              <span class="nav-badge" id="badge-notifs"></span
+            ></a>
+          </li>
+          <li>
+            <a href="اضافه حاله العميل .html"
+              ><i class="fas fa-user-plus"></i> <span>إضافة حالة عميل</span></a
+            >
+          </li>
+          <li>
+            <a href="التقارير الطبيه.html"
+              ><i class="fas fa-file-medical"></i>
+              <span>التقارير الطبية</span></a
+            >
+          </li>
         </ul>
       </nav>
 
@@ -53,87 +91,95 @@
     <div class="main-content">
       <div class="container">
         <div class="header">
-            <h1><i class="fas fa-users-cog"></i> إدارة المستخدمين</h1>
-            <div class="admin-profile-box">
-                <span id="adminHeaderName">جاري التحميل...</span>
-                <img id="adminHeaderImg" src="../images/default-avatar.png" alt="صورة المسؤول">
-            </div>
+          <h1><i class="fas fa-users-cog"></i> إدارة المستخدمين</h1>
+          <div class="admin-profile-box">
+            <span id="adminHeaderName">جاري التحميل...</span>
+            <img
+              id="adminHeaderImg"
+              src="../images/default-avatar.png"
+              alt="صورة المسؤول"
+            />
+          </div>
         </div>
 
         <div class="search-section">
-            <div class="filter-container">
-                <div class="search-box">
-                    <input type="text" id="userSearchInput" placeholder="بحث عن مستخدم بالاسم أو البريد...">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="filter-box">
-                    <select id="userTypeFilter">
-                        <option value="all">كل الأنواع</option>
-                        <option value="admin">مسؤول</option>
-                        <option value="متبرع">متبرع</option>
-                        <option value="مستفيد">مستفيد</option>
-                        <option value="طبيب">طبيب</option>
-                    </select>
-                </div>
+          <div class="filter-container">
+            <div class="search-box">
+              <input
+                type="text"
+                id="userSearchInput"
+                placeholder="بحث عن مستخدم بالاسم أو البريد..."
+              />
+              <i class="fas fa-search"></i>
             </div>
+            <div class="filter-box">
+              <select id="userTypeFilter">
+                <option value="all">كل الأنواع</option>
+                <option value="admin">مسؤول</option>
+                <option value="متبرع">متبرع</option>
+                <option value="مستفيد">مستفيد</option>
+                <option value="طبيب">طبيب</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>اسم المستخدم</th>
-                        <th>نوع المستخدم</th>
-                        <th>البريد الإلكتروني</th>
-                        <th>تاريخ التسجيل</th>
-                        <th>الحالة</th>
-                        <th>الإجراءات</th>
-                    </tr>
-                </thead>
-                <tbody id="usersTableBody">
-                    <!-- سيتم جلب البيانات برمجياً -->
-                </tbody>
-            </table>
+          <table>
+            <thead>
+              <tr>
+                <th>اسم المستخدم</th>
+                <th>نوع المستخدم</th>
+                <th>البريد الإلكتروني</th>
+                <th>تاريخ التسجيل</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <!-- سيتم جلب البيانات برمجياً -->
+            </tbody>
+          </table>
         </div>
 
         <div class="footer">
-            <p>جميع الحقوق محفوظة &copy; 2023 نظام إدارة المستخدمين</p>
+          <p>جميع الحقوق محفوظة &copy; 2023 نظام إدارة المستخدمين</p>
         </div>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../Js/config.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // التحكم في القائمة الجانبية للموبايل
-            const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.getElementById('sidebar');
-            
-            if (menuToggle && sidebar) {
-                menuToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
-                });
-            }
+      document.addEventListener("DOMContentLoaded", function () {
+        // التحكم في القائمة الجانبية للموبايل
+        const menuToggle = document.getElementById("menuToggle");
+        const sidebar = document.getElementById("sidebar");
 
-            // زر تسجيل الخروج
-            const sidebarLogoutBtn = document.getElementById("sidebarLogoutBtn");
-            if (sidebarLogoutBtn) {
-                sidebarLogoutBtn.addEventListener("click", async (e) => {
-                    e.preventDefault();
-                    const sb = createSupabaseClient();
-                    if (sb) {
-                        await sb.auth.signOut();
-                        window.location.href = "تسجيل الدخول .html";
-                    }
-                });
+        if (menuToggle && sidebar) {
+          menuToggle.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
+          });
+        }
+
+        // زر تسجيل الخروج
+        const sidebarLogoutBtn = document.getElementById("sidebarLogoutBtn");
+        if (sidebarLogoutBtn) {
+          sidebarLogoutBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const sb = createSupabaseClient();
+            if (sb) {
+              await sb.auth.signOut();
+              window.location.href = "تسجيل الدخول .html";
             }
-        });
+          });
+        }
+      });
     </script>
     <script src="../Js/ادارة المستخدمين.js"></script>
     <script src="../Js/notification-badge.js"></script>
+    <script src="../Js/sidebar-badges.js"></script>
 
-    <link rel="stylesheet" href="../css/chatbot.css">
+    <link rel="stylesheet" href="../css/chatbot.css" />
     <script src="../Js/chatbot.js"></script>
-</body>
-
+  </body>
 </html>

@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -15,6 +15,7 @@
   
   <!-- CSS Links -->
   <link rel="stylesheet" href="../css/صفحه العرض.css">
+  <link rel="stylesheet" href="../css/حالات_مكتملة.css">
 </head>
 
 <body>
@@ -214,52 +215,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../Js/config.js"></script>
   <script src="../Js/صفحه العرض.js"></script>
-  <style>
-    .completed-card-v { border-radius:16px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,0.09); background:#fff; }
-    .completed-card-v img { width:100%; height:220px; object-fit:cover; }
-    .completed-card-v .info { padding:18px 20px; }
-    .completed-badge-v { background:#e9f5ec; color:#2f6d3f; font-size:0.82rem; font-weight:700; padding:4px 12px; border-radius:20px; display:inline-block; margin-bottom:10px; }
-    .completed-card-v h4 { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
-    .completed-card-v p  { font-size:0.88rem; color:#666; }
-    #completedCasesGridView { overflow: visible !important; }
-    @media (max-width: 768px) {
-      #completedCasesGridView { grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; }
-      .completed-card-v img { height: 100px; }
-      .completed-card-v .info { padding: 8px; }
-      .completed-card-v h4 { font-size: 0.78rem; }
-      .completed-card-v p  { font-size: 0.72rem; }
-      .completed-badge-v { font-size: 0.68rem; padding: 2px 6px; }
-    }
-  </style>
-  <script>
-  (async function(){
-    const sb = createSupabaseClient();
-    if (!sb) return;
-    const grid = document.getElementById('completedCasesGridView');
-    if (!grid) return;
-    const { data } = await sb.from('cases')
-      .select('id,name,type,image_url,required_amount')
-      .eq('remaining_amount', 0)
-      .eq('status', 'مقبول')
-      .order('created_at', { ascending: false })
-      .limit(3);
-    if (!data || data.length === 0) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:20px;">لا توجد حالات مكتملة بعد</div>';
-      return;
-    }
-    grid.innerHTML = data.map(c=>`
-      <div class="completed-card-v">
-        <img src="${c.image_url||'../صور المشروع/تبرع.jpg'}" alt="${c.name}" onerror="this.src='../صور المشروع/تبرع.jpg'">
-        <div class="info">
-          <span class="completed-badge-v"><i class="fa-solid fa-circle-check"></i> مكتملة</span>
-          <h4>${c.name||'حالة'}</h4>
-          <p>${c.type||'إنسانية'} — تم جمع ${(c.required_amount||0).toLocaleString('ar-EG')} جنيه</p>
-        </div>
-      </div>`).join('');
-  })();
-  </script>
+
   <link rel="stylesheet" href="../css/chatbot.css">
   <script src="../Js/chatbot.js"></script>
-
 </body>
 </html>

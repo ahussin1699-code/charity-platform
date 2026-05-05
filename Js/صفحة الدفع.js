@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const visaMethod = document.getElementById('visa-method');
     const walletMethod = document.getElementById('wallet-method');
     const visaForm = document.getElementById('visa-form');
@@ -51,22 +51,42 @@
 
         try {
             // 1. Fetch current case data
-            const { data: caseData, error: fetchError } = await sb
+            let caseData, fetchError;
+            
+            // محاولة جلب البيانات مع beneficiary_id، إذا فشل نجرب بدونه
+            const firstAttempt = await sb
                 .from('cases')
-                .select('remaining_amount, name')
+                .select('remaining_amount, name, beneficiary_id')
                 .eq('id', caseId)
                 .single();
+            
+            if (firstAttempt.error && firstAttempt.error.message.includes('beneficiary_id')) {
+                const secondAttempt = await sb
+                    .from('cases')
+                    .select('remaining_amount, name')
+                    .eq('id', caseId)
+                    .single();
+                caseData = secondAttempt.data;
+                fetchError = secondAttempt.error;
+            } else {
+                caseData = firstAttempt.data;
+                fetchError = firstAttempt.error;
+            }
 
             if (fetchError) throw fetchError;
 
-            // 2. Update remaining amount in cases table
-            const newRemaining = caseData.remaining_amount - amount;
-            const { error: updateError } = await sb
-                .from('cases')
-                .update({ remaining_amount: newRemaining })
-                .eq('id', caseId);
+            let newRemaining = caseData.remaining_amount;
+            
+            // 2. Update remaining amount in cases table (ONLY for visa)
+            if (method === 'visa') {
+                newRemaining = caseData.remaining_amount - amount;
+                const { error: updateError } = await sb
+                    .from('cases')
+                    .update({ remaining_amount: newRemaining })
+                    .eq('id', caseId);
 
-            if (updateError) throw updateError;
+                if (updateError) throw updateError;
+            }
 
             const donationStatus = method === 'wallet' ? 'قيد المراجعة' : (newRemaining <= 0 ? 'مكتمل' : 'مقبول');
 
@@ -78,25 +98,23 @@
                 const fileName = `receipt_${Date.now()}.${fileExt}`;
                 const filePath = `receipts/${fileName}`;
 
-                try {
-                    const { error: uploadError } = await sb.storage
-                        .from('donations')
-                        .upload(filePath, file);
+                const { data: uploadData, error: uploadError } = await sb.storage
+                    .from('donations')
+                    .upload(filePath, file);
 
-                    if (uploadError) {
-                        // الـ bucket غير موجود أو خطأ في الرفع — نكمل بدون صورة
-                        console.warn('تعذّر رفع الإيصال:', uploadError.message);
-                    } else {
-                        const { data: urlData } = sb.storage.from('donations').getPublicUrl(filePath);
-                        receiptUrl = urlData.publicUrl;
-                    }
-                } catch (uploadErr) {
-                    console.warn('تعذّر رفع الإيصال:', uploadErr.message);
+                if (uploadError) {
+                    console.error('Upload Error:', uploadError);
+                    alert('فشل رفع صورة الإيصال: ' + uploadError.message + '\nتأكد من وجود Bucket باسم donations وصلاحيات الرفع.');
+                    return false; // توقف عن إكمال التبرع إذا فشل الرفع
                 }
+
+                const { data: urlData } = sb.storage.from('donations').getPublicUrl(filePath);
+                receiptUrl = urlData.publicUrl;
+                console.log('Uploaded Receipt URL:', receiptUrl);
             }
 
             // 4. Record the donation
-            await sb.from('donations').insert({
+            const { error: donationErr } = await sb.from('donations').insert({
                 donor_name: name,
                 phone: phone,
                 amount: amount,
@@ -108,24 +126,42 @@
                 created_at: new Date().toISOString()
             });
 
-            // 5. Send notification to admin
-            const { data: { user: currentUser } } = await sb.auth.getUser();
-            const ADMIN_EMAIL = 'ahussin9125@gmail.com';
-            const { data: adminUser } = await sb.from('users').select('id').eq('email', ADMIN_EMAIL).maybeSingle();
-            const adminUserId = adminUser?.id || null;
+            if (donationErr) {
+                console.error('Donation record error:', donationErr.message);
+                // إذا فشل تسجيل التبرع، لا نكمل لإرسال الإشعارات
+                throw new Error('فشل تسجيل بيانات التبرع: ' + donationErr.message);
+            }
 
-            const notifData = {
-                title: 'تبرع جديد (' + (method === 'visa' ? 'فيزا' : 'محفظة') + ')',
-                message: `تبرع ${name} بمبلغ ${amount} جنيه لحالة ${caseData.name}. ${method === 'wallet' ? 'يرجى مراجعة الإيصال.' : ''}`,
-                type: 'donation',
-                is_read: false,
-                user_id: adminUserId,
-                created_at: new Date().toISOString()
-            };
+            // 5. إرسال إشعارات
             try {
-                const { error: notifError } = await sb.from('notifications').insert(notifData);
-                if (notifError) console.error('خطأ في إرسال الإشعار:', notifError.message);
-            } catch(e) { console.error('notification error:', e); }
+                // إشعار للأدمن (في الحالتين)
+                await notifyAllAdmins(
+                    'تبرع جديد (' + (method === 'visa' ? 'فيزا' : 'محفظة') + ')',
+                    `تبرع ${name} بمبلغ ${amount} جنيه لحالة ${caseData.name}. ${method === 'wallet' ? 'يرجى مراجعة الإيصال.' : ''}`,
+                    'donation',
+                    receiptUrl // إرسال رابط الصورة لربطه بالإشعار
+                );
+
+                // إشعار للمستفيد (فقط في حالة الفيزا)
+                if (method === 'visa' && caseData.beneficiary_id) {
+                    const { data: beneficiary } = await sb
+                        .from('beneficiaries')
+                        .select('user_id')
+                        .eq('id', caseData.beneficiary_id)
+                        .single();
+
+                    if (beneficiary && beneficiary.user_id) {
+                        await sb.from('notifications').insert({
+                            title: 'لقد استلمت تبرعاً جديداً!',
+                            message: `تم التبرع بمبلغ ${amount} جنيه لحالتك: ${caseData.name}.`,
+                            type: 'user',
+                            is_read: false,
+                            user_id: beneficiary.user_id,
+                            created_at: new Date().toISOString()
+                        });
+                    }
+                }
+            } catch(e) { console.warn('notification error:', e.message); }
 
             return true;
         } catch (error) {

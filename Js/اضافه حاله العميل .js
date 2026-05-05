@@ -157,17 +157,13 @@ async function submitCase() {
 
         if (error) throw error;
 
-        // إرسال إشعار للأدمن
+        // إرسال إشعار لكل الأدمن
         try {
-            const { data: adminUser } = await sb.from('users').select('id').eq('email', 'ahussin9125@gmail.com').maybeSingle();
-            await sb.from('notifications').insert({
-                title: 'طلب حالة جديد',
-                message: `قدّم ${name} طلب مساعدة جديد. النوع: ${type}. الهاتف: ${phone}.`,
-                type: 'user',
-                is_read: false,
-                user_id: adminUser?.id || null,
-                created_at: new Date().toISOString()
-            });
+            await notifyAllAdmins(
+                'طلب حالة جديد',
+                `قدّم ${name} طلب مساعدة جديد. النوع: ${type}. الهاتف: ${phone}.`,
+                'user'
+            );
         } catch(e) { console.warn('notification error:', e.message); }
 
         document.getElementById("result").innerText = "تم إرسال الطلب بنجاح ✅ سيتم مراجعته من المشرف.";

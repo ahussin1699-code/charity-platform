@@ -131,7 +131,24 @@ erDiagram
         text message
         text type
         boolean is_read
-        text image_url
+        uuid user_id FK
+        timestamp created_at
+    }
+    MEDICAL_MESSAGES {
+        uuid id PK
+        text text
+        uuid sender_id FK
+        text sender_role
+        text room_id
+        text attachment_url
+        text attachment_name
+        timestamp created_at
+    }
+    REVIEWS {
+        uuid id PK
+        text name
+        integer rating
+        text comment
         timestamp created_at
     }
 
@@ -144,6 +161,8 @@ erDiagram
     CASES ||--o{ DONATIONS : "تستقبل"
     CASES ||--o{ DONATION_REQUESTS : "تستقبل"
     DONORS ||--o{ DONATION_REQUESTS : "يرسل"
+    USERS ||--o{ NOTIFICATIONS : "يستقبل"
+    USERS ||--o{ MEDICAL_MESSAGES : "يرسل"
         </div>
 
         <div class="legend" style="margin-top:16px;">
@@ -199,9 +218,33 @@ erDiagram
                     <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
                     <tr><td>title</td><td>text</td></tr>
                     <tr><td>message</td><td>text</td></tr>
-                    <tr><td>type</td><td>donation / user / system</td></tr>
-                    <tr><td>is_read</td><td>boolean</td></tr>
-                    <tr><td>image_url</td><td>text</td></tr>
+                    <tr><td>type</td><td>donation / user / info / warning</td></tr>
+                    <tr><td>is_read</td><td>boolean DEFAULT false</td></tr>
+                    <tr><td class="fk">user_id (FK)</td><td>→ users (المستلم المحدد)</td></tr>
+                    <tr><td>created_at</td><td>timestamptz</td></tr>
+                </table>
+            </div>
+            <div class="table-card">
+                <h3>medical_messages — المحادثات الطبية</h3>
+                <table>
+                    <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
+                    <tr><td>text</td><td>text</td></tr>
+                    <tr><td class="fk">sender_id (FK)</td><td>→ users</td></tr>
+                    <tr><td>sender_role</td><td>supervisor / doctor</td></tr>
+                    <tr><td>room_id</td><td>text — doctor_{userId}</td></tr>
+                    <tr><td>attachment_url</td><td>text</td></tr>
+                    <tr><td>attachment_name</td><td>text</td></tr>
+                    <tr><td>created_at</td><td>timestamptz</td></tr>
+                </table>
+            </div>
+            <div class="table-card">
+                <h3>reviews — التقييمات</h3>
+                <table>
+                    <tr><td class="pk">id (PK)</td><td>uuid</td></tr>
+                    <tr><td>name</td><td>text</td></tr>
+                    <tr><td>rating</td><td>integer (1–5)</td></tr>
+                    <tr><td>comment</td><td>text</td></tr>
+                    <tr><td>created_at</td><td>timestamptz</td></tr>
                 </table>
             </div>
             <div class="table-card">
@@ -259,24 +302,38 @@ flowchart TD
     P1 -->|session token| P4[4. عرض الحالات]
     P2 -->|بيانات المستخدم| DB_U[(users)]
     P3 -->|بيانات الحالة| DB_C[(cases)]
-    P4 -->|قراءة الحالات| DB_C
+    P4 -->|قراءة الحالات المقبولة| DB_C
 
-    MT -->|اختيار حالة + مبلغ| P5[5. عملية التبرع]
+    MT -->|اختيار حالة + مبلغ| P5[5. عملية التبرع\nللحالة مباشرة]
     P5 -->|تحديث remaining_amount| DB_C
     P5 -->|حفظ سجل التبرع| DB_D[(donations)]
-    P5 -->|إنشاء إشعار| DB_N[(notifications)]
+    P5 -->|إشعار موجه لكل المسؤولين\nuser_id لكل admin| DB_N[(notifications)]
     P5 -->|بيانات الدفع| P6[6. معالجة الدفع]
     P6 -->|Visa / Wallet| PAY([بوابة الدفع])
-    P6 -->|رفع إيصال| STG[(Supabase Storage)]
+    P6 -->|رفع إيصال المحفظة| STG[(Supabase Storage)]
 
     AD -->|مراجعة| P7[7. لوحة التحكم]
     P7 -->|قراءة| DB_C
     P7 -->|قراءة| DB_D
-    P7 -->|قراءة| DB_N
+    P7 -->|قراءة إشعاراته فقط\nفلترة user_id| DB_N
     P7 -->|إدارة المستخدمين| DB_U
 
-    DR([طبيب]) -->|رفع تقارير| P8[8. التقارير الطبية]
-    P8 -->|حفظ| DB_C
+    AD -->|اختيار تخصص + إرسال| P9[9. إرسال حالة للطبيب]
+    P9 -->|تحديث status الحالة| DB_C
+    P9 -->|رسالة في room_id الطبيب| DB_M[(medical_messages)]
+    P9 -->|إشعار موجه لأطباء التخصص\nuser_id لكل طبيب| DB_N
+
+    DR([طبيب]) -->|قراءة غرفته فقط\nroom_id = doctor_userId| DB_M
+    DR -->|إرسال رد / تقرير| P8[8. المحادثة الطبية]
+    P8 -->|حفظ في room_id الطبيب| DB_M
+    P8 -->|قرار موافقة/رفض| P10[10. قرار الطبيب]
+    P10 -->|تحديث status الحالة| DB_C
+    P10 -->|إشعار موجه للمسؤولين| DB_N
+
+    MS -->|تقديم طلب حالة| P11[11. إضافة حالة\nمن المستفيد]
+    P11 -->|حفظ الحالة قيد المراجعة| DB_C
+    P11 -->|إشعار موجه لكل المسؤولين| DB_N
+    P11 -->|رفع صورة الحالة| STG
         </div>
     </div>
 
@@ -291,16 +348,22 @@ flowchart LR
         UC2([تسجيل الدخول])
         UC3([تصفح الحالات])
         UC4([عرض تفاصيل حالة])
-        UC5([التبرع لحالة])
+        UC5([التبرع المباشر للحالة])
         UC6([الدفع بالفيزا])
         UC7([الدفع بالمحفظة])
         UC8([إضافة حالة])
         UC9([تعديل / حذف حالة])
         UC10([مراجعة التبرعات])
         UC11([إدارة المستخدمين])
-        UC12([عرض الإشعارات])
-        UC13([رفع تقارير طبية])
+        UC12([عرض الإشعارات الشخصية])
+        UC13([المحادثة الطبية الخاصة])
         UC14([تحديث الملف الشخصي])
+        UC15([تعيين طبيب بتخصص])
+        UC16([إرسال حالة لطبيب])
+        UC17([فتح محادثة مع طبيب])
+        UC18([الموافقة / رفض الحالة])
+        UC19([تقييم المنصة])
+        UC20([استقبال إشعار قبول/رفض])
     end
 
     MT([👤 متبرع]) --> UC1
@@ -311,11 +374,13 @@ flowchart LR
     UC5 --> UC6
     UC5 --> UC7
     MT --> UC14
+    MT --> UC19
 
     MS([🏥 مستفيد]) --> UC1
     MS --> UC2
     MS --> UC8
     MS --> UC14
+    MS --> UC20
 
     AD([👨‍💼 مسؤول]) --> UC2
     AD --> UC8
@@ -323,10 +388,14 @@ flowchart LR
     AD --> UC10
     AD --> UC11
     AD --> UC12
+    AD --> UC15
+    AD --> UC16
+    AD --> UC17
 
     DR([👨‍⚕️ طبيب]) --> UC2
     DR --> UC13
     DR --> UC12
+    DR --> UC18
         </div>
     </div>
 
@@ -416,6 +485,34 @@ flowchart TD
         </div>
     </div>
 
+    <!-- ===== Flowchart: إرسال حالة للطبيب ===== -->
+    <div class="section">
+        <h2>👨‍⚕️ Flowchart — إرسال حالة للطبيب المختص</h2>
+        <p>مسار إرسال الحالة من المسؤول للطبيب المناسب حسب التخصص.</p>
+        <div class="mermaid">
+flowchart TD
+    A([بداية]) --> B[المسؤول يضغط إرسال للطبيب]
+    B --> C[modal اختيار التخصص الطبي]
+    C --> D{اختار تخصصاً؟}
+    D -->|لا| C
+    D -->|نعم| E[البحث عن أطباء بنفس التخصص\nSELECT WHERE specialty LIKE تخصص]
+    E --> F{وُجد أطباء بالتخصص؟}
+    F -->|لا| G[إرسال لجميع الأطباء]
+    F -->|نعم| H[إرسال للأطباء المختصين فقط]
+    G --> I[INSERT medical_messages في room_id لكل طبيب]
+    H --> I
+    I --> J[UPDATE cases SET status = قيد المراجعة الطبية]
+    J --> K[INSERT notifications لكل طبيب مستهدف\nبـ user_id محدد]
+    K --> L[الطبيب يرى الرسالة في غرفته الخاصة]
+    L --> M{قرار الطبيب}
+    M -->|موافقة| N[UPDATE status = موافق عليها من الطبيب]
+    M -->|رفض| O[UPDATE status = مرفوض من الطبيب]
+    N --> P[إشعار للمسؤولين]
+    O --> P
+    P --> Q([نهاية])
+        </div>
+    </div>
+
     <!-- ===== System Architecture ===== -->
     <div class="section">
         <h2>🏗️ System Architecture — معمارية النظام</h2>
@@ -430,21 +527,24 @@ flowchart TB
         P5[لوحة التحكم]
         P6[الملف الشخصي]
         P7[الشات بوت]
+        P8[التقارير الطبية]
+        P9[الإشعارات]
     end
 
     subgraph BFF["⚙️ Business Logic (JS)"]
         L1[Auth Manager]
         L2[Cases Manager]
         L3[Donations Manager]
-        L4[Notifications Manager]
+        L4[Notifications Manager\nموجهة بـ user_id]
         L5[Chatbot - Gemini AI]
+        L6[Medical Chat Manager\nغرف بـ room_id]
     end
 
     subgraph BACKEND["☁️ Backend (Supabase)"]
         DB[(PostgreSQL DB)]
         AUTH[Supabase Auth]
         STORAGE[Supabase Storage]
-        RT[Realtime]
+        RT[Realtime\nمفلتر بـ room_id]
     end
 
     subgraph EXTERNAL["🌐 External Services"]
@@ -458,6 +558,7 @@ flowchart TB
     L5 --> GEMINI
     L3 --> PAYMENT
     L1 --> GOOGLE
+    L6 --> RT
         </div>
     </div>
 
@@ -486,35 +587,42 @@ classDiagram
     class Donor {
         +String id
         +String userId
-        +donate(caseId, amount)
-        +viewDonationHistory()
+        +donate(caseId, amount, method)
+        +uploadReceipt(file)
+        +submitReview(rating, comment)
     }
 
     class Beneficiary {
         +String id
         +String userId
         +String address
-        +String gender
-        +addCase()
-        +viewCaseStatus()
+        +addCase(data)
+        +trackCaseStatus()
+        +receiveNotification()
     }
 
     class Doctor {
         +String id
         +String userId
         +String specialty
-        +uploadMedicalReport()
-        +viewCases()
+        +String roomId
+        +viewOwnRoom()
+        +sendMessage(text, file)
+        +decideCase(caseId, decision)
+        +receiveNotification()
     }
 
     class Admin {
         +String id
         +String userId
-        +approveCase()
-        +rejectCase()
+        +approveCase(caseId)
+        +rejectCase(caseId)
+        +assignDoctorRole(userId, specialty)
+        +sendCaseToDoctor(caseId, specialty)
+        +openDoctorChat(doctorId)
         +manageUsers()
         +viewDashboard()
-        +viewNotifications()
+        +manageNotifications()
     }
 
     class Case {
@@ -542,18 +650,8 @@ classDiagram
         +String paymentMethod
         +String status
         +String attachmentUrl
-        +process()
-        +getReceipt()
-    }
-
-    class Payment {
-        +String method
-        +Float amount
-        +String cardNumber
-        +String walletNumber
         +processVisa()
         +processWallet()
-        +uploadReceipt()
     }
 
     class Notification {
@@ -562,8 +660,28 @@ classDiagram
         +String message
         +String type
         +Boolean isRead
+        +String userId
         +markAsRead()
         +delete()
+    }
+
+    class MedicalMessage {
+        +String id
+        +String text
+        +String senderId
+        +String senderRole
+        +String roomId
+        +String attachmentUrl
+        +send()
+        +getRoom()
+    }
+
+    class Review {
+        +String id
+        +String name
+        +Integer rating
+        +String comment
+        +submit()
     }
 
     class Chatbot {
@@ -584,9 +702,12 @@ classDiagram
     Admin "1" --> "0..*" Case : يدير
     Donor "1" --> "0..*" Donation : يجري
     Case "1" --> "0..*" Donation : تستقبل
-    Donation "1" --> "1" Payment : تستخدم
-    Admin "1" --> "0..*" Notification : يستقبل
-    Donation ..> Notification : تنشئ
+    User "1" --> "0..*" Notification : يستقبل
+    User "1" --> "0..*" MedicalMessage : يرسل
+    Admin "1" --> "0..*" MedicalMessage : يفتح غرفة
+    Doctor "1" --> "1" MedicalMessage : غرفة خاصة
+    Donation ..> Notification : تنشئ إشعاراً
+    Case ..> Notification : تنشئ إشعاراً
         </div>
     </div>
 
@@ -601,40 +722,40 @@ sequenceDiagram
     participant AUTH as Supabase Auth
     participant DB as قاعدة البيانات
     participant STORAGE as Supabase Storage
-    participant NOTIF as الإشعارات
+    participant NOTIF as notifications
 
-    MT->>UI: فتح صفحة الدفع
+    MT->>UI: فتح صفحة الدفع (case_id في URL)
     UI->>AUTH: التحقق من الجلسة
     AUTH-->>UI: بيانات المستخدم
 
-    UI->>DB: جلب بيانات الحالة (case_id)
-    DB-->>UI: remaining_amount, name
+    UI->>DB: SELECT remaining_amount, name FROM cases WHERE id = case_id
+    DB-->>UI: بيانات الحالة
 
-    MT->>UI: إدخال البيانات + اختيار طريقة الدفع
+    MT->>UI: إدخال الاسم + الهاتف + المبلغ + طريقة الدفع
 
     alt دفع بالفيزا
         MT->>UI: إدخال بيانات البطاقة
         UI->>UI: التحقق من صحة البيانات
     else دفع بالمحفظة
         MT->>UI: رفع صورة الإيصال
-        UI->>STORAGE: رفع الملف
-        STORAGE-->>UI: رابط الإيصال
+        UI->>STORAGE: upload receipt file
+        STORAGE-->>UI: attachment_url
     end
 
-    UI->>DB: التحقق: amount <= remaining_amount
-    DB-->>UI: القيمة الحالية
+    UI->>UI: التحقق: amount <= remaining_amount
 
     alt المبلغ أكبر من المتاح
         UI-->>MT: تنبيه: المبلغ تجاوز المتاح
     else المبلغ مقبول
         UI->>DB: UPDATE cases SET remaining_amount = remaining_amount - amount
         DB-->>UI: تم التحديث
-        UI->>DB: INSERT INTO donations (...)
+        UI->>DB: INSERT INTO donations (case_id, donor_name, amount, payment_method, ...)
         DB-->>UI: تم الحفظ
-        UI->>NOTIF: INSERT INTO notifications (تبرع جديد)
+        UI->>DB: SELECT id FROM users WHERE user_type IN admin
+        DB-->>UI: قائمة المسؤولين
+        UI->>NOTIF: INSERT notifications لكل admin بـ user_id محدد
         NOTIF-->>UI: تم الإشعار
-        UI-->>MT: تأكيد نجاح التبرع
-        UI->>UI: redirect → تم اجراء التغير بنجاح.html
+        UI-->>MT: تأكيد نجاح التبرع + popup التقييم
     end
         </div>
     </div>
@@ -714,27 +835,119 @@ sequenceDiagram
         </div>
     </div>
 
+    <!-- ===== UML Sequence: المحادثة الطبية ===== -->
+    <div class="section">
+        <h2>🔁 UML Sequence Diagram — إرسال حالة للطبيب والمحادثة الطبية</h2>
+        <p>يوضح تسلسل إرسال الحالة من المشرف للطبيب والتواصل عبر الغرفة الخاصة.</p>
+        <div class="mermaid">
+sequenceDiagram
+    actor AD as مسؤول
+    actor DR as طبيب
+    participant UI_AD as واجهة المسؤول
+    participant UI_DR as واجهة الطبيب
+    participant DB as قاعدة البيانات
+    participant RT as Supabase Realtime
+    participant NOTIF as notifications
+
+    AD->>UI_AD: فتح صفحة مراجعة الحالات
+    UI_AD->>DB: SELECT cases WHERE status = قيد المراجعة
+    DB-->>UI_AD: قائمة الحالات
+
+    AD->>UI_AD: الضغط على إرسال للطبيب
+    UI_AD-->>AD: modal اختيار التخصص الطبي
+
+    AD->>UI_AD: اختيار التخصص (مثال: عظام)
+    UI_AD->>DB: SELECT id FROM users WHERE user_type=طبيب AND specialty LIKE عظام
+    DB-->>UI_AD: قائمة أطباء العظام
+
+    UI_AD->>DB: UPDATE cases SET status = قيد المراجعة الطبية
+    UI_AD->>DB: INSERT medical_messages (text=بيانات الحالة, room_id=doctor_{id}, sender_role=supervisor)
+    UI_AD->>NOTIF: INSERT notifications لكل طبيب بـ user_id محدد
+    DB-->>UI_AD: تم الحفظ
+
+    Note over DR,UI_DR: الطبيب يفتح صفحة التقارير الطبية
+    UI_DR->>DB: getUser() → تحديد room_id = doctor_{userId}
+    UI_DR->>DB: SELECT medical_messages WHERE room_id = doctor_{userId}
+    DB-->>UI_DR: رسائل الغرفة الخاصة بالطبيب فقط
+
+    UI_DR->>RT: subscribe على room_id = doctor_{userId}
+
+    DR->>UI_DR: كتابة رد / رفع ملف طبي
+    UI_DR->>DB: INSERT medical_messages (room_id=doctor_{userId}, sender_role=doctor)
+    RT-->>UI_AD: رسالة جديدة في غرفة الطبيب
+
+    DR->>UI_DR: الضغط على موافقة / رفض
+    UI_DR->>DB: UPDATE cases SET status = موافق عليها من الطبيب
+    UI_DR->>NOTIF: INSERT notifications لكل admin بـ user_id محدد
+    DB-->>UI_DR: تم التحديث
+        </div>
+    </div>
+
+    <!-- ===== UML Sequence: نظام الإشعارات ===== -->
+    <div class="section">
+        <h2>🔁 UML Sequence Diagram — نظام الإشعارات الموجهة</h2>
+        <p>يوضح كيف تُرسل الإشعارات لمستخدمين محددين وكيف تُعرض.</p>
+        <div class="mermaid">
+sequenceDiagram
+    participant SRC as مصدر الحدث
+    participant DB as notifications table
+    participant UI as صفحة الإشعارات
+    participant BADGE as notification-badge.js
+
+    Note over SRC: حدث جديد (تبرع / حالة / قرار طبيب)
+    SRC->>DB: SELECT id FROM users WHERE user_type IN admin
+    DB-->>SRC: قائمة المسؤولين
+    SRC->>DB: INSERT notifications لكل user_id على حدة
+
+    Note over BADGE: عند تحميل أي صفحة
+    BADGE->>DB: getUser() → publicUser.id
+    BADGE->>DB: SELECT COUNT WHERE user_id = publicUser.id AND is_read = false
+    DB-->>BADGE: عدد الإشعارات غير المقروءة
+    BADGE-->>UI: عرض badge أحمر على أيقونة الإشعارات
+
+    Note over UI: عند فتح صفحة الإشعارات
+    UI->>DB: getUser() → publicUser.id
+    UI->>DB: SELECT * FROM notifications WHERE user_id = publicUser.id
+    DB-->>UI: إشعارات المستخدم فقط
+
+    UI->>DB: UPDATE is_read = true WHERE id = notif_id
+    UI->>DB: DELETE FROM notifications WHERE id = notif_id
+        </div>
+    </div>
+
     <!-- ===== UML State: حالة الـ Case ===== -->
     <div class="section">
         <h2>🔄 UML State Diagram — دورة حياة الحالة</h2>
         <p>يوضح الحالات المختلفة التي تمر بها الحالة الإنسانية في النظام.</p>
         <div class="mermaid">
 stateDiagram-v2
-    [*] --> قيد_المراجعة : إضافة حالة جديدة
+    [*] --> قيد_المراجعة : إضافة حالة جديدة\n(مستفيد أو مسؤول)
 
-    قيد_المراجعة --> مقبول : المسؤول يوافق
+    قيد_المراجعة --> مقبول : المسؤول يوافق مباشرة
+    قيد_المراجعة --> قيد_المراجعة_الطبية : المسؤول يرسل للطبيب
     قيد_المراجعة --> مرفوض : المسؤول يرفض
+
+    قيد_المراجعة_الطبية --> موافق_عليها_من_الطبيب : الطبيب يوافق
+    قيد_المراجعة_الطبية --> مرفوض_من_الطبيب : الطبيب يرفض
+
+    موافق_عليها_من_الطبيب --> مقبول : المسؤول يوافق نهائياً
+    موافق_عليها_من_الطبيب --> مرفوض : المسؤول يرفض
+
+    مرفوض_من_الطبيب --> مرفوض : المسؤول يرفض نهائياً
+    مرفوض_من_الطبيب --> مقبول : المسؤول يتجاوز رأي الطبيب
+
     مرفوض --> [*] : حذف الحالة
 
     مقبول --> نشط : ظهور للمتبرعين
-    نشط --> نشط : استقبال تبرعات جزئية\n(remaining_amount يتناقص)
+    نشط --> نشط : استقبال تبرعات جزئية\nremaining_amount يتناقص
     نشط --> مكتمل : remaining_amount = 0
     نشط --> محذوف : المسؤول يحذف
 
-    مكتمل --> [*] : أُغلقت الحالة بنجاح
+    مكتمل --> [*] : أُغلقت بنجاح
     محذوف --> [*]
 
     note right of قيد_المراجعة : الحالة الافتراضية\nعند الإضافة
+    note right of قيد_المراجعة_الطبية : تُرسل رسالة في\nغرفة الطبيب
     note right of مقبول : يظهر في صفحة\nعرض الحالات
     note right of مكتمل : تم جمع المبلغ\nالمطلوب كاملاً
         </div>

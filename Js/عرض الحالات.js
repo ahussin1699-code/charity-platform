@@ -277,11 +277,7 @@ async function checkUserAndImage() {
             addCaseLink.style.display = 'flex';
             addCaseLink.onclick = function(e) {
                 e.preventDefault();
-                if (currentUserIsAdmin) {
-                    window.location.href = "اضافة حاله جديده.html";
-                } else {
-                    window.location.href = "اضافه حاله العميل .html";
-                }
+                window.location.href = "اضافه حاله العميل .html";
             };
         } else {
             addCaseLink.style.display = 'none';

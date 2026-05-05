@@ -24,9 +24,9 @@
         return null;
     }
 
-    // ---- Gemini AI ----
-    const GEMINI_API_KEY = "AIzaSyBzxi3YtxBd9gxEIYQvHjXIAKJu-iU5w44";
-    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+    // ---- Groq AI ----
+    const GROQ_API_KEY = "YOUR_GROQ_API_KEY_HERE";
+    const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
     // ---- حالة المستخدم ----
     let currentUser = null;
@@ -87,8 +87,8 @@
         return "أهلاً وسهلاً! 👋 أنا مساعدك الذكي لمنصة التبرعات الخيرية.\nاكتب سؤالك وسأجيبك فوراً.";
     }
 
-    // ---- Gemini: إرسال الرسالة مع سياق المحادثة ----
-    async function askGemini(userText, chatHistory) {
+    // ---- Groq AI: إرسال الرسالة مع سياق المحادثة ----
+    async function askAI(userText, chatHistory) {
         // جرب الرد المحلي أولاً
         const local = localReply(userText);
         if (local) return local;
@@ -99,49 +99,59 @@
 
             const systemContext = `أنت مساعد ذكي لمنصة تبرعات خيرية باللغة العربية.
 معلومات المنصة:
-- منصة تبرعات خيرية تربط المتبرعين بالحالات الإنسانية
-- نقبل الدفع عبر Visa / Mastercard
-- البريد الإلكتروني: ahussin9125@gmail.com | الهاتف: 01020152710
-- جميع الحالات يتم التحقق منها يدوياً قبل النشر
-- لا يوجد حد أدنى للتبرع
-- ${userStatus}
+- منصة تبرعات خيرية تربط المتبرعين بالحالات الإنسانية.
+- نقبل الدفع عبر Visa / Mastercard والمحافظ الإلكترونية.
+- البريد الإلكتروني: ahussin9125@gmail.com | الهاتف: 01020152710.
+- جميع الحالات يتم التحقق منها يدوياً قبل النشر.
+- لا يوجد حد أدنى للتبرع.
+- ${userStatus}.
 
 تعليمات:
-- أجب دائماً باللغة العربية بشكل مختصر وودود
-- لا تذكر أنك Gemini أو Google
-- قدّم نفسك كمساعد المنصة فقط
-- إذا سأل عن التبرع، اشرح الخطوات بإيجاز
-- إذا سأل عن مشكلة تقنية، وجّهه للتواصل مع الدعم`;
+- أجب دائماً باللغة العربية بشكل مختصر وودود.
+- أنت مساعد المنصة الرسمي، لا تذكر أي شركات ذكاء اصطناعي أخرى.
+- إذا سأل عن التبرع، اشرح الخطوات (تصفح الحالات، اختيار حالة، دفع).
+- إذا سأل عن مشكلة تقنية، وجّهه للتواصل مع الدعم عبر البريد أو الهاتف.`;
 
-            const contents = [
-                {
-                    role: "user",
-                    parts: [{ text: systemContext + "\n\nرسالة المستخدم: " + userText }]
-                }
+            // تحويل سجل المحادثة لتنسيق OpenAI/Groq
+            const messages = [
+                { role: "system", content: systemContext }
             ];
 
-            const res = await fetch(GEMINI_URL, {
+            chatHistory.forEach(h => {
+                messages.push({
+                    role: h.role === "bot" ? "assistant" : "user",
+                    content: h.text
+                });
+            });
+
+            // إضافة الرسالة الحالية
+            messages.push({ role: "user", content: userText });
+
+            const res = await fetch(GROQ_URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents })
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${GROQ_API_KEY}`
+                },
+                body: JSON.stringify({ 
+                    model: "llama-3.3-70b-versatile",
+                    messages: messages,
+                    temperature: 0.7,
+                    max_tokens: 500
+                })
             });
 
             const data = await res.json();
 
             if (!res.ok) {
-                const errMsg = data?.error?.message || "";
-                // quota error — رد محترم بدون تفاصيل تقنية
-                if (res.status === 429 || errMsg.includes("quota") || errMsg.includes("RESOURCE_EXHAUSTED")) {
-                    return "عذراً، المساعد الذكي مشغول حالياً 😔\nيمكنك التواصل معنا مباشرة:\n📧 ahussin9125@gmail.com\n📞 01020152710";
-                }
-                console.error("Gemini API error:", res.status, errMsg);
-                return "عذراً، حدث خطأ مؤقت. يرجى المحاولة لاحقاً أو التواصل معنا مباشرة. 😔";
+                console.error("Groq API error:", data);
+                return "عذراً، المساعد الذكي مشغول حالياً. يمكنك التواصل معنا عبر البريد: ahussin9125@gmail.com";
             }
 
-            return data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+            return data?.choices?.[0]?.message?.content || "لم أستطع فهم ذلك، هل يمكنك التوضيح أكثر؟";
         } catch (e) {
-            console.error("Gemini fetch error:", e.message);
-            return "عذراً، تعذّر الاتصال بالمساعد الذكي. يرجى التحقق من اتصالك بالإنترنت. 😔";
+            console.error("Groq fetch error:", e.message);
+            return "عذراً، حدث خطأ في الاتصال بالمساعد الذكي. يرجى المحاولة لاحقاً.";
         }
     }
 
@@ -299,7 +309,7 @@
             messages.appendChild(typing);
             scrollBottom();
 
-            const aiReply = await askGemini(text, history.slice(0, -1));
+            const aiReply = await askAI(text, history.slice(0, -1));
             typing.remove();
 
             const replyText = aiReply || "عذراً، حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة. 😔";
